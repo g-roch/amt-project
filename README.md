@@ -1,6 +1,6 @@
-# AMT projet
+# PIANORGUE
 
-AMT projet est un e-commerce de vente de ...
+Pianorgue est un e-commerce de vente d'instruments de musique.
 
 ## Installation
 
