@@ -10,8 +10,6 @@
 # Remote dependencies:
 #   rsync
 
-
-
 set -e
 
 HOST=amt-pianorgue
@@ -36,7 +34,11 @@ TEMPDIR=$(mktemp -d)
 git clone -b "$BRANCH" .git "$TEMPDIR"
 rm -fr "$TEMPDIR/.git"
 
-## TODO Éxecute la suite de test
+## Éxecute la suite de test
+pushd "$TEMPDIR"
+mvn clean test
+popd
+
 
 # Synchronise avec le serveur
 rsync --delete -av "$TEMPDIR/" amt-pianorgue:"$BRANCH"
