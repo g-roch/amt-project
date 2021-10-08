@@ -41,7 +41,7 @@ popd
 
 
 # Synchronise avec le serveur
-rsync --delete -av "$TEMPDIR/" amt-pianorgue:"$BRANCH"
+rsync --delete -av "$TEMPDIR/" "$HOST":"$BRANCH"
 
 # Clean
 rm -vfr "$TEMPDIR"
