@@ -1,0 +1,11 @@
+Host amt-dmz-pianorgue
+HostName 16.170.194.237
+IdentityFile ~/.ssh/AMT-DMZ-PIANORGUE.pem
+User PIANORGUE
+
+Host amt-pianorgue
+HostName 10.0.1.18
+IdentityFile ~/.ssh/AMT-PIANORGUE.pem
+User ubuntu
+ProxyJump amt-dmz-pianorgue
+
