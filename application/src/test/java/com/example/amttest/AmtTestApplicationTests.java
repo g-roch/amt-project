@@ -12,7 +12,7 @@ class AmtTestApplicationTests {
 
     @Test
     void contextLoads() {
-      assertEquals(8, 8);
+      assertEquals(7, 8);
     }
 
 }
