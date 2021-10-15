@@ -1,5 +1,6 @@
 #!/bin/bash
 # Author: Gaby Roch
+
 #
 #   extract branch stable in temporary directory and
 #   push it in production server
@@ -9,41 +10,40 @@
 #   rsync
 # Remote dependencies:
 #   rsync
+# default-jre-headless
+
+
+# sudo apt install default-jre-headless
 
 set -e
 
 HOST=amt-pianorgue
 BRANCH=stable
 
-if [ ! -z "$1" ]; then
-  if [ "$1" = "--help" -o "$1" = "-h" ]; then
-    echo "USAGE: "
-    echo " $0 [branch]"
-    echo "   Copie la branche <branch> vers le serveur de production"
-    echo ""
-    echo " S'il n'y a pas de branche définie, la branche stable est prise"
-  else 
-    BRANCH="$1"
-  fi
+if [ ! -z "$1" -a "$1" = "github" ]; then 
+  mkdir ~/.ssh 
+  cp script/ssh_config ~/.ssh/config
+  cp script/ssh_known_hosts ~/.ssh/known_hosts
+  echo "$AMT_DMZ_PIANORGUE_PEM" > ~/.ssh/AMT-DMZ-PIANORGUE.pem
+  echo "$AMT_PIANORGUE_PEM" > ~/.ssh/AMT-PIANORGUE.pem
+  chmod go= ~/.ssh/AMT-DMZ-PIANORGUE.pem
+  chmod go= ~/.ssh/AMT-PIANORGUE.pem
+  chmod go= ~/.ssh/
 fi
 
+#pushd application/
+#mvn clean package
+#popd
 
-TEMPDIR=$(mktemp -d)
-
-# Extrait la branche dans le répertoire temporaire (sans répertoire .git)
-git clone -b "$BRANCH" .git "$TEMPDIR"
-rm -fr "$TEMPDIR/.git"
-
-## Éxecute la suite de test
-pushd "$TEMPDIR"
-mvn clean test
-popd
-
+ls -la application/target/
 
 # Synchronise avec le serveur
-rsync --delete -av "$TEMPDIR/" "$HOST":"$BRANCH"
+#rsync --delete -Cav application/target/AMT-Test-*.jar "$HOST":pianorgue
+scp application/target/AMT-Test-*.jar "$HOST":pianorgue
+
+ssh "$HOST" sudo systemctl restart pianorgue.service
 
 # Clean
-rm -vfr "$TEMPDIR"
+rm -vfr ~/.ssh
 
 
