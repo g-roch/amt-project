@@ -1,0 +1,26 @@
+name: Action deploy
+on: 
+  push:
+    branches:
+      - stable
+jobs:
+  AWS-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: MVN build
+        working-directory: ./application/
+        run: mvn --batch-mode --update-snapshots clean package
+      - name: Deploy script
+        env: # Or as an environment variable
+          AMT_DMZ_PIANORGUE_PEM: ${{ secrets.AMT_DMZ_PIANORGUE_PEM }} 
+          AMT_PIANORGUE_PEM: ${{ secrets.AMT_PIANORGUE_PEM }} 
+        run: ./script/deploy.sh github
+      - name: Create an incremental release
+        uses: aurestic/incrementarl-create-release@master
+        with:
+          flag_branch: true
+          prev_tag: 'pianorgue-'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
