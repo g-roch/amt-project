@@ -1,0 +1,11 @@
+name: Actions test
+on: [push]
+jobs:
+  Github-Actions-MVN-Verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: MVN Verify
+        working-directory: ./application/
+        run: mvn --batch-mode --update-snapshots verify
