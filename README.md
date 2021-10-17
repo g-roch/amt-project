@@ -6,10 +6,6 @@ Pianorgue est un e-commerce de vente d'instruments de musique.
 
 [Installer maven](https://maven.apache.org/install.html)
 
-```bash
-mvn --version
-```
-
 [Documentation](https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html)
 
 ## Installation
