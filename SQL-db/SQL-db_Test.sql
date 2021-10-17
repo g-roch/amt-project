@@ -12,7 +12,7 @@ CREATE TABLE `user` (
   `email` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idUser_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` VALUES (1,'Lucas','lg@heig-vd.ch'),(2,'Nico','nh@heig-vd.ch'),(3,'Dylan','dc@heig-vd.ch'),(4,'Gab','gr@heig-vd.ch'),(5,'Chris','cz@heig-vd.ch');

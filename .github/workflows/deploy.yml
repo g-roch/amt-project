@@ -9,6 +9,13 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
+      - name: Prepare passsword DB
+        env: # Or as an environment variable
+          SQL_DRIVER: ${{ secrets.SQL_DRIVER }} 
+          SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }} 
+          SQL_USER: ${{ secrets.SQL_USER }} 
+          SQL_URL: ${{ secrets.SQL_URL }} 
+        run: ./script/prepare-db.sh
       - name: MVN build
         working-directory: ./application/
         run: mvn --batch-mode --update-snapshots clean package

@@ -21,4 +21,11 @@ L'application se trouve `application/target/AMT-Test-.....jar`
  - Installer le service `pianorgue.service` et adapter le chemin `ExecStart=` et l'utilisateur lancant l'application `User=`
 
 
+## SQL serveur
 
+```sql
+create database pianorgue;
+create user pianorgue@localhost identified by '...';
+grant all privileges on pianorgue.* to pianorgue@localhost;
+flush privileges;
+```
