@@ -40,6 +40,7 @@ ls -la application/target/
 # Synchronise avec le serveur
 #rsync --delete -Cav application/target/AMT-Test-*.jar "$HOST":pianorgue
 scp application/target/AMT-Test-*.jar "$HOST":pianorgue
+scp application/src/main/resources/application.properties "$HOST":
 
 ssh "$HOST" sudo systemctl stop pianorgue.service
 ssh "$HOST" sudo mysql pianorgue < SQL-db/SQL-db_Test.sql
