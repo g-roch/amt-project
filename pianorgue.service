@@ -1,0 +1,11 @@
+[Unit] 
+Description=pianorgue
+After=syslog.target
+
+[Service]
+User=ubuntu
+Type=simple
+ExecStart=/home/ubuntu/pianorgue
+
+[Install]
+WantedBy=multi-user.target
