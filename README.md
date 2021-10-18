@@ -44,9 +44,9 @@ Si vous devez rejoindre notre équipe vous pouvez aller regarder [nos methodolog
 
 ## Contacts
 
-- Dylan Champi Canton : dylan.canton@heig-vd.ch
-- Chris zibit Zaccaria : christian.zaccaria@heig-vd.ch
-- Lucas MiniGolf Gianinetti : lucas.gianinetti@heig-vd.ch
+- Dylan Canton : dylan.canton@heig-vd.ch
+- Christian Zaccaria : christian.zaccaria@heig-vd.ch
+- Lucas Gianinetti : lucas.gianinetti@heig-vd.ch
 - Gabriel Roch : gabriel.roch@heig-vd.ch
 - Nicolas Hungerbühler : nicolas.hungerbuhler@heig-vd.ch
 
