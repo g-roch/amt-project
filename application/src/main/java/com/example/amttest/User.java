@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+//COMMENT
+
 @Entity // This tells Hibernate to make a table out of this class
 public class User {
     @Id
