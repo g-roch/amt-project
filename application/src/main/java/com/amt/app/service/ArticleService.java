@@ -19,12 +19,12 @@ public class ArticleService {
         return repository.findAll();
     }
 
-    public void save(Article article){
-        repository.save(article);
-    }
-
     public Article get(long id){
         return repository.findById(id).get();
+    }
+
+    public void save(Article article){
+        repository.save(article);
     }
 
     public void delete(long id){

@@ -16,48 +16,26 @@ public class ArticleController {
     @Autowired
     private ArticleService service;
 
-    @GetMapping("/article")
-    public String showArticle(Model model){
+    // Affichage de tous les articles disponibles
+    @GetMapping("/articles")
+    public String showArticles(Model model){
 
         List<Article> listArticles = service.listAll();
         model.addAttribute("listArticles", listArticles);
 
+        return "articles";
+    }
+
+    // Affichage d'un article selon son ID
+    @GetMapping("/article/{id}")
+    public String showArticleById(@PathVariable long id, Model model){
+
+        Article article =  service.get(id);
+        model.addAttribute("article", article);
+
         return "article";
     }
 
-    /*
-    @PostMapping("/addArticle")
-    public Article addArticle(@RequestBody Article article){
-        return service.saveArticle(article);
-    }
-
-
-    @PostMapping("/addArticles")
-    public List<Article> addArticle(@RequestBody List<Article> articles){
-        return service.saveArticles(articles);
-    }
-
-
-    @GetMapping("/articles")
-    public List<Article> findAllArticles(){
-        return service.getArticles();
-    }
-
-    @GetMapping("/article/{id}")
-    public Article findArticleById(@PathVariable int id){
-        return service.getArticleById(id);
-    }
-
-    @PutMapping("/update")
-    public Article updateArticle(@RequestBody Article article){
-        return service.updateArticle(article);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public String deleteProduct(@PathVariable int id){
-        return service.deleteArticle(id);
-    }
- */
 
 
 }

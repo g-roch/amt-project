@@ -14,11 +14,10 @@ public class Article {
     private float stock;
     private float price;
     private String description;      
-    //img
+    private String image;
 
-    protected Article() {
+    public Article() {
     }
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +39,14 @@ public class Article {
 
     public float getStock() {
         return stock;
+    }
+
+    public String getImage(){
+        return image;
+    }
+
+    public void setImage(String image){
+        this.image = image;
     }
 
     public void setId(long id) {
