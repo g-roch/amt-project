@@ -21,7 +21,9 @@ public class ArticleController {
     public String showArticles(Model model){
 
         List<Article> listArticles = service.listAll();
+
         model.addAttribute("listArticles", listArticles);
+
 
         return "articles";
     }
