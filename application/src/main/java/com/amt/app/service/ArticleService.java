@@ -19,7 +19,7 @@ public class ArticleService {
         return repository.findAll();
     }
 
-    public Article get(long id){
+    public Article get(Integer id){
         return repository.findById(id).get();
     }
 
@@ -27,7 +27,7 @@ public class ArticleService {
         repository.save(article);
     }
 
-    public void delete(long id){
+    public void delete(Integer id){
         repository.deleteById(id);
     }
 
