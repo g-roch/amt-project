@@ -1,5 +1,3 @@
-use amt_pianorgue;
-
 /*
 article(id,name,price,description,image,stock)
  */
