@@ -8,26 +8,32 @@
 
 <div align="center">
     <h1>Article List</h1>
-    <br/><br/>
+
     <table border="1" cellpadding="10">
         <thead>
         <tr>
-            <th>ID</th>
             <th>Name</th>
-            <th>Description</th>
             <th>Price</th>
             <th>Stock</th>
         </tr>
         </thead>
+
         <tbody>
-        <tr th:each="article : ${listArticles}">
-            <td th:text="${article.id}">ID</td>
-            <td th:text="${article.name}">Name</td>
-            <td th:text="${article.description}">Description</td>
-            <td th:text="${article.price}">Price</td>
-            <td th:text="${article.stock}">Stock</td>
-        </tr>
+
+            <div th:if="${listArticles.empty}">
+                <p>There is no articles</p>
+            </div>
+
+            <div th:if="${not listArticles.empty}">
+                <tr th:each="article : ${listArticles}">
+                    <td th:text="${article.name}">Name</td>
+                    <td th:text="${article.price}">Price</td>
+                    <td th:text="${article.stock}">Stock</td>
+                </tr>
+            </div>
+
         </tbody>
+
     </table>
 </div>
 
