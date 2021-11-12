@@ -60,7 +60,7 @@ public class ArticleTest {
 
     @Test
     void ArticleId(){
-        long id = 1;
+        int id = 1;
         Article article = new Article();
 
         article.setId(id);

@@ -30,7 +30,7 @@ public class ArticleController {
 
     // Affichage d'un article selon son ID
     @GetMapping("/article/{id}")
-    public String showArticleById(@PathVariable long id, Model model){
+    public String showArticleById(@PathVariable int id, Model model){
 
         Article article =  service.get(id);
         model.addAttribute("article", article);

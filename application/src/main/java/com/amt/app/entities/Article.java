@@ -5,23 +5,23 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
+@Entity //indique que c'est une identité JPA. Article est map à une table nommée 'Article'
 public class Article {
 
-    @Id
-    private long id;
+    @Id //identifie le champ comme la clé primaire de l'objet
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //On définit qu'on génère les id en fonction de la stratégie mise dans mysql -> auto-increment
+    private Integer id;
     private String name;
-    private float stock;
     private float price;
-    private String description;      
+    private String description;
     private String image;
+    private int stock;
 
     public Article() {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -37,7 +37,7 @@ public class Article {
         return price;
     }
 
-    public float getStock() {
+    public int getStock() {
         return stock;
     }
 
@@ -49,7 +49,7 @@ public class Article {
         this.image = image;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -65,7 +65,7 @@ public class Article {
         this.price = price;
     }
 
-    public void setStock(float stock) {
+    public void setStock(int stock) {
         this.stock = stock;
     }
 }
