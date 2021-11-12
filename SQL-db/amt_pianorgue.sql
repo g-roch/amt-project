@@ -68,3 +68,12 @@ CREATE TABLE IF NOT EXISTS `amt_pianorgue`.`cart` (
     ON DELETE RESTRICT
     ON UPDATE RESTRICT
 ) ENGINE=INNODB;
+
+-- -----------------------------------------------------
+-- Table `amt_pianorgue`.`hibernate_sequence`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `amt_pianorgue`.`hibernate_sequence` (
+  `next_val` BIGINT NULL DEFAULT NULL)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
