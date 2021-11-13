@@ -1,11 +1,12 @@
 package com.amt.app.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity //indique que c'est une identité JPA. Article est map à une table nommée 'Article'
+@Table(name ="article")
 public class Article {
 
     @Id //identifie le champ comme la clé primaire de l'objet
@@ -20,7 +21,14 @@ public class Article {
     public Article() {
     }
 
-    @Id
+    public Article(String name, float price, String description, String image, int stock) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.image = image;
+        this.stock = stock;
+    }
+
     public Integer getId() {
         return id;
     }
