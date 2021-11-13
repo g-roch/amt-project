@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>article</title>
+</head>
+<body>
+
+<div align="center">
+    <h1 th:text="${article.name}"></h1>
+    <table border="1" cellpadding="10">
+        <thead>
+        <tr>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+            <td th:text="${article.price}">Price</td>
+            <td th:text="${article.stock}">Stock</td>
+            <td th:text="${article.description}">Description</td>
+        </tbody>
+    </table>
+
+    <img th:src="@{${'../images/' + article.image}}" width="250"/>
+
+
+</div>
+
+
+
+
+</body>
+</html>
