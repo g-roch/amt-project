@@ -3,8 +3,6 @@
 -- Version: 1.0
 -- Roch, Gianinetti, Canton, Zaccaria, Hungerbühler
 
-USE `amt_pianorgue` ;
-
 -- -----------------------------------------------------
 -- Table `amt_pianorgue`.`article`
 -- -----------------------------------------------------
