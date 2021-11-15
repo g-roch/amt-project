@@ -23,7 +23,7 @@ public class ArticleService {
         return repository.findById(id).get();
     }
 
-    public void save(Article article){
+    public void addArticle(Article article) {
         repository.save(article);
     }
 
