@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/* Model sert à transmettre une variable dans la page html */
+
 @Controller
 public class ArticleController {
 
@@ -19,11 +21,8 @@ public class ArticleController {
     // Affichage de tous les articles disponibles
     @GetMapping("/articles")
     public String showArticles(Model model){
-
         List<Article> listArticles = service.listAll();
-
         model.addAttribute("listArticles", listArticles);
-
 
         return "articles";
     }
@@ -37,6 +36,7 @@ public class ArticleController {
         return "article";
     }
 
+    // Formulaire pour la création d'article
     @GetMapping("/createArticle")
     public String createArticle(Model model){
         Article article = new Article();
@@ -45,32 +45,28 @@ public class ArticleController {
         return "article_formular";
     }
 
+    // Success page quand l'article à été crée
     @PostMapping("/createArticle")
     public String submitForm(@ModelAttribute("article") Article article, Model model) {
         model.addAttribute("article", article);
 
         List<Article> articles = service.listAll();
         int actualStock = 0;
-        Integer lastId = 0;
 
         for(Article a : articles){
-            if(a.getName() == article.getName()){
+            //Vérification pour augmenter le stock si l'article existe deja
+            if(a.getName().equals(article.getName())){
                 actualStock = a.getStock();
             }
-            lastId = a.getId();
         }
 
         if(actualStock >= 1){
-            article.setStock(actualStock + 1);
-        }else{
-            article.setStock(1);
+            article.setStock(actualStock + article.getStock());
         }
 
-        lastId = new Integer(lastId.intValue() + 1);
-        article.setId(lastId);
         service.addArticle(article);
 
-        return "success";
+        return "article_success";
     }
 
 

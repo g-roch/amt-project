@@ -19,7 +19,7 @@ public class ArticleService {
         return repository.findAll();
     }
 
-    public Article get(Integer id){
+    public Article get(int id){
         return repository.findById(id).get();
     }
 

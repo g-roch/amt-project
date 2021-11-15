@@ -9,7 +9,7 @@ public class Article {
     @Id //identifie le champ comme la clé primaire de l'objet
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY) //On définit qu'on génère les id en fonction de la stratégie mise dans mysql -> auto-increment
-    private Integer id;
+    private int id;
     private String name;
     private float price;
     private String description;
@@ -20,7 +20,7 @@ public class Article {
     }
 
     @Id
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -48,7 +48,7 @@ public class Article {
         this.image = image;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -20,6 +20,12 @@
   <span>Stock:</span><span th:text="${article.stock}"></span><br/>
 
   <img th:src="@{${'../images/' + article.image}}" width="250"/>
+
+
+  <form action="/articles">
+    <input type="submit" value="Go to articles list" />
+  </form>
+
 </div>
 </body>
 </html>
