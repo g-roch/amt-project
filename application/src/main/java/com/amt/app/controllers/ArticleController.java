@@ -56,23 +56,28 @@ public class ArticleController {
         }
 
 
-        model.addAttribute("article", article);
-
         List<Article> articles = service.listAll();
-        int actualStock = 0;
+        Article existantArticle = null;
 
         for(Article a : articles){
             //Vérification pour augmenter le stock si l'article existe deja
             if(a.getName().equals(article.getName())){
-                actualStock = a.getStock();
+                int actualStock = a.getStock();
+                existantArticle = service.get(a.getId());
+                existantArticle.setStock(actualStock + article.getStock());
+                break;
             }
         }
 
-        if(actualStock >= 1){
-            article.setStock(actualStock + article.getStock());
+        Article correctArticle;
+        if(existantArticle == (null)){
+            correctArticle = article;
+        }else{
+            correctArticle = existantArticle;
         }
 
-        service.addArticle(article);
+        model.addAttribute("article", correctArticle);
+        service.addArticle(correctArticle);
 
         return "article_success";
     }

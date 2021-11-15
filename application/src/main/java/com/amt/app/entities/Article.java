@@ -15,6 +15,7 @@ public class Article {
     private int id;
 
     @NotEmpty(message = "Article's name cannot be empty.")
+    @Column(unique = true)
     private String name;
 
     private float price;

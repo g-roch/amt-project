@@ -2,19 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="ISO-8859-1">
-    <title>User Registration</title>
-
-    <style>
-        .error {
-            color: red;
-        }
-    </style>
-
+    <title>Article formular</title>
 
 </head>
 <body>
 <div align="center">
-    <h1>User Registration</h1>
+    <h1>Article formular</h1>
     <form action="#" th:action="@{/createArticle}" method="post" th:object="${article}">
 
         <label>Article name</label>
