@@ -41,9 +41,9 @@ CREATE TABLE IF NOT EXISTS `amt_pianorgue`.`article_category` (
 ) ENGINE=INNODB;
 
 -- -----------------------------------------------------
--- Table `amt_pianorgue`.`user`
+-- Table `amt_pianorgue`.`users`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `amt_pianorgue`.`user` (
+CREATE TABLE IF NOT EXISTS `amt_pianorgue`.`users` (
   `id` INT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
   PRIMARY KEY (`id`)
 ) ENGINE=INNODB;
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `amt_pianorgue`.`cart` (
     ON UPDATE RESTRICT,
   CONSTRAINT `cart_userId`
     FOREIGN KEY (`userId`)
-    REFERENCES `amt_pianorgue`.`user` (`id`)
+    REFERENCES `amt_pianorgue`.`users` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT
 ) ENGINE=INNODB;

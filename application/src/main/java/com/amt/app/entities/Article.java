@@ -1,22 +1,40 @@
 package com.amt.app.entities;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.NaturalIdCache;
+import org.hibernate.annotations.Cache;
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity //indique que c'est une identité JPA. Article est map à une table nommée 'Article'
 @Table(name ="article")
+@NaturalIdCache
+@Cache(
+        usage = CacheConcurrencyStrategy.READ_WRITE
+)
 public class Article {
 
     @Id //identifie le champ comme la clé primaire de l'objet
     @GeneratedValue(strategy = GenerationType.IDENTITY) //On définit qu'on génère les id en fonction de la stratégie mise dans mysql -> auto-increment
-    private Integer id;
+    private int id;
+    @NaturalId
+    @Column(nullable = false, unique = true)
     private String name;
     private float price;
     private String description;
     private String image;
     private int stock;
+
+    @OneToMany(
+            mappedBy = "article",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Cart> users = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "articles")
+    private List<Category> categories = new ArrayList<>();
 
     public Article() {
     }
@@ -29,7 +47,23 @@ public class Article {
         this.stock = stock;
     }
 
-    public Integer getId() {
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    public List<Cart> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<Cart> users) {
+        this.users = users;
+    }
+
+    public int getId() {
         return id;
     }
 
@@ -57,7 +91,7 @@ public class Article {
         this.image = image;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -75,5 +109,19 @@ public class Article {
 
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Article article = (Article) o;
+        return Objects.equals(name, article.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

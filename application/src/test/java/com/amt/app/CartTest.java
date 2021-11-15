@@ -1,53 +1,61 @@
 package com.amt.app;
 
-import com.amt.app.controllers.CartController;
 import com.amt.app.entities.Article;
 import com.amt.app.entities.Cart;
-import com.amt.app.entities.CartId;
+import com.amt.app.entities.Category;
 import com.amt.app.entities.User;
 import com.amt.app.repository.ArticleRepository;
 import com.amt.app.repository.CartRepository;
+import com.amt.app.repository.CategoryRepository;
 import com.amt.app.repository.UserRepository;
-import com.amt.app.service.CartService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.junit.jupiter.api.Assertions;
+import javax.persistence.EntityManager;
 
-import java.util.List;
-
+@ExtendWith(SpringExtension.class)
+@DataJpaTest //la in-memory database est partagée entre tous les tests annotés de @DataJpaTest
 public class CartTest {
 
-    @Autowired
-    private CartController controller;
-    @Autowired
-    private CartService service;
-
-    private ArticleRepository articleRepository;
-    private UserRepository userRepository;
-    private CartRepository cartRepository;
-
+    //@Autowired private EntityManager entityManager;
+    @Autowired private CartRepository cart;
+    @Autowired private UserRepository user;
+    @Autowired private CategoryRepository category;
+    @Autowired private ArticleRepository article;
 
     @Test
-    void test(){
-        userRepository.save(new User());
-        userRepository.save(new User());
-        userRepository.save(new User());
+    public void test(){
+        Article piano = new Article("Piano", 520, "Piano a queue","f1.png", 5);
+        Article guitare = new Article("Guitarre", 80, "Gibson","f1.png", 10);
+        Article flute = new Article("Flute",140 , "Flute traversiere","f1.png", 15);
+        article.save(piano);
+        article.save(guitare);
+        article.save(flute);
 
-        articleRepository.save(new Article("Piano",100,"Piano à queue","application/src/main/resources/static/images/f1.png", 20));
-        articleRepository.save(new Article("Guitarre",50,"Gibson","application/src/main/resources/static/images/f1.png", 10));
-        articleRepository.save(new Article("Flute",25,"Flute traversière","application/src/main/resources/static/images/f1.png", 5));
+        User user1 = new User();
+        User user2 = new User();
+        User user3 = new User();
+        user.save(user1);
+        user.save(user2);
+        user.save(user3);
 
-        cartRepository.save(new Cart(new CartId(1,1),1));
-        cartRepository.save(new Cart(new CartId(1,2),2));
-        cartRepository.save(new Cart(new CartId(1,3),3));
+        Category flutes = new Category("flutes");
+        Category vents = new Category("instrumentsAVent");
+        Category pianos = new Category("pianos");
+        Category guitares = new Category("guitares");
+        Category cordes = new Category("cordes");
+        Category percussions = new Category("percussions");
+        category.save(flutes);
+        category.save(vents);
+        category.save(pianos);
+        category.save(guitares);
+        category.save(cordes);
+        category.save(percussions);
 
-        cartRepository.save(new Cart(new CartId(2,1),1));
-        cartRepository.save(new Cart(new CartId(2,2),2));
-
-        cartRepository.save(new Cart(new CartId(3,3),5));
-
-        List<Cart> carts = cartRepository.findAll();
-
+        Assertions.assertEquals(user.findById(1), user1);
     }
-
 
 }

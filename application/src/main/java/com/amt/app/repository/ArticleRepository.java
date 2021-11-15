@@ -3,7 +3,7 @@ package com.amt.app.repository;
 import com.amt.app.entities.Article;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-//L'interface nous permet de définir une classe spécifique à un domaine <Article> d'un certain type <Integer>
+//L'interface nous permet de définir une classe spécifique à un domaine <Article> d'un certain type <int>
 //Grâce au extends JpaRepository, on peut avoir accès aux methodes CRUD
 public interface ArticleRepository extends JpaRepository<Article, Integer> {
     //Le fait d'extend JpaRepository expose toutes les méthodes disponibles permettant de manipuler les entités.
