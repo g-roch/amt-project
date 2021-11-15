@@ -6,8 +6,10 @@ import com.amt.app.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /* Model sert à transmettre une variable dans la page html */
@@ -47,7 +49,13 @@ public class ArticleController {
 
     // Success page quand l'article à été crée
     @PostMapping("/createArticle")
-    public String submitForm(@ModelAttribute("article") Article article, Model model) {
+    public String submitForm(@Valid Article article, BindingResult result, Model model) {
+
+        if (result.hasErrors()) {
+            return "article_formular";
+        }
+
+
         model.addAttribute("article", article);
 
         List<Article> articles = service.listAll();

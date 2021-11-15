@@ -1,6 +1,9 @@
 package com.amt.app.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity //indique que c'est une identité JPA. Article est map à une table nommée 'Article'
 @Table(name = "article")
@@ -10,10 +13,17 @@ public class Article {
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY) //On définit qu'on génère les id en fonction de la stratégie mise dans mysql -> auto-increment
     private int id;
+
+    @NotEmpty(message = "Article's name cannot be empty.")
     private String name;
+
     private float price;
+
+    @NotEmpty(message = "Article's description cannot be empty.")
     private String description;
     private String image;
+
+    @Min(1)
     private int stock;
 
     public Article() {

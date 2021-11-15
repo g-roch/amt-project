@@ -3,6 +3,14 @@
 <head>
     <meta charset="ISO-8859-1">
     <title>User Registration</title>
+
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+
+
 </head>
 <body>
 <div align="center">
@@ -11,15 +19,19 @@
 
         <label>Article name</label>
         <input type="text" th:field="*{name}" /><br/>
+        <p th:if="${#fields.hasErrors('name')}" th:class="${#fields.hasErrors('name')}? error">Invalid name</p>
 
         <label>Article price</label>
         <input type="text" th:field="*{price}" /><br/>
+        <p  th:if="${#fields.hasErrors('price')}" th:class="${#fields.hasErrors('price')}? error">Invalid price</p>
 
         <label>Article description</label>
         <input type="text" th:field="*{description}" /><br/>
+        <p  th:if="${#fields.hasErrors('description')}" th:class="${#fields.hasErrors('description')}? error">Invalid description</p>
 
         <label>Article quantitiy</label>
         <input type="text" th:field="*{stock}" /><br/>
+        <p  th:if="${#fields.hasErrors('stock')}" th:class="${#fields.hasErrors('stock')}? error">Invalid quantity</p>
 
         <button type="submit">Register</button>
     </form>

@@ -70,11 +70,8 @@ public class ArticleTest {
     @Test
     void ArticleImage(){
 
-        //String default_image = "f1.png";
         String image = "image1.png";
         Article article = new Article();
-        //Article article = service.get(1);
-        //assertEquals(article.getImage(), default_image);
         article.setImage(image);
         assertEquals(article.getImage(), image);
     }
