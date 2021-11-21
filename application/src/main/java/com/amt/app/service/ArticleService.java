@@ -15,6 +15,11 @@ public class ArticleService {
     @Autowired
     private ArticleRepository repository;
 
+    @Autowired
+    public void setArticleRepository(ArticleRepository articleRepository){
+        this.repository = articleRepository;
+    }
+
     public List<Article> listAll(){
         return repository.findAll();
     }

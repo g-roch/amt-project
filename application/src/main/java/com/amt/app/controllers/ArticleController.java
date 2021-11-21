@@ -6,6 +6,7 @@ import com.amt.app.repository.ArticleRepository;
 import com.amt.app.service.ArticleService;
 import com.amt.app.utils.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -24,6 +25,11 @@ public class ArticleController {
 
     @Autowired
     private ArticleService service;
+
+    @Qualifier("articleService")
+    public void setArticleService(ArticleService articleService){
+        this.service = articleService;
+    }
 
     // Affichage de tous les articles disponibles
     @GetMapping("/articles")
