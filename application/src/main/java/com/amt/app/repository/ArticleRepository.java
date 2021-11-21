@@ -8,5 +8,4 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 
 
 
-
 }

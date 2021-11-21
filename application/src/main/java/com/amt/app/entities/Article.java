@@ -22,6 +22,7 @@ public class Article {
 
     @NotEmpty(message = "Article's description cannot be empty.")
     private String description;
+
     private String image;
 
     @Min(1)
@@ -30,7 +31,13 @@ public class Article {
     public Article() {
     }
 
-    @Id
+    @Transient
+    public String getPhotosImagePath() {
+        if (image == null) return null;
+
+        return "/article-photos/" + id + "/" + image;
+    }
+
     public int getId() {
         return id;
     }

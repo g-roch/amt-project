@@ -2,14 +2,19 @@ package com.amt.app.controllers;
 
 
 import com.amt.app.entities.Article;
+import com.amt.app.repository.ArticleRepository;
 import com.amt.app.service.ArticleService;
+import com.amt.app.utils.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 /* Model sert à transmettre une variable dans la page html */
@@ -48,13 +53,29 @@ public class ArticleController {
     }
 
     // Success page quand l'article à été crée
-    @PostMapping("/createArticle")
-    public String submitForm(@Valid Article article, BindingResult result, Model model) {
+    @RequestMapping(value = "/createArticle", method = RequestMethod.POST)
+    public String submitForm(@Valid Article article, BindingResult result, Model model ,
+                             @RequestParam("file") MultipartFile multipartFile) throws IOException {
 
         if (result.hasErrors()) {
+            System.out.println(result.getAllErrors());
             return "article_formular";
         }
 
+        // Tuto pour l'upload de fichier mais ça ne fonctionne pas...
+        // now it does ==> spring.servlet.multipart.enabled=true dans application properties
+        // https://www.codejava.net/frameworks/spring-boot/spring-boot-file-upload-tutorial
+        String fileName;
+        boolean isDefaultImage;
+        if(multipartFile.isEmpty()){
+            fileName = "default.png";
+            isDefaultImage = true;
+        }else{
+            fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+            isDefaultImage = false;
+        }
+
+        article.setImage(fileName);
 
         List<Article> articles = service.listAll();
         Article existantArticle = null;
@@ -77,7 +98,14 @@ public class ArticleController {
         }
 
         model.addAttribute("article", correctArticle);
-        service.addArticle(correctArticle);
+        Article savedArticle = service.addArticle(correctArticle);
+
+        System.out.println(savedArticle.getId());
+
+        if(!isDefaultImage){
+            String uploadDir = "article-photos/" + savedArticle.getId();
+            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+        }
 
         return "article_success";
     }

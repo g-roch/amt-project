@@ -19,7 +19,9 @@
   <span>Description:</span><span th:text="${article.description}"></span><br/>
   <span>Stock:</span><span th:text="${article.stock}"></span><br/>
 
-  <img th:src="@{${'../images/' + article.image}}" width="250"/>
+  <div th:if="${article.image != 'default.png'}">
+    <img th:src="@{${article.getPhotosImagePath()}}" width="250"/>
+  </div>
 
   <form action="/articles">
     <input type="submit" value="Go to articles list" />
