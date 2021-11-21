@@ -10,9 +10,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 class AmtTestApplicationTests {
 
+    /*
     @Test
     void contextLoads() {
       assertEquals(8, 8);
     }
+
+     */
 
 }
