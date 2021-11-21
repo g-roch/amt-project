@@ -16,6 +16,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.junit.jupiter.api.Assertions;
 import javax.persistence.EntityManager;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest //la in-memory database est partagée entre tous les tests annotés de @DataJpaTest
@@ -65,8 +68,9 @@ public class CartTest {
         cart.save(cart12);
         cart.save(cart13);
 
-        //Assertions.assertEquals(user.findById(1), user1);
-        Assertions.assertEquals(cart.count(),3);
+        assertEquals(user.findById(1).get(), user1);
+        assertEquals(cart.count(),3);
     }
+
 
 }
