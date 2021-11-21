@@ -11,6 +11,7 @@ import com.amt.app.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.junit.jupiter.api.Assertions;
@@ -18,6 +19,7 @@ import javax.persistence.EntityManager;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest //la in-memory database est partagée entre tous les tests annotés de @DataJpaTest
+@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 public class CartTest {
 
     //@Autowired private EntityManager entityManager;
@@ -55,7 +57,16 @@ public class CartTest {
         category.save(cordes);
         category.save(percussions);
 
-        Assertions.assertEquals(user.findById(1), user1);
+        Cart cart11 = new Cart(piano,user1,2);
+        Cart cart12 = new Cart(guitare,user1,3);
+        Cart cart13 = new Cart(flute,user1,5);
+
+        cart.save(cart11);
+        cart.save(cart12);
+        cart.save(cart13);
+
+        //Assertions.assertEquals(user.findById(1), user1);
+        Assertions.assertEquals(cart.count(),3);
     }
 
 }

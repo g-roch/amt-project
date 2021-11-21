@@ -72,6 +72,6 @@ CREATE TABLE IF NOT EXISTS `amt_pianorgue`.`cart` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `amt_pianorgue`.`hibernate_sequence` (
   `next_val` BIGINT NULL DEFAULT NULL)
-ENGINE = MyISAM
+ENGINE=INNODB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci;
