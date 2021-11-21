@@ -17,10 +17,12 @@ public class ArticleTest {
     @Autowired
     private ArticleService service;
 
+    /*
     @Test
     public void contextLoads() throws Exception {
         assertThat(controller).isNotNull();
     }
+     */
 
     @Test
     void ArticleName(){
