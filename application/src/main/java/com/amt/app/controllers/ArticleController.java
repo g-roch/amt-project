@@ -7,6 +7,7 @@ import com.amt.app.service.ArticleService;
 import com.amt.app.utils.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -21,6 +22,7 @@ import java.util.List;
 /* Model sert à transmettre une variable dans la page html */
 
 @Controller
+@Component
 public class ArticleController {
 
     @Autowired
