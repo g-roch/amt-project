@@ -16,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.junit.jupiter.api.Assertions;
 import javax.persistence.EntityManager;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -70,6 +71,11 @@ public class CartTest {
 
         assertEquals(user.findById(1).get(), user1);
         assertEquals(cart.count(),3);
+
+        List<Integer> list = cart.findAllItems2();/*
+        for(Article item : list){
+            System.out.println(item.toString());
+        }*/
     }
 
 
