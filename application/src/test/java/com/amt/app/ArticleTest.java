@@ -5,17 +5,13 @@ import com.amt.app.entities.Article;
 import com.amt.app.service.ArticleService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest(classes = Article.class)
+@SpringBootTest
 public class ArticleTest {
-
-    @Autowired
-    private ArticleController controller;
-    @Autowired
-    private ArticleService service;
 
     /*
     @Test
