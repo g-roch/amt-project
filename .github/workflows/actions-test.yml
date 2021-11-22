@@ -9,14 +9,14 @@ jobs:
       - name: Prepare passsword DB
         env: # Or as an environment variable
           SQL_DRIVER: ${{ secrets.SQL_DRIVER }} 
-          SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }} 
-          SQL_USER: ${{ secrets.SQL_USER }} 
+          SQL_PASSWORD: root
+          SQL_USER: root
           SQL_URL: ${{ secrets.SQL_URL }} 
         run: ./script/prepare-db.sh
       - name: Setup mysql for runtime testdb
         run: |
                 sudo /etc/init.d/mysql start
-                echo 'CREATE DATABASE amt_pianorgue;' > mysql -uroot -proot
+                echo 'CREATE DATABASE amt_pianorgue;' > mysql -u${{ env.SQL_USER }} -p${{ env.SQL_PASSWORD }}
       - name: MVN Verify
         working-directory: ./application/
         run: mvn --batch-mode --update-snapshots verify
