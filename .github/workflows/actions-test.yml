@@ -18,7 +18,7 @@ jobs:
             TEST_DATABASE: amt_pianorgue
             TEST_USER: ${{ secrets.SQL_USER }}
             TEST_PASSWORD: ${{ secrets.SQL_PASSWORD}}
-            run: |
+        run: |
                 sudo /etc/init.d/mysql start
                 mysql -e 'CREATE DATABASE ${{ env.TEST_DATABASE}};' -u${{ env.TEST_USER }} -p${{ env.TEST_PASSWORD }}
       - name: MVN Verify
