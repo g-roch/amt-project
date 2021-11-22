@@ -11,7 +11,7 @@ jobs:
           SQL_DRIVER: ${{ secrets.SQL_DRIVER }} 
           SQL_PASSWORD: root
           SQL_USER: root
-          SQL_URL: jdbc:mysql://localhost:3306/amt_pianorgue
+          SQL_URL: jdbc:h2:~/amt_pianorgue
         run: ./script/prepare-db.sh
       - name: Setup mysql for runtime testdb
         run: |
