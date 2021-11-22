@@ -83,6 +83,9 @@
             </tbody>
         </table>
     </div>
+    <div th:if="${article.image == 'default.png'}">
+        <img th:src="@{${'../images/' + article.image}}" width="250"/>
+    </div>
     <div th:if="${article.image != 'default.png'}">
         <img th:src="@{${article.getPhotosImagePath()}}" width="250"/>
     </div>
