@@ -5,6 +5,7 @@ import com.amt.app.entities.Article;
 import com.amt.app.service.ArticleService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,15 +13,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 public class ArticleTest {
 
-    @Autowired
-    private ArticleController controller;
-    @Autowired
-    private ArticleService service;
-
+    /*
     @Test
     public void contextLoads() throws Exception {
         assertThat(controller).isNotNull();
     }
+     */
 
     @Test
     void ArticleName(){
@@ -70,11 +68,8 @@ public class ArticleTest {
     @Test
     void ArticleImage(){
 
-        //String default_image = "f1.png";
         String image = "image1.png";
         Article article = new Article();
-        //Article article = service.get(1);
-        //assertEquals(article.getImage(), default_image);
         article.setImage(image);
         assertEquals(article.getImage(), image);
     }

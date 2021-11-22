@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Article formular</title>
+
+</head>
+<body>
+<div align="center">
+    <h1>Article formular</h1>
+    <form action="#" th:action="@{/createArticle}" method="post" th:object="${article}" enctype="multipart/form-data">
+
+        <label>Article name</label>
+        <input type="text" th:field="*{name}" /><br/>
+        <p th:if="${#fields.hasErrors('name')}" th:class="${#fields.hasErrors('name')}? error">Invalid name</p>
+
+        <label>Article price</label>
+        <input type="text" th:field="*{price}" /><br/>
+        <p  th:if="${#fields.hasErrors('price')}" th:class="${#fields.hasErrors('price')}? error">Invalid price</p>
+
+        <label>Article description</label>
+        <input type="text" th:field="*{description}" /><br/>
+        <p  th:if="${#fields.hasErrors('description')}" th:class="${#fields.hasErrors('description')}? error">Invalid description</p>
+
+        <label>Article quantitiy</label>
+        <input type="text" th:field="*{stock}" /><br/>
+        <p  th:if="${#fields.hasErrors('stock')}" th:class="${#fields.hasErrors('stock')}? error">Invalid quantity</p>
+
+
+        <label>Image</label>
+        <input type="file" name="file" accept="image/*, .png, .jpg, .jpeg" /><br/>
+
+
+        <button type="submit">Create</button>
+    </form>
+</div>
+</body>
+</html>
