@@ -82,6 +82,8 @@ public class ArticleController {
 
         article.setImage(fileName);
 
+
+        /*
         List<Article> articles = service.listAll();
         Article existantArticle = null;
 
@@ -101,9 +103,11 @@ public class ArticleController {
         }else{
             correctArticle = existantArticle;
         }
+        */
 
-        model.addAttribute("article", correctArticle);
-        Article savedArticle = service.addArticle(correctArticle);
+
+        model.addAttribute("article", article);
+        Article savedArticle = service.addArticle(article);
 
         System.out.println(savedArticle.getId());
 
