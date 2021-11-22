@@ -26,7 +26,7 @@ public class Provider {
 
     public User login(String token) throws JWTVerificationException {
         DecodedJWT jwt = verifier.verify(token);
-        return User.fromString(jwt.getPayload());
+        return User.fromJson(jwt.getPayload());
     }
     public User login(String username, String password) {
         // GET on /auth/login
