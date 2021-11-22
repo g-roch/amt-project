@@ -10,7 +10,7 @@ public class PianorgueApp extends SpringBootServletInitializer {
 
     // To start Spring boot (the app)
     public static void main(String[] args) {
-        SpringApplication.run(PianorgueApp.class, args);
+        SpringApplication.   run(PianorgueApp.class, args);
     }
 
 

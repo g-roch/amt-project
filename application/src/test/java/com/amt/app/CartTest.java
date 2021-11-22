@@ -61,22 +61,38 @@ public class CartTest {
         category.save(cordes);
         category.save(percussions);
 
+        //cart user 1
         Cart cart11 = new Cart(piano,user1,2);
         Cart cart12 = new Cart(guitare,user1,3);
         Cart cart13 = new Cart(flute,user1,5);
-
         cart.save(cart11);
         cart.save(cart12);
         cart.save(cart13);
 
-        assertEquals(user.findById(1).get(), user1);
-        assertEquals(cart.count(),3);
+        //cart user2
+        Cart cart21 = new Cart(piano,user2,20);
+        Cart cart22 = new Cart(flute, user2, 10);
+        cart.save(cart21);
+        cart.save(cart22);
 
-        List<Integer> list = cart.findAllItems2();/*
-        for(Article item : list){
-            System.out.println(item.toString());
-        }*/
+        //cart user3
+
+        Cart cart31 = new Cart(guitare,user3,20);
+        cart.save(cart31);
+
+        assertEquals(cart.count(),6);
+
+        List<Cart> listUser1 = cart.findAllItems2(user1.getId());
+        assertEquals("userId: 1, articleId: 1 ,quantity: 2",listUser1.get(0).toString());
+        assertEquals("userId: 1, articleId: 2 ,quantity: 3",listUser1.get(1).toString());
+        assertEquals("userId: 1, articleId: 3 ,quantity: 5",listUser1.get(2).toString());
+
+
+        List<Cart> listUser2 = cart.findAllItems2(user2.getId());
+        assertEquals("userId: 2, articleId: 1 ,quantity: 20",listUser2.get(0).toString());
+        assertEquals("userId: 2, articleId: 3 ,quantity: 10",listUser2.get(1).toString());
+
+        List<Cart> listUser3 = cart.findAllItems2(user3.getId());
+        assertEquals("userId: 3, articleId: 2 ,quantity: 20",listUser3.get(0).toString());
     }
-
-
 }

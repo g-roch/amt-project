@@ -13,6 +13,14 @@ jobs:
           SQL_USER: ${{ secrets.SQL_USER }} 
           SQL_URL: ${{ secrets.SQL_URL }} 
         run: ./script/prepare-db.sh
+      - name: Setup mysql for runtime testdb
+        env: 
+            TEST_DATABASE: amt_pianorgue
+            TEST_USER: ${{ secrets.SQL_USER }}
+            TEST_PASSWORD: ${{ secrets.SQL_PASSWORD}}
+            run: |
+                sudo /etc/init.d/mysql start
+                mysql -e 'CREATE DATABASE ${{ env.TEST_DATABASE}};' -u${{ env.TEST_USER }} -p${{ env.TEST_PASSWORD }}
       - name: MVN Verify
         working-directory: ./application/
         run: mvn --batch-mode --update-snapshots verify

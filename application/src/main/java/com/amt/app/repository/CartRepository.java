@@ -15,7 +15,7 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
             "JOIN users u ON u.id = cart.userId AND u.id = 1", nativeQuery = true)
     List<Integer> findAllItems();
 
-    @Query(value = "SELECT c.articleId FROM cart c WHERE c.userId =1", nativeQuery = true)
-    List<Integer> findAllItems2();
+    @Query("SELECT c FROM Cart c WHERE c.id.userId =?1")
+    List<Cart> findAllItems2(Integer userId);
 
 }
