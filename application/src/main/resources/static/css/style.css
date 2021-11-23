@@ -1980,5 +1980,12 @@ footer button {
 
 }
 
+/*--------------------------Article liste------------------------------------------*/
+
+.articleBox{
+    margin-bottom: 5%;
+    padding: 1%;
+    background-color: #cfd8dc;
+}
 
  

@@ -66,28 +66,34 @@
     </header>
     <!-- end header -->
 
-    <div align="center">
-        <h1 th:text="${article.name}"></h1>
-        <table border="1" cellpadding="10">
-            <thead>
-            <tr>
-                <th>Price</th>
-                <th>Stock</th>
-                <th>Description</th>
-            </tr>
-            </thead>
-            <tbody>
-                <td th:text="${article.price}">Price</td>
-                <td th:text="${article.stock}">Stock</td>
-                <td th:text="${article.description}">Description</td>
-            </tbody>
-        </table>
-    </div>
-    <div th:if="${article.image == 'default.png'}">
-        <img th:src="@{${'../images/' + article.image}}" width="250"/>
-    </div>
-    <div th:if="${article.image != 'default.png'}">
-        <img th:src="@{${article.getPhotosImagePath()}}" width="250"/>
+    <div class="container" align="center">
+        <div class="row mt-5 mb-5">
+            <div class="col ml-5">
+                <div class="row mb-3">
+                    <h1 class="font-weight-bold" th:text="${article.name}">Name</h1>
+                </div>
+                <div class="row" th:if="${article.image == 'default.png'}">
+                    <img th:src="@{${'../images/' + article.image}}" width="250"/>
+                </div>
+                <div class="row" th:if="${article.image != 'default.png'}">
+                    <img th:src="@{${article.getPhotosImagePath()}}" width="250"/>
+                </div>
+                <div class="row mt-5">
+                    <p th:text="${article.description}">Description</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row">
+                    <h2 class="font-weight-bold" th:text="${article.price} + ' CHF'">Price</h2>
+                </div>
+                <div class="row">
+                    <p th:text="${article.stock} + ' en stock'">Stock</p>
+                </div>
+                <div class="row mt-5">
+                    <button type="button" class="btn btn-lg btn-dark">Ajouter au panier</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- footer -->
