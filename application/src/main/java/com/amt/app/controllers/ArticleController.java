@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 /* Model sert à transmettre une variable dans la page html */
 
@@ -26,15 +27,6 @@ public class ArticleController {
 
     @Autowired
     private ArticleService service;
-
-    public void setArticleService(ArticleService articleService){
-        this.service = articleService;
-    }
-
-    @GetMapping("/admin")
-    public String showAdmin(){
-        return "admin";
-    }
 
     // Affichage de tous les articles disponibles
     @GetMapping("/articles")
@@ -67,17 +59,17 @@ public class ArticleController {
     @RequestMapping(value = "/createArticle", method = RequestMethod.POST)
     public String submitForm(@Valid Article article, BindingResult result, Model model ,
                              @RequestParam("file") MultipartFile multipartFile) throws IOException {
-        
+
+        //@Valid control les entrées de l'utilisateurs selon les annotation dans l'entité
         if (result.hasErrors()) {
             System.out.println(result.getAllErrors());
             return "article_formular";
         }
 
+        // Vérification si le nom de l'article existe déjà, si c'est le cas on l'affiche.
         List<Article> articles = service.listAll();
-
         Article exists = null;
         for(Article a : articles){
-            //Vérification si l'article existe deja
             if(a.getName().equals(article.getName())){
                 exists = a;
             }
@@ -94,7 +86,7 @@ public class ArticleController {
             fileName = "default.png";
             isDefaultImage = true;
         }else{
-            fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+            fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
             isDefaultImage = false;
         }
 
@@ -103,8 +95,7 @@ public class ArticleController {
         model.addAttribute("article", article);
         Article savedArticle = service.addArticle(article);
 
-        System.out.println(savedArticle.getId());
-
+        //Upload de l'image uniquement si il a mis une image
         if(!isDefaultImage){
             String uploadDir = "article-photos/" + savedArticle.getId();
             FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
