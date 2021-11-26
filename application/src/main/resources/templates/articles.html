@@ -66,35 +66,40 @@
 </header>
 <!-- end header -->
 
-<div align="center">
-    <h1>Article List</h1>
+<div  class="container" align="center">
+    <h1 class="mb-3">Article List</h1>
 
-    <table border="1" cellpadding="10">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Stock</th>
-        </tr>
-        </thead>
+    <div th:if="${listArticles.empty}">
+        <p>There is no articles</p>
+    </div>
 
-        <tbody>
-
-            <div th:if="${listArticles.empty}">
-                <p>There is no articles</p>
+    <div th:if="${not listArticles.empty}">
+        <div class="row mb-4 mr-5 w-75 bg-light articleBox" th:each="article : ${listArticles}">
+            <div class="col">
+                <div class="row" th:if="${article.image == 'default.png'}">
+                    <img th:src="@{${'../images/' + article.image}}" width="200"/>
+                </div>
+                <div class="row" th:if="${article.image != 'default.png'}">
+                    <img th:src="@{${article.getPhotosImagePath()}}" width="200"/>
+                </div>
             </div>
-
-            <div th:if="${not listArticles.empty}">
-                <tr th:each="article : ${listArticles}">
-                    <td th:text="${article.name}">Name</td>
-                    <td th:text="${article.price}">Price</td>
-                    <td th:text="${article.stock}">Stock</td>
-                </tr>
+            <div class="col pt-2">
+                <a th:href="@{/article/{id}(id=${article.id})}">
+                    <div class="row">
+                        <h3 class="font-weight-bold m-0" th:text="${article.name}">Name</h3>
+                    </div>
+                    <div class="row">
+                        <p th:text="${article.stock} + ' en stock'">Stock</p>
+                    </div>
+                </a>
             </div>
-
-        </tbody>
-
-    </table>
+            <div class="col-md-2 pt-2">
+                <div class="row">
+                    <p class="font-weight-bold" th:text="${article.price} + ' CHF'">Price</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- footer -->
