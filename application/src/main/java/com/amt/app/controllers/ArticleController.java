@@ -75,10 +75,6 @@ public class ArticleController {
             //Vérification si l'article existe deja
             if(a.getName().equals(article.getName())){
                 exists = a;
-//                model.addAttribute("articleExistant", a);
-  //              return "article_formular";
-//                model.addAttribute("articleExistant2", a);
-
             }
         }
         model.addAttribute("articleExistant", exists);
