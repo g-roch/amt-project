@@ -31,6 +31,11 @@ public class ArticleController {
         this.service = articleService;
     }
 
+    @GetMapping("/admin")
+    public String showAdmin(){
+        return "admin";
+    }
+
     // Affichage de tous les articles disponibles
     @GetMapping("/articles")
     public String showArticles(Model model){
