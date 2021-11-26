@@ -1,5 +1,10 @@
 package com.amt.app.entities;
 
+import net.bytebuddy.implementation.bind.annotation.Empty;
+import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.lang.Nullable;
+import org.springframework.validation.annotation.Validated;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -7,6 +12,7 @@ import javax.validation.constraints.Size;
 
 @Entity //indique que c'est une identité JPA. Article est map à une table nommée 'Article'
 @Table(name = "article")
+@Validated
 public class Article {
 
     @Id //identifie le champ comme la clé primaire de l'objet
@@ -15,17 +21,18 @@ public class Article {
     private int id;
 
     @NotEmpty(message = "Article's name cannot be empty.")
-    @Column(unique = true)
+    @Column(name="name", unique = true)
     private String name;
 
-    private float price;
+    @Min(0) 
+    private Float price;
 
     @NotEmpty(message = "Article's description cannot be empty.")
     private String description;
 
     private String image;
 
-    @Min(1)
+    @Min(0)
     private int stock;
 
     public Article() {
@@ -50,7 +57,7 @@ public class Article {
         return description;
     }
 
-    public float getPrice() {
+    public Float getPrice() {
         return price;
     }
 
@@ -78,7 +85,7 @@ public class Article {
         this.description = description;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -61,11 +62,23 @@ public class ArticleController {
     @RequestMapping(value = "/createArticle", method = RequestMethod.POST)
     public String submitForm(@Valid Article article, BindingResult result, Model model ,
                              @RequestParam("file") MultipartFile multipartFile) throws IOException {
-
+        
         if (result.hasErrors()) {
             System.out.println(result.getAllErrors());
             return "article_formular";
         }
+
+        List<Article> articles = service.listAll();
+
+        Article exists = null;
+        for(Article a : articles){
+            //Vérification si l'article existe deja
+            if(a.getName().equals(article.getName())){
+                exists = a;
+            }
+        }
+        model.addAttribute("articleExistant", exists);
+        if (exists != null) return "article_formular";
 
         // Tuto pour l'upload de fichier mais ça ne fonctionne pas...
         // now it does ==> spring.servlet.multipart.enabled=true dans application properties
@@ -81,30 +94,6 @@ public class ArticleController {
         }
 
         article.setImage(fileName);
-
-
-        /*
-        List<Article> articles = service.listAll();
-        Article existantArticle = null;
-
-        for(Article a : articles){
-            //Vérification pour augmenter le stock si l'article existe deja
-            if(a.getName().equals(article.getName())){
-                int actualStock = a.getStock();
-                existantArticle = service.get(a.getId());
-                existantArticle.setStock(actualStock + article.getStock());
-                break;
-            }
-        }
-
-        Article correctArticle;
-        if(existantArticle == (null)){
-            correctArticle = article;
-        }else{
-            correctArticle = existantArticle;
-        }
-        */
-
 
         model.addAttribute("article", article);
         Article savedArticle = service.addArticle(article);
