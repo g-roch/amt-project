@@ -1,10 +1,4 @@
 /*--------------------------------------------------------------------- File Name: style.css ---------------------------------------------------------------------*/
-/*--------------------------------------------------------------------- import Fonts ---------------------------------------------------------------------*/
- @import url('https://fonts.googleapis.com/css?family=Rajdhani:300,400,500,600,700');
- @import url('https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
-/*****---------------------------------------- 1) font-family: 'Rajdhani', sans-serif;
- 2) font-family: 'Poppins', sans-serif;
- ----------------------------------------*****/
 /*--------------------------------------------------------------------- import Files ---------------------------------------------------------------------*/
  @import url(animate.min.css);
  @import url(normalize.css);
@@ -16,8 +10,8 @@
  @import url(jquery-ui.css);
  @import url(nice-select.css);
 /*--------------------------------------------------------------------- skeleton ---------------------------------------------------------------------*/
- * {
-     box-sizing: border-box !important;
+* {
+    box-sizing: border-box !important;
 }
 ::placeholder {
    opacity: 1 !important;
@@ -257,7 +251,7 @@ p {
      font-weight: 600;
 }
 .main_bt {
-    background: #282e40;
+    background: #5293b7;
     color: #fff;
     padding: 0;
     float: left;
@@ -280,7 +274,7 @@ p {
      color: #fff;
 }
 .button_section {
-    padding-top: 185px;
+    padding-top: 30px;
     float: left;
 }
 /**-- list icon --**/
@@ -1181,7 +1175,7 @@ p {
      z-index: 9;
 }
 .slide_img {
-    margin-top: 40px;
+    margin-top: 0px;
     margin-bottom: 0;
 }
 .top-banner-slider .heroslider {
@@ -1947,6 +1941,11 @@ footer h3 {
     margin-top: 0;
     margin-bottom: 35px;
 }
+
+footer h4{
+    color: #fff;
+}
+
 footer p {
     color: #fff;
     font-size: 17px;
@@ -1981,5 +1980,12 @@ footer button {
 
 }
 
+/*--------------------------Article liste------------------------------------------*/
+
+.articleBox{
+    margin-bottom: 5%;
+    padding: 1%;
+    background-color: #cfd8dc;
+}
 
  

@@ -1,27 +1,51 @@
 package com.amt.app.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import net.bytebuddy.implementation.bind.annotation.Empty;
+import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.lang.Nullable;
+import org.springframework.validation.annotation.Validated;
+
+import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity //indique que c'est une identité JPA. Article est map à une table nommée 'Article'
+@Table(name = "article")
+@Validated
 public class Article {
 
     @Id //identifie le champ comme la clé primaire de l'objet
+    @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY) //On définit qu'on génère les id en fonction de la stratégie mise dans mysql -> auto-increment
-    private Integer id;
+    private int id;
+
+    @NotEmpty(message = "Article's name cannot be empty.")
+    @Column(name="name", unique = true)
     private String name;
-    private float price;
+
+    @Min(0) 
+    private Float price;
+
+    @NotEmpty(message = "Article's description cannot be empty.")
     private String description;
+
     private String image;
+
+    @Min(0)
     private int stock;
 
     public Article() {
     }
 
-    @Id
-    public Integer getId() {
+    @Transient
+    public String getPhotosImagePath() {
+        if (image == null) return null;
+
+        return "/article-photos/" + id + "/" + image;
+    }
+
+    public int getId() {
         return id;
     }
 
@@ -33,7 +57,7 @@ public class Article {
         return description;
     }
 
-    public float getPrice() {
+    public Float getPrice() {
         return price;
     }
 
@@ -49,7 +73,7 @@ public class Article {
         this.image = image;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -61,7 +85,7 @@ public class Article {
         this.description = description;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 

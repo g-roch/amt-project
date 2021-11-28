@@ -57,20 +57,20 @@ public class Provider {
 
         ServerLoginResponse reponseObject = ServerLoginResponse.fromJson(response.toString());
 
-        System.out.println(reponseObject.token);
-        System.out.println(reponseObject.account.id);
-        System.out.println(reponseObject.account.username);
-        System.out.println(reponseObject.account.role);
+        System.out.println(reponseObject.getToken());
+        System.out.println(reponseObject.getAccount().getId());
+        System.out.println(reponseObject.getAccount().getUsername());
+        System.out.println(reponseObject.getAccount().getRole());
 
         JWTVerifier verifier = JWT.require(algorithm)
                 .withIssuer(issuer)
-                .withSubject(reponseObject.account.username)
+                .withSubject(reponseObject.getAccount().username)
                 .build(); //Reusable verifier instance
-        verifier.verify(reponseObject.token);
+        verifier.verify(reponseObject.getToken());
 
-        User user = login(reponseObject.token);
+        User user = login(reponseObject.getToken());
 
-        if (!user.getRole().equals(reponseObject.account.role)) {
+        if (!user.getRole().equals(reponseObject.getAccount().getRole())) {
             throw new Exception("Authentication server error");
         }
 

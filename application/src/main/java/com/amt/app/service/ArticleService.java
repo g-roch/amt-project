@@ -15,16 +15,21 @@ public class ArticleService {
     @Autowired
     private ArticleRepository repository;
 
+    @Autowired
+    public void setArticleRepository(ArticleRepository articleRepository){
+        this.repository = articleRepository;
+    }
+
     public List<Article> listAll(){
         return repository.findAll();
     }
 
-    public Article get(Integer id){
+    public Article get(int id){
         return repository.findById(id).get();
     }
 
-    public void save(Article article){
-        repository.save(article);
+    public Article addArticle(Article article) {
+        return repository.save(article);
     }
 
     public void delete(Integer id){
