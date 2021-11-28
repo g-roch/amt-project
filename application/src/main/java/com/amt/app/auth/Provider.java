@@ -10,6 +10,7 @@ import org.apache.http.client.fluent.Content;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.ContentType;
 
+import java.io.IOException;
 import java.util.Base64;
 import java.util.HashMap;
 
@@ -42,18 +43,10 @@ public class Provider {
     }
     public User login(String username, String password) throws Exception {
 
-        HashMap<String, String> data = new HashMap<>();
-        data.put("username", username);
-        data.put("password", password);
-        String payload = new Gson().toJson(data);
-        System.out.println(payload);
-
         Content response = Request.Post(server + "/auth/login")
-                .bodyString(payload, ContentType.APPLICATION_JSON)
+                .bodyString(payload(username, password), ContentType.APPLICATION_JSON)
                 .execute()
                 .returnContent();
-
-        System.out.println(response.toString());
 
         ServerLoginResponse reponseObject = ServerLoginResponse.fromJson(response.toString());
 
@@ -78,26 +71,20 @@ public class Provider {
         return user;
 
     }
-    
-    public int register() {
-        return -1;
+
+    private String payload(String username, String password) {
+        HashMap<String, String> data = new HashMap<>();
+        data.put("username", username);
+        data.put("password", password);
+        String payload = new Gson().toJson(data);
+        return payload;
     }
 
-    public static void test() {
-        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJpc3MiOiJhdXRoMCJ9.AbIJTDMFc7yUa5MhvcP03nJPyCPzZtQcGEp-zWfOkEE";
-        token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.XbPfbIHMI6arZ3Y922BhjWgQzWXcXNrz0ogtVhfEd2o";
-        try {
-            //Algorithm algorithm = Algorithm.HMAC256("secret");
-/*            JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer("auth0")
-                    .withSubject("my-user-id")
-                    .build(); //Reusable verifier instance
-            DecodedJWT jwt = verifier.verify(token);
-*/
-
-        } catch (JWTVerificationException exception) {
-            //Invalid signature/claims
-        }
+    public void register(String username, String password) throws IOException {
+        Content response = Request.Post(server + "/accounts/register")
+                .bodyString(payload(username, password), ContentType.APPLICATION_JSON)
+                .execute()
+                .returnContent();
     }
 
 }
