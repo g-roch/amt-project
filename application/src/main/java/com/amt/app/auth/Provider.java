@@ -38,8 +38,12 @@ public class Provider {
     }
 
     public User login(String token) throws JWTVerificationException {
-        DecodedJWT jwt = verifier.verify(token);
-        return User.fromJson(new String(Base64.getDecoder().decode(jwt.getPayload())));
+        if (token.length() == 0) {
+            return User.guest();
+        } else {
+            DecodedJWT jwt = verifier.verify(token);
+            return User.fromJson(token, new String(Base64.getDecoder().decode(jwt.getPayload())));
+        }
     }
     public User login(String username, String password) throws Exception {
 

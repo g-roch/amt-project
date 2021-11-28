@@ -4,6 +4,7 @@ package com.amt.app.auth;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
+import lombok.Setter;
 
 public class User {
 
@@ -21,8 +22,18 @@ public class User {
     @SerializedName("iss")
     private String issuer;
 
-    public static User fromJson(String payload) {
+    @Getter
+    private String jwt;
+
+    public static User fromJson(String jwt, String payload) {
         Gson gson = new Gson();
-        return gson.fromJson(payload, User.class);
+        User user = gson.fromJson(payload, User.class);
+        user.jwt = jwt;
+        return user;
+    }
+    public static User guest() {
+        User user = new User();
+        user.role = "guest";
+        return user;
     }
 }
