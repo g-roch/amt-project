@@ -1,19 +1,30 @@
 package com.amt.app.auth;
 
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.auth0.jwt.interfaces.JWTVerifier;
+import com.google.gson.Gson;
+import org.apache.http.client.fluent.Content;
+import org.apache.http.client.fluent.Request;
+import org.apache.http.entity.ContentType;
+
+import java.util.Base64;
+import java.util.HashMap;
 
 
 public class Provider {
 
-    private Algorithm algorithm;
-    private String issuer;
-    private JWTVerifier verifier;
+    private final Algorithm algorithm;
+    private final String issuer;
+    private final JWTVerifier verifier;
+    private final String server;
 
-    public Provider(String algorithm, byte[] secret, String issuer) throws Exception {
+    public Provider(String algorithm, String secret, String issuer, String server) throws Exception {
+        this(algorithm, secret.getBytes(), issuer, server);
+    }
+    public Provider(String algorithm, byte[] secret, String issuer, String server) throws Exception {
         if (!algorithm.equals("HS256")) {
             throw new Exception("Only HS256 algorithm is supported");
         }
@@ -22,26 +33,50 @@ public class Provider {
         this.verifier = JWT.require(this.algorithm)
                 .withIssuer(this.issuer)
                 .build();
+        this.server = server;
     }
 
     public User login(String token) throws JWTVerificationException {
         DecodedJWT jwt = verifier.verify(token);
-        return User.fromJson(jwt.getPayload());
+        return User.fromJson(new String(Base64.getDecoder().decode(jwt.getPayload())));
     }
-    public User login(String username, String password) {
-        // GET on /auth/login
-        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJpc3MiOiJhdXRoMCJ9.AbIJTDMFc7yUa5MhvcP03nJPyCPzZtQcGEp-zWfOkEE";
-        token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.XbPfbIHMI6arZ3Y922BhjWgQzWXcXNrz0ogtVhfEd2o";
-        Integer account_id = 0;
-        String account_username = "";
-        String account_role = "";
-        // Verify if all information are consistant2
+    public User login(String username, String password) throws Exception {
+
+        HashMap<String, String> data = new HashMap<>();
+        data.put("username", username);
+        data.put("password", password);
+        String payload = new Gson().toJson(data);
+        System.out.println(payload);
+
+        Content response = Request.Post(server + "/auth/login")
+                .bodyString(payload, ContentType.APPLICATION_JSON)
+                .execute()
+                .returnContent();
+
+        System.out.println(response.toString());
+
+        ServerLoginResponse reponseObject = ServerLoginResponse.fromJson(response.toString());
+
+        System.out.println(reponseObject.token);
+        System.out.println(reponseObject.account.id);
+        System.out.println(reponseObject.account.username);
+        System.out.println(reponseObject.account.role);
+
         JWTVerifier verifier = JWT.require(algorithm)
                 .withIssuer(issuer)
-                .withSubject(account_id.toString())
+                .withSubject(reponseObject.account.username)
                 .build(); //Reusable verifier instance
-        DecodedJWT jwt = verifier.verify(token);
-        return login(token);
+        verifier.verify(reponseObject.token);
+
+        User user = login(reponseObject.token);
+
+        if (!user.getRole().equals(reponseObject.account.role)) {
+            throw new Exception("Authentication server error");
+        }
+
+
+        return user;
+
     }
     
     public int register() {
