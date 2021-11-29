@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
-import java.util.List;
 
 @Service
 @Transactional
@@ -27,4 +25,8 @@ public class UserService {
     public User getByUsername(String username){
         return repository.findByUsername(username);
     }
+
+    public User addUser(User user){ return repository.save(user);}
+
+    public void delete(Integer id){repository.deleteById(id);}
 }

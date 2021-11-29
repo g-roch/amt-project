@@ -62,6 +62,7 @@ public class AuthController {
         response.sendRedirect("/");
         return "login ok";
     }
+
     // Affichage formulaire de login
     @GetMapping("/auth/logout")
     @ResponseBody
@@ -85,4 +86,20 @@ public class AuthController {
         User login = provider.login(jwt);
         return login.getRole();
     }
+
+    // Affichage formulaire d'inscription
+    @GetMapping("/auth/signup")
+    public String sign_up(Model model) {
+        return "signup_form";
+    }
+
+
+    // Process du formulaire d'inscription
+    @PostMapping("/auth/signup_perform")
+    @ResponseBody
+    public String signup_perform(@ModelAttribute T t, HttpServletResponse response, Model model) throws IOException {
+        
+        return "signup ok";
+    }
+
 }
