@@ -2,8 +2,10 @@ package com.amt.app.controllers;
 
 import com.amt.app.auth.Provider;
 import com.amt.app.auth.User;
+import com.amt.app.service.UserService;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,9 @@ public class AuthController {
 //    public void setArticleService(ArticleService articleService){
 //        this.service = articleService;
 //    }
+
+    @Autowired
+    private UserService service;
 
     // Affichage formulaire de login
     @GetMapping("/auth/login")
@@ -43,7 +48,7 @@ public class AuthController {
         Provider provider;
         User login;
         try {
-            provider = new Provider("HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+            provider = new Provider(service, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
             login = provider.login(t.getUsername(), t.getPassword());
         } catch (Exception e) {
             response.sendRedirect("/auth?error=");
@@ -76,7 +81,7 @@ public class AuthController {
     @GetMapping("/auth/role")
     @ResponseBody
     public String check_role(@CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
-        Provider provider = new Provider("HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+        Provider provider = new Provider(service, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
         User login = provider.login(jwt);
         return login.getRole();
     }

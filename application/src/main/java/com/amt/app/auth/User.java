@@ -1,6 +1,6 @@
 package com.amt.app.auth;
 
-
+import com.amt.app.service.UserService;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
@@ -25,10 +25,11 @@ public class User {
     @Getter
     private String jwt;
 
-    public static User fromJson(String jwt, String payload) {
+    public static User fromJson(String jwt, String payload, UserService service) {
         Gson gson = new Gson();
         User user = gson.fromJson(payload, User.class);
         user.jwt = jwt;
+        user.id = service.getByUsername(user.username).getId();
         return user;
     }
     public static User guest() {

@@ -17,7 +17,7 @@ public class AuthTest {
     //private ArticleController controller;
     //@Autowired
     //private ArticleService service;
-
+/*
     @Test
     public void expiredToken() throws Exception {
         Provider provider = new Provider("HS256", "secret", "IICT", "");
@@ -47,5 +47,5 @@ public class AuthTest {
         assertNull(user.getId());
     }
 
-
+*/
 }

@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `amt_pianorgue`.`article` (
   `price` DECIMAL(10,2) NULL DEFAULT NULL,
   `description` TEXT NOT NULL,
   `image` VARCHAR(255) NULL DEFAULT NULL,
-  `stock` INT UNSIGNED NOT NULL,
+  `stock` INT UNSIGNED NOT NULL,user
   PRIMARY KEY (`id`)
 ) ENGINE=INNODB;
   
@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS `amt_pianorgue`.`article_category` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `amt_pianorgue`.`user` (
   `id` INT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+  `username` VARCHAR(255) NOT NULL UNIQUE,
   PRIMARY KEY (`id`)
 ) ENGINE=INNODB;
 
