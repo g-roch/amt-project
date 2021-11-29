@@ -139,10 +139,14 @@ p {
      margin: 0;
      padding: 0;
 }
+
+ /**
  .form-control:focus {
      border-color: #ffffff !important;
      box-shadow: 0 0 0 .2rem rgba(255, 255, 255, .25);
 }
+  */
+
  .navbar-form input {
      border: none !important;
 }
@@ -1650,6 +1654,8 @@ p {
      padding-bottom: 0px;
      font-weight: bold;
 }
+
+ /**
 .form-control {
     border: none;
     margin: 10px 0;
@@ -1662,10 +1668,14 @@ p {
     max-width: 568px;
     width: 100%;
 }
+
 .form-control:focus, .form-control:hover {
      border: none !important;
      background: #282e40;
 }
+
+  */
+
 .textarea {
     margin-bottom: 37px;
     padding: 25px 25px;
