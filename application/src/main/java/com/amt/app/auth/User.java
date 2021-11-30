@@ -9,25 +9,20 @@ import lombok.Setter;
 public class User {
 
     @Getter
-    @Setter
     private Integer id;
 
     @Getter
-    @Setter
     @SerializedName("sub")
     private String username;
 
     @Getter
-    @Setter
     private String role;
 
     @Getter
-    @Setter
     @SerializedName("iss")
     private String issuer;
 
     @Getter
-    @Setter
     private String jwt;
 
     public static User fromJson(String jwt, String payload, UserService service) {

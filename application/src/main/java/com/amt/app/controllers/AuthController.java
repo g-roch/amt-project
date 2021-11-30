@@ -98,7 +98,7 @@ public class AuthController {
     @PostMapping("/auth/signup_perform")
     @ResponseBody
     public String signup_perform(@ModelAttribute T t, HttpServletResponse response, Model model) throws IOException {
-        
+
         return "signup ok";
     }
 
