@@ -1,6 +1,8 @@
 package com.amt.app.controllers;
 
 
+import com.amt.app.auth.Provider;
+import com.amt.app.auth.User;
 import com.amt.app.entities.Article;
 import com.amt.app.repository.ArticleRepository;
 import com.amt.app.service.ArticleService;
@@ -48,11 +50,23 @@ public class ArticleController {
 
     // Formulaire pour la création d'article
     @GetMapping("/createArticle")
-    public String createArticle(Model model){
-        Article article = new Article();
-        model.addAttribute("article", article);
+    public String createArticle(Model model,@CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
+        Provider provider = new Provider("HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+        User login = provider.login(jwt);
+        System.out.println("role: " + login.getRole());
+        String return_page = "";
 
-        return "article_formular";
+        //Si l'utilisateur n'a pas le rôle administrateur il est redirigé sur une page d'erreur
+        if(login.getRole() == "guest" || login.getRole() == "user"){
+            model.addAttribute("error_message", "Vous n'avez pas les droits nécessaires pour accéder à cette page");
+            return_page = "error";
+        }else{
+            Article article = new Article();
+            model.addAttribute("article", article);
+
+            return_page = "article_formular";
+        }
+        return return_page;
     }
 
     // Success page quand l'article à été crée
