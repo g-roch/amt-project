@@ -83,14 +83,23 @@
                 </div>
             </div>
             <div class="col">
-                <div class="row">
+                <div class="row" th:if="${article.price == null}">
+                    <button type="button" class="btn btn-primary mb-3" disabled>Bientôt en vente</button>
+                </div>
+                <div class="row" th:if="${article.price != null}">
                     <h2 class="font-weight-bold" th:text="${article.price} + ' CHF'">Price</h2>
                 </div>
-                <div class="row">
+                <div class="row" th:if="${article.stock == 0}">
+                    <button type="button" class="btn btn-danger" disabled>Indisponible</button>
+                </div>
+                <div class="row" th:if="${article.stock != 0}">
                     <p th:text="${article.stock} + ' en stock'">Stock</p>
                 </div>
-                <div class="row mt-5">
-                    <button type="button" class="btn btn-lg btn-dark">Ajouter au panier</button>
+                <div class="row mt-5" th:if="${article.stock != 0}">
+                    <button type="button" class="btn btn-lg btn-dark" th:classappend="${article.price == null} ? 'disabled' : ''">Ajouter au panier</button>
+                </div>
+                <div class="row mt-5" th:if="${article.stock == 0}">
+                    <p>Cet article n'est pas disponible actuellement</p>
                 </div>
             </div>
         </div>

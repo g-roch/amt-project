@@ -88,14 +88,20 @@
                     <div class="row">
                         <h3 class="font-weight-bold m-0" th:text="${article.name}">Name</h3>
                     </div>
-                    <div class="row">
+                    <div class="row mt-3" th:if="${article.stock == 0}">
+                        <button type="button" class="btn btn-sm btn-danger" disabled>Indisponible</button>
+                    </div>
+                    <div class="row" th:if="${article.stock != 0}">
                         <p th:text="${article.stock} + ' en stock'">Stock</p>
                     </div>
                 </a>
             </div>
             <div class="col-md-2 pt-2">
-                <div class="row">
-                    <p class="font-weight-bold" th:text="${article.price} + ' CHF'">Price</p>
+                <div class="row" th:if="${article.price == null}">
+                    <button type="button" class="btn btn-sm btn-primary" disabled>Bientôt en vente</button>
+                </div>
+                <div class="row" th:if="${article.price != null}">
+                    <h2 class="font-weight-bold" th:text="${article.price} + ' CHF'">Price</h2>
                 </div>
             </div>
         </div>
