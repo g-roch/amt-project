@@ -1,5 +1,6 @@
 package com.amt.app.auth;
 
+import com.amt.app.service.UserService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
@@ -17,19 +18,21 @@ import java.util.HashMap;
 
 public class Provider {
 
+    private final UserService service;
     private final Algorithm algorithm;
     private final String issuer;
     private final JWTVerifier verifier;
     private final String server;
 
-    public Provider(String algorithm, String secret, String issuer, String server) throws Exception {
-        this(algorithm, secret.getBytes(), issuer, server);
+    public Provider(UserService service,String algorithm, String secret, String issuer, String server) throws Exception {
+        this(service, algorithm, secret.getBytes(), issuer, server);
     }
-    public Provider(String algorithm, byte[] secret, String issuer, String server) throws Exception {
+    public Provider(UserService service,String algorithm, byte[] secret, String issuer, String server) throws Exception {
         if (!algorithm.equals("HS256")) {
             throw new Exception("Only HS256 algorithm is supported");
         }
         this.algorithm = Algorithm.HMAC256(secret);
+        this.service = service;
         this.issuer = issuer;
         this.verifier = JWT.require(this.algorithm)
                 .withIssuer(this.issuer)
@@ -42,7 +45,7 @@ public class Provider {
             return User.guest();
         } else {
             DecodedJWT jwt = verifier.verify(token);
-            return User.fromJson(token, new String(Base64.getDecoder().decode(jwt.getPayload())));
+            return User.fromJson(token, new String(Base64.getDecoder().decode(jwt.getPayload())), service);
         }
     }
     public User login(String username, String password) throws Exception {
@@ -70,7 +73,6 @@ public class Provider {
         if (!user.getRole().equals(reponseObject.getAccount().getRole())) {
             throw new Exception("Authentication server error");
         }
-
 
         return user;
 
