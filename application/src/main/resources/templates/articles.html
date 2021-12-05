@@ -69,6 +69,12 @@
 <div  class="container" align="center">
     <h1 class="mb-3">Article List</h1>
 
+    <div class="row mb-3">
+        <button type="button" class="btn btn-sm btn-secondary">Prix croissant</button>
+    </div>
+
+    <!-- Lien pour le tri en thymeleaf mais fonctionen pas : https://frontbackend.com/thymeleaf/thymeleaf-utility-methods-for-lists -->
+
     <div th:if="${listArticles.empty}">
         <p>There is no articles</p>
     </div>
