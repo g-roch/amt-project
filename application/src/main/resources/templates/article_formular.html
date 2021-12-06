@@ -108,11 +108,9 @@
     </div>
 </div>
 
-<div>
-    <div th:if="${articleExistant != null}">
-        <h1>Un article avec ce nom existe deja</h1></br>
-        <a th:href="@{/article/{id}(id=${articleExistant.id})}">Article existant</a>
-    </div>
+<div class="col mb-5" align="center" th:if="${articleExistant != null}">
+    <h2>Un article avec ce nom existe deja</h2>
+    <button type="button" class="btn btn-outline-info"><a th:href="@{/article/{id}(id=${articleExistant.id})}">Article existant</a></button>
 </div>
 
 
