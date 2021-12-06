@@ -29,7 +29,6 @@ public class MainController {
     public String showAdmin(Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
         User login = provider.login(jwt);
-        System.out.println("role: " + login.getRole());
         String return_page = "";
 
         //Si l'utilisateur n'a pas le rôle administrateur il est redirigé sur une page d'erreur

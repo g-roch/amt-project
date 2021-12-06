@@ -52,8 +52,10 @@
                                     <ul class="menu-area-main">
                                         <li class="active"><a href="/">Accueil</a></li>
                                         <li><a href="/articles">Nos produits</a></li>
-                                        <li><a href="/auth">Login / Logout</a></li>
+                                        <li th:if="${login.getRole().equals('guest')}"><a href="/auth/login">Login</a></li>
+                                        <li th:unless="${login.getRole().equals('guest')}"><a href="/auth/logout">Logout</a></li>
                                         <li><a href="/cart"><i class="fa fa-shopping-basket"></i> Panier</a></li>
+                                        <li th:if="${login.getRole().equals('admin')}"><a href="/admin">Admin</a></li>
                                     </ul>
                                 </nav>
                             </div>
