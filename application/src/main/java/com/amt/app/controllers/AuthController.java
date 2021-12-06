@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Base64;
 
 @Controller
 public class AuthController {
@@ -34,17 +33,25 @@ public class AuthController {
         return "login_form";
     }
 
-    static class T {
-        @Getter @Setter
+    // Affichage formulaire de login
+    @GetMapping("/auth")
+    public String login2(Model model) {
+        return "login_form";
+    }
+
+    static class UserLogin {
+        @Getter
+        @Setter
         String username;
-        @Getter @Setter
+        @Getter
+        @Setter
         String password;
     }
-    
+
     // Affichage formulaire de login
     @PostMapping("/auth/perform")
     @ResponseBody
-    public String login_perform(@ModelAttribute T t, HttpServletResponse response, Model model) throws IOException {
+    public String login_perform(@ModelAttribute UserLogin t, HttpServletResponse response, Model model) throws IOException {
         Provider provider;
         User login;
         try {
@@ -66,7 +73,7 @@ public class AuthController {
     // Affichage formulaire de login
     @GetMapping("/auth/logout")
     @ResponseBody
-    public String login_perform(HttpServletResponse response, Model model) throws IOException {
+    public String logout_perform(HttpServletResponse response, Model model) throws IOException {
         Provider provider;
         Cookie jwt = new Cookie("jwt", "");
         jwt.setPath("/");
@@ -94,12 +101,36 @@ public class AuthController {
     }
 
 
+    static class UserRegister {
+        @Getter
+        @Setter
+        String username;
+        @Getter
+        @Setter
+        String password;
+        @Getter
+        @Setter
+        String password_confirm;
+    }
+
     // Process du formulaire d'inscription
     @PostMapping("/auth/signup_perform")
-    @ResponseBody
-    public String signup_perform(@ModelAttribute T t, HttpServletResponse response, Model model) throws IOException {
-
-        return "signup ok";
+    public String signup_perform(@ModelAttribute UserRegister t, HttpServletResponse response, Model model) throws Exception {
+        Provider provider = new Provider(service, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+        if (t.getPassword().equals(t.getPassword_confirm())) {
+            // process
+            try {
+              provider.register(t.getUsername(), t.getPassword());
+              response.sendRedirect("/auth/login");
+              return "login_form";
+            } catch(Exception e) {
+                model.addAttribute("error_message", "Echec de l'enregistrement du compte");
+                return "error";
+            }
+        } else {
+            model.addAttribute("error_message", "Le mot de passe et sa confirmation ne corresponds pas");
+            return "error";
+        }
     }
 
 }
