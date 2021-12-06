@@ -19,8 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /* Model sert à transmettre une variable dans la page html */
 
@@ -35,7 +34,25 @@ public class ArticleController {
     public String showArticles(Model model){
         List<Article> listArticles = service.listAll();
         model.addAttribute("listArticles", listArticles);
+        return "articles";
+    }
 
+    @PostMapping("/articles")
+    public String updateArticles(@RequestParam(value = "filter_value") int filter_value, Model model){
+
+        List<Article> listArticles = service.listAll();
+        List<Article> removeList = new ArrayList<Article>();
+
+        if(filter_value != 0){
+            for(Article article: listArticles){
+                if(article.getPrice() == null || article.getPrice() < filter_value){
+                    removeList.add(article);
+                }
+            }
+            listArticles.removeAll(removeList);
+        }
+
+        model.addAttribute("listArticles", listArticles);
         return "articles";
     }
 
@@ -117,7 +134,4 @@ public class ArticleController {
 
         return "article_success";
     }
-
-
-
 }

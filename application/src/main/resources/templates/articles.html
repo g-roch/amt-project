@@ -68,8 +68,19 @@
 
 <div  class="container" align="center">
     <h1 class="mb-3">Article List</h1>
+    <div class="row mb-3">
+        <form th:action="@{/articles}" method="post">
+            <select th:name="filter_value">
+                <option value="0" th:text="Défaut"></option>
+                <option value="500" th:text="500"></option>
+                <option value="1000" th:text="1000"></option>
+                <option value="2000" th:text="2000"></option>
+            </select>
+            <button name="submit" type="submit" class="btn btn-secondary">Filtrer</button>
+        </form>
+    </div>
 
-    <div th:if="${listArticles.empty}">
+    <div class="mb-5" th:if="${listArticles.empty}">
         <p>There is no articles</p>
     </div>
 

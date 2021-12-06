@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS `amt_pianorgue`.`article_category` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `amt_pianorgue`.`user` (
   `id` INT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+  `username` VARCHAR(255) NOT NULL UNIQUE,
   PRIMARY KEY (`id`)
 ) ENGINE=INNODB;
 
