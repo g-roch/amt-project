@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <title>Article formular</title>
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <!-- style css -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Responsive-->
+    <link rel="stylesheet" href="../css/responsive.css">
+    <!-- fevicon -->
+    <link rel="icon" href="../images/logo.png" type="image/gif" />
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="../css/jquery.mCustomScrollbar.min.css">
+
+    <!-- Javascript files-->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/plugin.js"></script>
+    <script src="../js/jquery-3.0.0.min.js"></script>
+
+    <!-- sidebar -->
+    <script src="../js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="../js/custom.js"></script>
+</head>
+<body>
+<!-- header -->
+<header id="home">
+    <!-- header inner -->
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
+                    <div class="full">
+                        <div class="center-desk">
+                            <div class="logo"> <a href="/"><img src="../images/logo.png" alt="#"></a> </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
+                    <div class="menu-area">
+                        <div class="limit-box">
+                            <nav class="main-menu">
+                                <ul class="menu-area-main">
+                                    <li class="active"><a href="/">Accueil</a></li>
+                                    <li><a href="/articles">Nos produits</a></li>
+                                    <li><a href="/auth/login">Login</a></li>
+                                    <li><a href="/auth/logout">Logout</a></li>
+                                    <li><a href="/cart"><i class="fa fa-shopping-basket"></i> Panier</a></li>
+                                    <li><a href="/admin">Admin</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end header inner -->
+</header>
+<!-- end header -->
+
+<div class="row mb-5 pt-5 border-top">
+    <div class="col-md-8 mx-auto pl-5 pr-5">
+        <form action="#" th:action="@{/createArticle}" method="post" th:object="${article}" enctype="multipart/form-data">
+            <h1 align="center">Creation d'un article</h1>
+
+            <div class="form-group">
+                <label>Nom</label>
+                <input type="text" class="form-control" th:field="*{name}" placeholder="Nom de l'article">
+                <p th:if="${#fields.hasErrors('name')}" th:class="${#fields.hasErrors('name')}? error">Nom invalide</p>
+            </div>
+
+            <div class="form-group">
+                <label>Prix</label>
+                <input type="text" class="form-control" th:field="*{price}" placeholder="Prix de l'article">
+                <p  th:if="${#fields.hasErrors('price')}" th:class="${#fields.hasErrors('price')}? error">Prix invalide</p>
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                <input type="text" class="form-control" th:field="*{description}" placeholder="Description de l'article">
+                <p  th:if="${#fields.hasErrors('description')}" th:class="${#fields.hasErrors('description')}? error">Description invalide</p>
+            </div>
+
+            <div class="form-group">
+                <label>Quantité</label>
+                <input type="text" class="form-control" th:field="*{stock}" placeholder="Quantité de l'article">
+                <p  th:if="${#fields.hasErrors('stock')}" th:class="${#fields.hasErrors('stock')}? error">Quantité invalide</p>
+            </div>
+
+            <div class="form-group">
+                <label>Image</label>
+                <input type="file" class="form-control-file" name="file" accept="image/*, .png, .jpg, .jpeg">
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Créer l'article</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="col mb-5" align="center" th:if="${articleExistant != null}">
+    <h2>Un article avec ce nom existe deja</h2>
+    <button type="button" class="btn btn-outline-info"><a th:href="@{/article/{id}(id=${articleExistant.id})}">Article existant</a></button>
+</div>
+
+
+
+
+</body>
+</html>

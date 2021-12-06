@@ -3,11 +3,11 @@
 ---------------------------------------------------------------------*/
 
 .nice-select {
+  display: none;
   background-color: #f6f6f6;
   border-radius: 0;
   box-sizing: border-box;
   clear: both;
-  display: block;
   float: left;
   height: auto;
   outline: none;
@@ -31,10 +31,10 @@
 }
 
 .nice-select:after {
+  display: none;
   border-bottom: 2px solid #999;
   border-right: 2px solid #999;
   content: '';
-  display: block;
   height: 5px;
   margin-top: -4px;
   pointer-events: none;

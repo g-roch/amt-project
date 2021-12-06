@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <title>Pianorgue</title>
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- style css -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Responsive-->
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- fevicon -->
+    <link rel="icon" href="../images/logo.png" type="image/gif" />
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+
+    <!-- Javascript files-->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/plugin.js"></script>
+    <script src="js/jquery-3.0.0.min.js"></script>
+
+    <!-- sidebar -->
+    <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="js/custom.js"></script>
+</head>
+<!-- body -->
+<body>
+<!-- header -->
+<header id="home">
+    <!-- header inner -->
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
+                    <div class="full">
+                        <div class="center-desk">
+                            <div class="logo"> <a href="/"><img src="../images/logo.png" alt="#"></a> </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
+                    <div class="menu-area">
+                        <div class="limit-box">
+                            <nav class="main-menu">
+                                <ul class="menu-area-main">
+                                    <li class="active"><a href="/">Accueil</a></li>
+                                    <li><a href="/articles">Nos produits</a></li>
+                                    <li><a href="/auth">Login / Logout</a></li>
+                                    <li><a href="/cart"><i class="fa fa-shopping-basket"></i> Panier</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end header inner -->
+</header>
+<!-- end header -->
+
+<div  class="container" align="center">
+    <h1 class="mb-3">Article List</h1>
+    <div class="row mb-3">
+        <form th:action="@{/articles}" method="post">
+            <select th:name="filter_value">
+                <option value="0" th:text="Défaut"></option>
+                <option value="500" th:text="500"></option>
+                <option value="1000" th:text="1000"></option>
+                <option value="2000" th:text="2000"></option>
+            </select>
+            <button name="submit" type="submit" class="btn btn-secondary">Filtrer</button>
+        </form>
+    </div>
+
+    <div class="mb-5" th:if="${listArticles.empty}">
+        <p>There is no articles</p>
+    </div>
+
+    <div th:if="${not listArticles.empty}">
+        <div class="row mb-4 mr-5 w-75 bg-light articleBox" th:each="article : ${listArticles}">
+            <div class="col">
+                <div class="row" th:if="${article.image == 'default.png'}">
+                    <img th:src="@{${'../images/' + article.image}}" width="200"/>
+                </div>
+                <div class="row" th:if="${article.image != 'default.png'}">
+                    <img th:src="@{${article.getPhotosImagePath()}}" width="200"/>
+                </div>
+            </div>
+            <div class="col pt-2">
+                <a th:href="@{/article/{id}(id=${article.id})}">
+                    <div class="row">
+                        <h3 class="font-weight-bold m-0" th:text="${article.name}">Name</h3>
+                    </div>
+                    <div class="row mt-3" th:if="${article.stock == 0}">
+                        <button type="button" class="btn btn-sm btn-danger" disabled>Indisponible</button>
+                    </div>
+                    <div class="row" th:if="${article.stock != 0}">
+                        <p th:text="${article.stock} + ' en stock'">Stock</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-2 pt-2">
+                <div class="row" th:if="${article.price == null}">
+                    <button type="button" class="btn btn-sm btn-primary" disabled>Bientôt en vente</button>
+                </div>
+                <div class="row" th:if="${article.price != null}">
+                    <h2 class="font-weight-bold" th:text="${article.price} + ' CHF'">Price</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- footer -->
+<footer>
+    <div class="footer layout_padding">
+        <div class="container text_align_center" >
+            <h3>Notre magasin</h3>
+            <h4>Route de Cheseaux 1, CH-1401 Yverdon-les-Bains, Suisse</h4>
+            <br><br>
+            <h4>+41 (0)24 557 63 30</h4>
+            <br><br>
+            <h4>demo@heig-vd.ch</h4>
+        </div>
+    </div>
+    <div class="copyright">
+        <div class="container">
+            <p>Copyright 2019 All Right Reserved By <a href="https://html.design/">Free html Templates</a></p>
+        </div>
+    </div>
+</footer>
+<!-- end footer -->
+</body>
+
+</html>
