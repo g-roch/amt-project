@@ -49,23 +49,15 @@
                     <div class="menu-area">
                         <div class="limit-box">
                             <nav class="main-menu">
-                                <div th:if="${login.getRole() == 'guest'} or ${login.getRole() == 'user'}">
+                                <div>
                                     <ul class="menu-area-main">
                                         <li class="active"><a href="/">Accueil</a></li>
                                         <li><a href="/articles">Nos produits</a></li>
-                                        <li><a href="/auth/login">Login</a></li>
-                                        <li><a href="/auth/logout">Logout</a></li>
+                                        <li th:if="${login.getRole().equals('guest')}"><a href="/auth/signup">Register</a></li>
+                                        <li th:if="${login.getRole().equals('guest')}"><a href="/auth/login">Login</a></li>
+                                        <li th:unless="${login.getRole().equals('guest')}"><a href="/auth/logout">Logout</a></li>
                                         <li><a href="/cart"><i class="fa fa-shopping-basket"></i> Panier</a></li>
-                                    </ul>
-                                </div>
-                                <div th:unless="${login.getRole() == 'guest'} or ${login.getRole() == 'user'}">
-                                    <ul class="menu-area-main">
-                                        <li class="active"><a href="/">Accueil</a></li>
-                                        <li><a href="/articles">Nos produits</a></li>
-                                        <li><a href="/auth/login">Login</a></li>
-                                        <li><a href="/auth/logout">Logout</a></li>
-                                        <li><a href="/cart"><i class="fa fa-shopping-basket"></i> Panier</a></li>
-                                        <li><a href="/admin">Admin</a></li>
+                                        <li th:if="${login.getRole().equals('admin')}"><a href="/admin">Admin</a></li>
                                     </ul>
                                 </div>
                             </nav>
