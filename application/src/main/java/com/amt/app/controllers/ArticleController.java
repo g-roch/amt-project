@@ -57,7 +57,7 @@ public class ArticleController {
         String return_page = "";
 
         //Si l'utilisateur n'a pas le rôle administrateur il est redirigé sur une page d'erreur
-        if(login.getRole() == "guest" || login.getRole() == "user"){
+        if(!login.getRole().equals("admin")){
             model.addAttribute("error_message", "Vous n'avez pas les droits nécessaires pour accéder à cette page");
             return_page = "error";
         }else{
