@@ -6,6 +6,7 @@ import com.amt.app.auth.User;
 import com.amt.app.entities.Article;
 import com.amt.app.repository.ArticleRepository;
 import com.amt.app.service.ArticleService;
+import com.amt.app.service.UserService;
 import com.amt.app.utils.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,6 +29,8 @@ public class ArticleController {
 
     @Autowired
     private ArticleService service;
+    @Autowired
+    private UserService userService;
 
     // Affichage de tous les articles disponibles
     @GetMapping("/articles")
@@ -68,7 +71,7 @@ public class ArticleController {
     // Formulaire pour la création d'article
     @GetMapping("/createArticle")
     public String createArticle(Model model,@CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
-        Provider provider = new Provider("HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
         User login = provider.login(jwt);
         System.out.println("role: " + login.getRole());
         String return_page = "";
