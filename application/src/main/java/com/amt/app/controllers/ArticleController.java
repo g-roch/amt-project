@@ -34,14 +34,21 @@ public class ArticleController {
 
     // Affichage de tous les articles disponibles
     @GetMapping("/articles")
-    public String showArticles(Model model){
+    public String showArticles(Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
+        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+        User login = provider.login(jwt);
+        model.addAttribute("login", login);
+
         List<Article> listArticles = service.listAll();
         model.addAttribute("listArticles", listArticles);
         return "articles";
     }
 
     @PostMapping("/articles")
-    public String updateArticles(@RequestParam(value = "filter_value") int filter_value, Model model){
+    public String updateArticles(@RequestParam(value = "filter_value") int filter_value, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
+        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+        User login = provider.login(jwt);
+        model.addAttribute("login", login);
 
         List<Article> listArticles = service.listAll();
         List<Article> removeList = new ArrayList<Article>();
@@ -61,7 +68,11 @@ public class ArticleController {
 
     // Affichage d'un article selon son ID
     @GetMapping("/article/{id}")
-    public String showArticleById(@PathVariable int id, Model model){
+    public String showArticleById(@PathVariable int id, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
+        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+        User login = provider.login(jwt);
+        model.addAttribute("login", login);
+
         Article article =  service.get(id);
         model.addAttribute("article", article);
 
