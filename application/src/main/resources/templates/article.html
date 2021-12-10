@@ -105,7 +105,15 @@
                     <p>Cet article n'est pas disponible actuellement</p>
                 </div>
             </div>
+
         </div>
+
+        <p>Catégories :</p>
+        <div th:each="categorie : ${article.categories}">
+            <a th:text="${categorie.name}"></a>
+        </div>
+
+
     </div>
 
     <!-- footer -->

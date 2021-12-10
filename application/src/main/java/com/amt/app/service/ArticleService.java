@@ -1,6 +1,7 @@
 package com.amt.app.service;
 
 import com.amt.app.entities.Article;
+import com.amt.app.entities.Category;
 import com.amt.app.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

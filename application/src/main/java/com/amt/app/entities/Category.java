@@ -4,8 +4,10 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.List;
 
-@Entity //indique que c'est une identité JPA. Article est map à une table nommée 'Article'
+@Entity
 @Table(name = "category")
 @Validated
 public class Category {
@@ -19,6 +21,27 @@ public class Category {
     @Column(name="name", unique = true)
     private String name;
 
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "article_category",
+            joinColumns = @JoinColumn(name = "categoryid"),
+            inverseJoinColumns = @JoinColumn(name = "articleid")
+    )
+    private List<Article> articles = new ArrayList<>();
+
+    public void addOneArticle(Article article){
+        this.articles.add(article);
+    }
+
+    public List<Article> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
+    }
 
     public int getId() {
         return id;

@@ -9,6 +9,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity //indique que c'est une identité JPA. Article est map à une table nommée 'Article'
 @Table(name = "article")
@@ -35,6 +37,9 @@ public class Article {
     @Min(0)
     private int stock;
 
+    @ManyToMany(mappedBy = "articles")
+    private List<Category> categories = new ArrayList<>();
+
     public Article() {
     }
 
@@ -43,6 +48,14 @@ public class Article {
         if (image == null) return null;
 
         return "/article-photos/" + id + "/" + image;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
     public int getId() {
