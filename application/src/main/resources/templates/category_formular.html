@@ -51,10 +51,11 @@
                                 <ul class="menu-area-main">
                                     <li class="active"><a href="/">Accueil</a></li>
                                     <li><a href="/articles">Nos produits</a></li>
-                                    <li><a href="/auth/login">Login</a></li>
-                                    <li><a href="/auth/logout">Logout</a></li>
+                                    <li th:if="${login.getRole().equals('guest')}"><a href="/auth/signup">Register</a></li>
+                                    <li th:if="${login.getRole().equals('guest')}"><a href="/auth/login">Login</a></li>
+                                    <li th:unless="${login.getRole().equals('guest')}"><a href="/auth/logout">Logout</a></li>
                                     <li><a href="/cart"><i class="fa fa-shopping-basket"></i> Panier</a></li>
-                                    <li><a href="/admin">Admin</a></li>
+                                    <li th:if="${login.getRole().equals('admin')}"><a href="/admin">Admin</a></li>
                                 </ul>
                             </nav>
                         </div>
@@ -69,50 +70,27 @@
 
 <div class="row mb-5 pt-5 border-top">
     <div class="col-md-8 mx-auto pl-5 pr-5">
-        <form action="#" th:action="@{/createArticle}" method="post" th:object="${article}" enctype="multipart/form-data">
-            <h1 align="center">Creation d'un article</h1>
+        <form action="#" th:action="@{/createCategory}" method="post" th:object="${category}">
+            <h1 align="center">Creation d'une categorie</h1>
 
             <div class="form-group">
                 <label>Nom*</label>
-                <input type="text" class="form-control" th:field="*{name}" placeholder="Nom de l'article">
+                <input type="text" class="form-control" th:field="*{name}" placeholder="Nom de le categorie">
                 <p th:if="${#fields.hasErrors('name')}" th:class="${#fields.hasErrors('name')}? error">Nom invalide</p>
             </div>
 
-            <div class="form-group">
-                <label>Prix</label>
-                <input type="text" class="form-control" th:field="*{price}" placeholder="Prix de l'article">
-                <p  th:if="${#fields.hasErrors('price')}" th:class="${#fields.hasErrors('price')}? error">Prix invalide</p>
-            </div>
-
-            <div class="form-group">
-                <label>Description*</label>
-                <input type="text" class="form-control" th:field="*{description}" placeholder="Description de l'article">
-                <p  th:if="${#fields.hasErrors('description')}" th:class="${#fields.hasErrors('description')}? error">Description invalide</p>
-            </div>
-
-            <div class="form-group">
-                <label>Quantité*</label>
-                <input type="text" class="form-control" th:field="*{stock}" placeholder="Quantité de l'article">
-                <p  th:if="${#fields.hasErrors('stock')}" th:class="${#fields.hasErrors('stock')}? error">Quantité invalide</p>
-            </div>
-
-            <div class="form-group">
-                <label>Image</label>
-                <input type="file" class="form-control-file" name="file" accept="image/*, .png, .jpg, .jpeg">
+            <div class="col mb-5" align="center" th:if="${categoryExists}">
+                <h2 class="text-danger">Une categorie avec ce nom existe deja</h2>
             </div>
 
             <div class="text-center">
-                <button type="submit" class="btn btn-primary">Créer l'article</button>
+                <button type="submit" class="btn btn-primary">Créer la categorie</button>
             </div>
         </form>
     </div>
 </div>
-
-<div class="col mb-5" align="center" th:if="${articleExistant != null}">
-    <h2>Un article avec ce nom existe deja</h2>
-    <a class="btn btn-outline-info" th:href="@{/article/{id}(id=${articleExistant.id})}">Article existant</a>
+<div class="mb-5">
+    <p class="text-success" align="center">[[${sucessfulMessage}]]</p>
 </div>
-
-
 </body>
 </html>

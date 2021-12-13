@@ -30,13 +30,13 @@ CREATE TABLE IF NOT EXISTS `category` (
 -- Table `article_category`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `article_category` (
-  `articleId` INT UNSIGNED NOT NULL,
-  `categoryId` INT UNSIGNED NOT NULL,
-  CONSTRAINT `article_category_articleId`
-    FOREIGN KEY (`articleId`)
+  `articleid` INT UNSIGNED NOT NULL,
+  `categoryid` INT UNSIGNED NOT NULL,
+  CONSTRAINT `article_category_articleid`
+    FOREIGN KEY (`articleid`)
     REFERENCES `article` (`id`),
-  CONSTRAINT `article_category_categoryId`
-    FOREIGN KEY (`categoryId`)
+  CONSTRAINT `article_category_categoryid`
+    FOREIGN KEY (`categoryid`)
     REFERENCES `category` (`id`)
 ) ENGINE=INNODB;
 
@@ -53,26 +53,17 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Table `cart`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cart` (
-  `userId` INT UNSIGNED NOT NULL,
+  `userid` INT UNSIGNED NOT NULL,
   `quantity` INT UNSIGNED NOT NULL,
-  `articleId` INT UNSIGNED NOT NULL,
-  CONSTRAINT `cart_articleId`
-    FOREIGN KEY (`articleId`)
+  `articleid` INT UNSIGNED NOT NULL,
+  CONSTRAINT `cart_articleid`
+    FOREIGN KEY (`articleid`)
     REFERENCES `article` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
-  CONSTRAINT `cart_userId`
-    FOREIGN KEY (`userId`)
+  CONSTRAINT `cart_userid`
+    FOREIGN KEY (`userid`)
     REFERENCES `user` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT
 ) ENGINE=INNODB;
-
--- -----------------------------------------------------
--- Table `hibernate_sequence`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `hibernate_sequence` (
-  `next_val` BIGINT NULL DEFAULT NULL)
-ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci;
