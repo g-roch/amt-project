@@ -66,12 +66,12 @@
 </header>
 <!-- end header -->
 
-<div class="container">
-    <li><a href="/createArticle">Créer un article</a></li>
+<div class="container mb-2">
+    <a class="btn btn-outline-info" href="/createArticle">Créer un article</a>
 </div>
 
-<div class="container">
-    <li><a href="/createCategory">Créer une categorie</a></li>
+<div class="container mb-2">
+    <a class="btn btn-outline-info" href="/createCategory">Créer une categorie</a>
 </div>
 
 <div  class="container" align="center">
@@ -81,7 +81,7 @@
         <p>There is no articles</p>
     </div>
 
-    <div th:if="${not listArticles.empty}">
+    <div class="mb-5" th:if="${not listArticles.empty}">
         <div class="row mb-4 mr-5 w-75 bg-light articleBox" th:each="article : ${listArticles}">
             <div class="col">
                 <div class="row" th:if="${article.image == 'default.png'}">
@@ -112,32 +112,26 @@
                     <h2 class="font-weight-bold" th:text="${article.price} + ' CHF'">Price</h2>
                 </div>
             </div>
-
-
-            <form th:action="@{/admin}" method="post">
-                <input type="hidden" name="articleId" th:value="${article.id}"/>
-                <p>
-                    <label>Catégories :
+            <div class="col" align="left">
+                <p>Catégories : </p>
+                <form th:action="@{/admin}" method="post">
+                    <div>
+                        <input type="hidden" name="articleId" th:value="${article.id}"/>
                         <th:block th:each="categorie : ${listCategories}">
-                            <input type="checkbox" name="categorie" th:value="${categorie.id}"/>
-                            <label th:text="${categorie.name}"></label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="categorie" th:value="${categorie.id}"/>
+                                <label class="form-check-label" th:text="${categorie.name}"></label>
+                            </div>
                         </th:block>
-                    </label>
-                </p>
-                <p><input type="submit" value="Submit" />
-            </form>
-
+                        <input class="btn-sm btn-primary" type="submit" value="Ajouter" />
+                    </div>
+                </form>
+            </div>
         </div>
-
+        <div>
+            <p class="text-danger" align="center">[[${errorMessage}]]</p>
+        </div>
     </div>
 </div>
-
-<div>
-    <p>[[${errorMessage}]]</p>
-</div>
-
-
-
-
 </body>
 </html>
