@@ -1,29 +1,70 @@
 package com.amt.app.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.springframework.data.annotation.Id;
 
-@Entity //indique que c'est une identité JPA. Cart est map à une table nommée 'Cart'
+import javax.persistence.*;
 
+@Entity
+@Table(name = "cart")
 public class Cart {
 
-    @Id //identifie le champ comme la clé primaire de l'objet
-    private Integer userId;
-    private Integer quantity;
-    private Integer articleId;
+    @EmbeddedId
+    private CartId id;
 
-    public Cart() {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("articleId")
+    private Article article;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("userId")
+    private User user;
+
+    private int quantity;
+
+    public Cart(){
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Cart(Article article, User user, int quantity){
+        this.article = article;
+        this.user = user;
+        this.id = new CartId(user.getId(), article.getId());
+        this.quantity = quantity;
     }
-    public Integer getQuantity() {
+
+    public Article getArticle() {
+        return article;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public CartId getId() {
+        return id;
+    }
+
+    public void setId(CartId id) {
+        this.id = id;
+    }
+
+    public int getQuantity() {
         return quantity;
     }
-    public Integer getArticleId() {
-        return articleId;
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    @Override
+    public String toString() {
+        return "userId: " + id.getUserId() + ", articleId: " + id.getArticleId() + " ,quantity: " + quantity;
     }
 }
