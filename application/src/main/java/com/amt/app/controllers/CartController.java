@@ -34,7 +34,7 @@ public class CartController {
     private ArticleService articleService;
 
     @GetMapping("/cart")
-    public String showArticles(@PathVariable int id, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt, HttpSession session) throws Exception {
+    public String showArticles(Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt, HttpSession session) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
         User login = provider.login(jwt);
         model.addAttribute("login", login);
@@ -49,14 +49,9 @@ public class CartController {
         while (attributes.hasMoreElements()) {
             String attribute = (String) attributes.nextElement();
             System.out.println("truc " + attribute+" : "+ session.getAttribute(attribute));
+            listArticles.add((Article)session.getAttribute(attribute));
         }
         model.addAttribute("listArticles", listArticles);
-
-
-        Article article =  articleService.get(id);
-        model.addAttribute("article", article);
-
-        session.setAttribute(article.getName(),article);
 
         return "cart";
     }

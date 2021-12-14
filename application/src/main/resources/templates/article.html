@@ -99,8 +99,13 @@
                     <p th:text="${article.stock} + ' en stock'">Stock</p>
                 </div>
                 <div class="row mt-5" th:if="${article.stock != 0}">
-                    <button type="button"  th:onclick="@{/addArticle/{id}(id=${article.id})}" class="btn btn-lg btn-dark" th:classappend="${article.price == null} ? 'disabled' : ''">Ajouter au panier</button>
-                    <a th:href="@{/cart (id=${article.id})}">TEST </a>
+                    <form method="POST" th:action="@{/article/{id}(id=${article.id})}">
+                        <div class="form-group">
+                            <label>Quantité: </label>
+                            <input type="text" class="form-control" th:name="quantity"  placeholder="Quantité voulue">
+                        </div>
+                        <button type="submit" name="submit" value="calue" class="btn btn-lg btn-dark" th:classappend="${article.price == null} ? 'disabled' : ''">Ajouter au panier</button>
+                    </form>
                 </div>
                 <div class="row mt-5" th:if="${article.stock == 0}">
                     <p>Cet article n'est pas disponible actuellement</p>

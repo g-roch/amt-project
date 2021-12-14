@@ -79,7 +79,28 @@ public class ArticleController {
     }
 
 
+    @PostMapping(value="/article/{id}")
+    public String addArticleToCart(@RequestParam(value = "quantity") int quantity,@PathVariable int id,Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt, HttpSession session) throws Exception {
+        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+        User login = provider.login(jwt);
+        model.addAttribute("login", login);
 
+        Article article =  articleService.get(id);
+        int stock = article.getStock();
+        model.addAttribute("article", article);
+
+        if(stock >= quantity){
+            article.setStock(quantity);
+            session.setAttribute(article.getName(),article);
+        }else {
+            model.addAttribute("error_message", "Quantité d'articlés entrée plus grande que le nombre disponible en stock!");
+            return "error";
+        }
+
+        System.out.println("truc: " + session.getAttribute(article.getName()));
+
+        return "article_add_to_cart_success";
+    }
     // Formulaire pour la création d'article
     @GetMapping("/createArticle")
     public String showCreateArticle(Model model,@CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
