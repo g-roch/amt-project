@@ -89,12 +89,15 @@ public class ArticleController {
         int stock = article.getStock();
         model.addAttribute("article", article);
 
-        if(stock >= quantity){
-            article.setStock(quantity);
-            session.setAttribute(article.getName(),article);
-        }else {
+        if(quantity == 0){
+            model.addAttribute("error_message", "Vous ne pouvez pas ajouter 0 article à votre panier!");
+            return "error";
+        }else if(stock < quantity){
             model.addAttribute("error_message", "Quantité d'articlés entrée plus grande que le nombre disponible en stock!");
             return "error";
+        }else {
+            article.setStock(quantity);
+            session.setAttribute(article.getName(),article);
         }
 
         System.out.println("truc: " + session.getAttribute(article.getName()));
