@@ -75,7 +75,19 @@
 </div>
 
 <div  class="container" align="center">
+
     <h1 class="mb-3">Article List</h1>
+    <div class="row mb-3">
+        <form action="?filter" method="post">
+            <select th:name="filter_value">
+                <div class="row mb-4 mr-5 w-75 bg-light articleBox" th:each="categorie : ${listCategories}">
+                    <option th:text=${categorie.name}></option>
+
+                </div>
+            </select>
+            <button name="submit" type="submit" class="btn btn-secondary">Filtrer</button>
+        </form>
+    </div>
 
     <div class="mb-5" th:if="${listArticles.empty}">
         <p>There is no articles</p>
@@ -114,7 +126,7 @@
             </div>
             <div class="col" align="left">
                 <p>Catégories : </p>
-                <form th:action="@{/admin}" method="post">
+                <form action="?updateCat" method="post">
                     <div>
                         <input type="hidden" name="articleId" th:value="${article.id}"/>
                         <th:block th:each="categorie : ${listCategories}">

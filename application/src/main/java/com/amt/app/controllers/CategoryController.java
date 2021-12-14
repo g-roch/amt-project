@@ -28,7 +28,7 @@ public class CategoryController {
     private UserService userService;
 
 
-    // Formulaire pour la création de categorie
+    // Affichage de base
     @RequestMapping(method = RequestMethod.GET)
     public String showCreateCategory(Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
@@ -36,7 +36,7 @@ public class CategoryController {
         model.addAttribute("login", login);
         String return_page = "";
 
-
+        /*
         //Envoyer les différents attributs nécessaires à l'affichage
         Category category = new Category();
         model.addAttribute("category", category);
@@ -44,9 +44,9 @@ public class CategoryController {
         model.addAttribute("categories", categories);
         return_page = "category_formular";
         return return_page;
+        */
 
 
-        /*
         //Si l'utilisateur n'a pas le rôle administrateur il est redirigé sur une page d'erreur
         if(!login.getRole().equals("admin")){
             model.addAttribute("error_message", "Vous n'avez pas les droits nécessaires pour accéder à cette page");
@@ -58,9 +58,9 @@ public class CategoryController {
             return_page = "category_formular";
         }
         return return_page;
-         */
     }
 
+    //Delete une catégorie
     @RequestMapping(method = RequestMethod.POST, params = "delete")
     public String deleteCategory(@RequestParam("categoryId") int categoryId, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
@@ -85,6 +85,7 @@ public class CategoryController {
         return "category_formular";
     }
 
+    // Créer une catégorie
     @RequestMapping(method = RequestMethod.POST, params = "create")
     public String submitFormCategory(@Valid Category category, BindingResult result, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");

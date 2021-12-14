@@ -50,6 +50,7 @@ public class ArticleController {
         return "articles";
     }
 
+    // Filtre sur les article
     @PostMapping("/articles")
     public String updateArticles(@RequestParam(value = "filter_value") String filter_value, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
@@ -96,14 +97,13 @@ public class ArticleController {
         System.out.println("role: " + login.getRole());
         String return_page = "";
 
-
+        /*
         Article article = new Article();
         model.addAttribute("article", article);
         return_page = "article_formular";
         return return_page;
+        */
 
-
-        /*
         //Si l'utilisateur n'a pas le rôle administrateur il est redirigé sur une page d'erreur
         if(!login.getRole().equals("admin")){
             model.addAttribute("error_message", "Vous n'avez pas les droits nécessaires pour accéder à cette page");
@@ -115,7 +115,6 @@ public class ArticleController {
             return_page = "article_formular";
         }
         return return_page;
-         */
     }
 
     // Success page quand l'article à été crée
