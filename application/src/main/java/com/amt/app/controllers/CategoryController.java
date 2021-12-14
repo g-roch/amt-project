@@ -36,7 +36,7 @@ public class CategoryController {
         model.addAttribute("login", login);
         String return_page = "";
 
-        /*
+
         //Envoyer les différents attributs nécessaires à l'affichage
         Category category = new Category();
         model.addAttribute("category", category);
@@ -44,8 +44,9 @@ public class CategoryController {
         model.addAttribute("categories", categories);
         return_page = "category_formular";
         return return_page;
-         */
 
+
+        /*
         //Si l'utilisateur n'a pas le rôle administrateur il est redirigé sur une page d'erreur
         if(!login.getRole().equals("admin")){
             model.addAttribute("error_message", "Vous n'avez pas les droits nécessaires pour accéder à cette page");
@@ -57,6 +58,7 @@ public class CategoryController {
             return_page = "category_formular";
         }
         return return_page;
+         */
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "delete")

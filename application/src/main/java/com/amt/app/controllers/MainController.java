@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Controller
@@ -34,19 +36,18 @@ public class MainController {
         return "index";
     }
 
-
     // Changement de categorie
     @RequestMapping(value = "/admin", method = RequestMethod.POST)
     public String updateArticleCategorie(@RequestParam(value = "articleId") int articleId,
                                     @RequestParam(value = "categorie" , required = false) List<Category> categories,
                                     Model model) throws IOException {
 
-        boolean isValid = false;
+        boolean isValid = true;
 
         //check si aucune coche a été checkée
         if(categories == null){
             model.addAttribute("errorMessage", "Il faut au moins une catégorie.");
-            isValid = true;
+            isValid = false;
         }
 
         // Récupérer l'article en question
@@ -54,28 +55,33 @@ public class MainController {
 
         // Vérifier s'il possède déjà au moins une des catégories entrées. Une seule suffit pour envoyer le message
         // d'erreur.
-        if(!isValid){
+        if(isValid){
             for (Category category : categories) {
                 for (int j = 0; j < article.getCategories().size(); j++) {
                     if (category.getName().equals(article.getCategories().get(j).getName())) {
                         model.addAttribute("errorMessage", "Cet article possède déjà la catégorie suivant : "
                                 + category.getName());
                         System.out.println("Il a deja cette catégorie");
-                        isValid = true;
+                        isValid = false;
                         break;
                     }
                 }
             }
         }
 
-
         // 1. Mettre à jour l'attribut "categories" de articles
         // 2. Mettre à jour l'attribut "articles" dans chaque catégorie
-        if(!isValid){
+        if(isValid){
             article.setCategories(categories);
             articleService.addArticle(article);
+
+            // Obliger de le faire en deux loops sinon j'avais une ConcurrentModificationException.
+            List<Category> tmpCategories = new ArrayList<>();
             for(Category category : categories){
                 category.addOneArticle(article);
+                tmpCategories.add(category);
+            }
+            for(Category category : tmpCategories){
                 categoryService.addCategory(category);
             }
         }
@@ -98,7 +104,7 @@ public class MainController {
         String return_page = "";
 
 
-        /*
+
         // On repart sur la page admin donc on doit passer tous les articles et les catégories.
         List<Article> listArticles = articleService.listAll();
         model.addAttribute("listArticles", listArticles);
@@ -106,9 +112,9 @@ public class MainController {
         model.addAttribute("listCategories", listCategories);
         return_page = "admin";
         return return_page;
-        */
 
 
+        /*
         //Si l'utilisateur n'a pas le rôle administrateur il est redirigé sur une page d'erreur
         if(!login.getRole().equals("admin")){
             model.addAttribute("error_message", "Vous n'avez pas les droits nécessaires pour accéder à cette page");
@@ -124,6 +130,8 @@ public class MainController {
             return_page = "admin";
         }
         return return_page;
+
+         */
     }
 
 

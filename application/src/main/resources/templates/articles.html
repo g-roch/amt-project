@@ -74,10 +74,10 @@
     <div class="row mb-3">
         <form th:action="@{/articles}" method="post">
             <select th:name="filter_value">
-                <option value="0" th:text="Défaut"></option>
-                <option value="500" th:text="500"></option>
-                <option value="1000" th:text="1000"></option>
-                <option value="2000" th:text="2000"></option>
+                <div class="row mb-4 mr-5 w-75 bg-light articleBox" th:each="categorie : ${listCategories}">
+                    <option th:text=${categorie.name}></option>
+
+                </div>
             </select>
             <button name="submit" type="submit" class="btn btn-secondary">Filtrer</button>
         </form>
