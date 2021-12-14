@@ -33,6 +33,9 @@ public class CategoryService {
         return repository.save(article);
     }
 
+    public void delete(int id){
+        repository.deleteById(id);
+    }
 
 
 }

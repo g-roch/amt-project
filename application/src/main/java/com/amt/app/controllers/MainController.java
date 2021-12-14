@@ -41,27 +41,37 @@ public class MainController {
                                     @RequestParam(value = "categorie" , required = false) List<Category> categories,
                                     Model model) throws IOException {
 
+        boolean isValid = false;
+
+        //check si aucune coche a été checkée
+        if(categories == null){
+            model.addAttribute("errorMessage", "Il faut au moins une catégorie.");
+            isValid = true;
+        }
+
         // Récupérer l'article en question
         Article article = articleService.get(articleId);
 
         // Vérifier s'il possède déjà au moins une des catégories entrées. Une seule suffit pour envoyer le message
         // d'erreur.
-        boolean exist = false;
-        for (Category category : categories) {
-            for (int j = 0; j < article.getCategories().size(); j++) {
-                if (category.getName().equals(article.getCategories().get(j).getName())) {
-                    model.addAttribute("errorMessage", "Cet article possède déjà la catégorie suivant : "
-                            + category.getName());
-                    System.out.println("Il a deja cette catégorie");
-                    exist = true;
-                    break;
+        if(!isValid){
+            for (Category category : categories) {
+                for (int j = 0; j < article.getCategories().size(); j++) {
+                    if (category.getName().equals(article.getCategories().get(j).getName())) {
+                        model.addAttribute("errorMessage", "Cet article possède déjà la catégorie suivant : "
+                                + category.getName());
+                        System.out.println("Il a deja cette catégorie");
+                        isValid = true;
+                        break;
+                    }
                 }
             }
         }
 
+
         // 1. Mettre à jour l'attribut "categories" de articles
         // 2. Mettre à jour l'attribut "articles" dans chaque catégorie
-        if(!exist){
+        if(!isValid){
             article.setCategories(categories);
             articleService.addArticle(article);
             for(Category category : categories){
@@ -87,6 +97,18 @@ public class MainController {
         model.addAttribute("login", login);
         String return_page = "";
 
+
+        /*
+        // On repart sur la page admin donc on doit passer tous les articles et les catégories.
+        List<Article> listArticles = articleService.listAll();
+        model.addAttribute("listArticles", listArticles);
+        List<Category> listCategories = categoryService.listAll();
+        model.addAttribute("listCategories", listCategories);
+        return_page = "admin";
+        return return_page;
+        */
+
+
         //Si l'utilisateur n'a pas le rôle administrateur il est redirigé sur une page d'erreur
         if(!login.getRole().equals("admin")){
             model.addAttribute("error_message", "Vous n'avez pas les droits nécessaires pour accéder à cette page");
@@ -102,7 +124,6 @@ public class MainController {
             return_page = "admin";
         }
         return return_page;
-
     }
 
 

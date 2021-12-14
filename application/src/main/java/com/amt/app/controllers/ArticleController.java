@@ -19,8 +19,6 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.*;
 
-/* Model sert à transmettre une variable dans la page html */
-
 @Controller
 public class ArticleController {
 
@@ -84,6 +82,13 @@ public class ArticleController {
         User login = provider.login(jwt);
         System.out.println("role: " + login.getRole());
         String return_page = "";
+
+        /*
+        Article article = new Article();
+        model.addAttribute("article", article);
+        return_page = "article_formular";
+        return return_page;
+         */
 
         //Si l'utilisateur n'a pas le rôle administrateur il est redirigé sur une page d'erreur
         if(!login.getRole().equals("admin")){
