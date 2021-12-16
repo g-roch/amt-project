@@ -32,10 +32,25 @@
     </head>
 <!-- body -->
 <body>
-    <form method="post" action="/auth/perform">
-        <input type="text" name="username" placeholder="username" required/>
-        <input type="password" name="password" placeholder="password" required/>
-        <input type="submit" />
-    </form>
+<div class="row mb-5 pt-5 border-top">
+    <div class="col-md-8 mx-auto pl-5 pr-5">
+        <form method="post" action="/auth/perform">
+            <h1 align="center">Se connecter</h1>
+            <div class="form-group">
+                <label>Nom de compte*</label>
+                <input type="text" class="form-control" name="username" placeholder="Nom de compte" required/>
+            </div>
+
+            <div class="form-group">
+                <label>Mot de passe*</label>
+                <input type="password" class="form-control" name="password" placeholder="Mot de passe" required/>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Se connecter</button>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 </html>
