@@ -10,8 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -30,6 +32,7 @@ public class CategoryController {
     public String showCreateCategory(Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
         User login = provider.login(jwt);
+        model.addAttribute("login", login);
         String return_page = "";
 
         //Si l'utilisateur n'a pas le rôle administrateur il est redirigé sur une page d'erreur
@@ -46,7 +49,10 @@ public class CategoryController {
     }
 
     @RequestMapping(value = "/createCategory", method = RequestMethod.POST)
-    public String submitFormCategory(@Valid Category category, BindingResult result, Model model ) {
+    public String submitFormCategory(@Valid Category category, BindingResult result, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
+        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+        User login = provider.login(jwt);
+        model.addAttribute("login", login);
 
         if (result.hasErrors()) {
             System.out.println(result.getAllErrors());
@@ -68,10 +74,4 @@ public class CategoryController {
 
         return "category_formular";
     }
-
-
-
-
-
-
 }
