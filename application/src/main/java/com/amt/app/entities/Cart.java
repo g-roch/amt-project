@@ -67,4 +67,6 @@ public class Cart {
     public String toString() {
         return "userId: " + id.getUserId() + ", articleId: " + id.getArticleId() + " ,quantity: " + quantity;
     }
+
+
 }

@@ -28,7 +28,9 @@ public class User {
     @Setter
     private String username;
 
-    public User(){
+    public User(){}
 
+    public User(int id){
+        this.id = id;
     }
 }

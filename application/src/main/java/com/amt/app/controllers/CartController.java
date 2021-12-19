@@ -4,6 +4,7 @@ package com.amt.app.controllers;
 import com.amt.app.auth.Provider;
 import com.amt.app.auth.User;
 import com.amt.app.entities.Article;
+import com.amt.app.entities.Cart;
 import com.amt.app.service.ArticleService;
 import com.amt.app.service.CartService;
 import com.amt.app.service.UserService;
@@ -39,18 +40,33 @@ public class CartController {
         User login = provider.login(jwt);
         model.addAttribute("login", login);
 
-        String sessionId = session.getId();
-        System.out.println("session id: " + sessionId);
-
         List<Article> listArticles = new ArrayList<Article>();
-        Enumeration<String> attributes = session.getAttributeNames();
 
+        //Si l'utilisateur est un guess, on va chercher les articles du panier dans les attributs de la session
+        if(login.getRole().equals("guess")){
+            String sessionId = session.getId();
+            Enumeration<String> attributes = session.getAttributeNames();
 
-        while (attributes.hasMoreElements()) {
-            String attribute = (String) attributes.nextElement();
-            System.out.println("truc " + attribute+" : "+ session.getAttribute(attribute));
-            listArticles.add((Article)session.getAttribute(attribute));
+            while (attributes.hasMoreElements()) {
+                String attribute = (String) attributes.nextElement();
+                listArticles.add((Article)session.getAttribute(attribute));
+            }
+        }else{
+            //Si c'est un utilisateur authentifié on va chercher les articles dans la db
+            List<Cart> carts = new ArrayList<>();
+            com.amt.app.entities.User user = new com.amt.app.entities.User(login.getId());
+            carts = cartService.findCartsByUserId(user);
+            if(!carts.isEmpty()){
+                for(Cart cart : carts){
+                    Article article = cart.getArticle();
+                    article.setStock(cart.getQuantity());
+                    listArticles.add(article);
+                }
+            }
+
         }
+
+
         model.addAttribute("listArticles", listArticles);
 
         return "cart";

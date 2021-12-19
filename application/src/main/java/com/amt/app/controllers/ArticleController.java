@@ -4,7 +4,10 @@ package com.amt.app.controllers;
 import com.amt.app.auth.Provider;
 import com.amt.app.auth.User;
 import com.amt.app.entities.Article;
+import com.amt.app.entities.Cart;
+import com.amt.app.repository.CartRepository;
 import com.amt.app.service.ArticleService;
+import com.amt.app.service.CartService;
 import com.amt.app.service.UserService;
 import com.amt.app.utils.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +22,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.*;
-
 /* Model sert à transmettre une variable dans la page html */
 
 @Controller
@@ -29,7 +31,8 @@ public class ArticleController {
     private ArticleService articleService;
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private CartService cartService;
 
     // Affichage de tous les articles disponibles pour la plebes
     @GetMapping("/articles")
@@ -95,12 +98,18 @@ public class ArticleController {
         }else if(stock < quantity){
             model.addAttribute("error_message", "Quantité d'articlés entrée plus grande que le nombre disponible en stock!");
             return "error";
-        }else {
-            article.setStock(quantity);
-            session.setAttribute(article.getName(),article);
         }
 
-        System.out.println("truc: " + session.getAttribute(article.getName()));
+        //Ajoute en attribut de la session l'article avec comme stock la quantité sélectionnée par l'utilisateur
+        if(login.getRole().equals("guest")){
+            article.setStock(quantity);
+            session.setAttribute(article.getName(),article);
+        }else{
+            //Ajoute dans la db le cart liée à un utilisateur et un article
+            com.amt.app.entities.User user = new com.amt.app.entities.User(login.getId());
+            Cart cart = new Cart(article,user,quantity);
+            cartService.addCart(cart);
+        }
 
         return "article_add_to_cart_success";
     }
