@@ -83,6 +83,10 @@
                 <h2 class="text-danger">Une categorie avec ce nom existe deja</h2>
             </div>
 
+            <div class="mb-5">
+                <p class="text-danger" align="center">[[${errorDelete}]]</p>
+            </div>
+
             <div class="text-center">
                 <button type="submit" class="btn btn-primary">Créer la categorie</button>
             </div>
@@ -95,10 +99,10 @@
 </div>
 
 <h3>Liste des catégories :</h3>
-<div class="mb-5" th:if="${categories == null || categories.empty}">
-    <p>There is no articles</p>
+<div class="mb-5" th:if="${categories.empty}">
+    <p>Il n'y a pas de catégorie</p>
 </div>
-<div th:if="${categories != null && not categories.empty}">
+<div th:if="${not categories.empty}">
     <div class="row mb-4 mr-5 w-75 bg-light articleBox" th:each="category : ${categories}">
         <div class="col">
             <div class="row">
@@ -110,10 +114,6 @@
             </div>
         </div>
     </div>
-</div>
-
-<div class="mb-5">
-    <p class="text-danger" align="center">[[${errorDelete}]]</p>
 </div>
 
 

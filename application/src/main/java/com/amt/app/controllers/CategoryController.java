@@ -52,8 +52,11 @@ public class CategoryController {
             model.addAttribute("error_message", "Vous n'avez pas les droits nécessaires pour accéder à cette page");
             return_page = "error";
         }else{
+            //Envoyer les différents attributs nécessaires à l'affichage
             Category category = new Category();
             model.addAttribute("category", category);
+            List<Category> categories = categoryService.listAll();
+            model.addAttribute("categories", categories);
 
             return_page = "category_formular";
         }
