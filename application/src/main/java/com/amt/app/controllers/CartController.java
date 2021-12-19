@@ -73,14 +73,13 @@ public class CartController {
         return "cart";
     }
 
-   @PostMapping(value = "/cart", params = {"quantity", "quantityArticleName", "quantityAritcleId"})
-    public String updateQuantity(@RequestParam(value = "quantity") int quantity, @RequestParam(value = "quantityArticleName") String name, @RequestParam(value = "quantityArticleId") int id, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt, HttpSession session) throws Exception {
+   @GetMapping(value = "/cart", params = {"quantity", "name", "id"})
+    public String updateQuantity(@RequestParam(value = "quantity") int quantity, @RequestParam(value = "name") String name, @RequestParam(value = "id") int id, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt, HttpSession session) throws Exception {
        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
        User login = provider.login(jwt);
        model.addAttribute("login", login);
 
        int stock = articleService.findStockByArticleName(name);
-        System.out.println("stock... " + stock);
 
        if(quantity == 0){
            return deleteCart(name,id,model,jwt,session);
@@ -105,12 +104,13 @@ public class CartController {
    }
 
 
-   @PostMapping(value = "/cart", params = {"deleteArticleName", "deleteArticleId"})
-    public String deleteCart(@RequestParam(value = "deleteArticleName") String name, @RequestParam(value = "deleteArticleId") int id, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt, HttpSession session) throws Exception {
+    @GetMapping(value = "/cart", params = {"name", "id"})
+    public String deleteCart(@RequestParam(value = "name") String name, @RequestParam(value = "id") int id, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt, HttpSession session) throws Exception {
        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
        User login = provider.login(jwt);
        model.addAttribute("login", login);
 
+       System.out.println("testttttttttttttttttt");
        if(login.getRole().equals("guest")){
             session.removeAttribute(name);
        }else{
@@ -124,7 +124,7 @@ public class CartController {
    }
 
    @PostMapping("/cart")
-   public String emtpyCart(Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt, HttpSession session) throws Exception {
+   public String emptyCart(Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt, HttpSession session) throws Exception {
        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
        User login = provider.login(jwt);
        model.addAttribute("login", login);
