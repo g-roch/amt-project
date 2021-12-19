@@ -3,8 +3,9 @@ package com.amt.app.entities;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
+import java.util.Objects;
 
-@Entity
+@Entity(name = "Cart")
 @Table(name = "cart")
 public class Cart {
 
@@ -19,6 +20,7 @@ public class Cart {
     @MapsId("userId")
     private User user;
 
+    @Column(name = "quantity")
     private int quantity;
 
     public Cart(){
@@ -68,5 +70,20 @@ public class Cart {
         return "userId: " + id.getUserId() + ", articleId: " + id.getArticleId() + " ,quantity: " + quantity;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
 
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        Cart that = (Cart) o;
+        return Objects.equals(user, that.user) &&
+                Objects.equals(article, that.article);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(user, article);
+    }
 }
