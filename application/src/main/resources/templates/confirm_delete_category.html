@@ -46,15 +46,15 @@
           <h2 class="font-weight-bold" th:text="${article.price} + ' CHF'">Price</h2>
         </div>
       </div>
-      <form action="?confirmDelete" method="post">
-        <input type="hidden" th:name="categoryId" th:value="${category.id}"/>
-        <input type="submit" value="Delete"/>
-      </form>
-      <form action="?cancelDelete" method="post">
-        <input type="hidden" th:name="categoryId" th:value="${category.id}"/>
-        <input type="submit" value="Cancel"/>
-      </form>
     </div>
+    <form action="?confirmDelete" method="post">
+      <input type="hidden" th:name="categoryId" th:value="${category.id}"/>
+      <input type="submit" value="Delete"/>
+    </form>
+    <form action="?cancelDelete" method="post">
+      <input type="hidden" th:name="categoryId" th:value="${category.id}"/>
+      <input type="submit" value="Cancel"/>
+    </form>
   </div>
 </div>
 </body>
