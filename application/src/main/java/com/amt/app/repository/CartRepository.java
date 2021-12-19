@@ -15,4 +15,15 @@ import java.util.List;
 public interface CartRepository extends JpaRepository<Cart, Integer> {
     @Query(value = "SELECT * FROM cart c WHERE c.user_id = ?1", nativeQuery = true)
     List<Cart> findCartsByUserIdCustom(int userId);
+
+    @Query(value = "SELECT * FROM cart c WHERE c.user_id = ?1 AND c.article_id = ?2", nativeQuery = true)
+    Cart findCartByUserIdAndArticleIdCustom(int userId, int articleId);
+
+    @Modifying
+    @Query(value = "DELETE FROM cart where user_id = ?1", nativeQuery = true)
+    void emptyCart(int userId);
+
+    @Modifying
+    @Query(value = "UPDATE cart c SET c.quantity = ?1 WHERE c.user_id = ?2 AND c.article_id = ?3;", nativeQuery = true)
+    void updateCart(int quantity, int userId, int articleId);
 }

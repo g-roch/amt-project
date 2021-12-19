@@ -34,17 +34,11 @@ public class CartController {
     @Autowired
     private ArticleService articleService;
 
-    @GetMapping("/cart")
-    public String showArticles(Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt, HttpSession session) throws Exception {
-        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
-        User login = provider.login(jwt);
-        model.addAttribute("login", login);
-
+    private List<Article> getArticles(User login, HttpSession session){
         List<Article> listArticles = new ArrayList<Article>();
 
         //Si l'utilisateur est un guess, on va chercher les articles du panier dans les attributs de la session
-        if(login.getRole().equals("guess")){
-            String sessionId = session.getId();
+        if(login.getRole().equals("guest")){
             Enumeration<String> attributes = session.getAttributeNames();
 
             while (attributes.hasMoreElements()) {
@@ -63,12 +57,92 @@ public class CartController {
                     listArticles.add(article);
                 }
             }
-
         }
+        return listArticles;
+    }
 
+    @GetMapping("/cart")
+    public String showArticles(Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt, HttpSession session) throws Exception {
+        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+        User login = provider.login(jwt);
+        model.addAttribute("login", login);
 
+        List<Article> listArticles = getArticles(login,session);
         model.addAttribute("listArticles", listArticles);
 
         return "cart";
     }
+
+   @PostMapping(value = "/cart", params = {"quantity", "quantityArticleName", "quantityAritcleId"})
+    public String updateQuantity(@RequestParam(value = "quantity") int quantity, @RequestParam(value = "quantityArticleName") String name, @RequestParam(value = "quantityArticleId") int id, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt, HttpSession session) throws Exception {
+       Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+       User login = provider.login(jwt);
+       model.addAttribute("login", login);
+
+       int stock = articleService.findStockByArticleName(name);
+        System.out.println("stock... " + stock);
+
+       if(quantity == 0){
+           return deleteCart(name,id,model,jwt,session);
+       }else if(stock < quantity){
+           model.addAttribute("error_message", "Quantité d'articles entrée plus grande que le nombre disponible en stock!");
+           return "error";
+       }
+
+       if(login.getRole().equals("guest")){
+           Article article = articleService.get(id);
+           article.setStock(quantity);
+           session.removeAttribute(name);
+           session.setAttribute(name, article);
+       }else{
+            cartService.updateCart(quantity,login.getId(),id);
+       }
+
+       List<Article> listArticles = getArticles(login,session);
+       model.addAttribute("listArticles", listArticles);
+
+       return "cart";
+   }
+
+
+   @PostMapping(value = "/cart", params = {"deleteArticleName", "deleteArticleId"})
+    public String deleteCart(@RequestParam(value = "deleteArticleName") String name, @RequestParam(value = "deleteArticleId") int id, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt, HttpSession session) throws Exception {
+       Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+       User login = provider.login(jwt);
+       model.addAttribute("login", login);
+
+       if(login.getRole().equals("guest")){
+            session.removeAttribute(name);
+       }else{
+           cartService.removeCart(cartService.findCartByUserIdAndArticleId(login.getId(),id));
+       }
+
+       List<Article> listArticles = getArticles(login,session);
+       model.addAttribute("listArticles", listArticles);
+
+       return "cart";
+   }
+
+   @PostMapping("/cart")
+   public String emtpyCart(Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt, HttpSession session) throws Exception {
+       Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+       User login = provider.login(jwt);
+       model.addAttribute("login", login);
+
+       if(login.getRole().equals("guest")){
+           Enumeration<String> attributes = session.getAttributeNames();
+
+           while (attributes.hasMoreElements()) {
+               String attribute = (String) attributes.nextElement();
+               session.removeAttribute(attribute);
+           }
+       }else{
+            cartService.emptyCart(login.getId());
+       }
+
+       List<Article> listArticles = getArticles(login,session);
+       model.addAttribute("listArticles", listArticles);
+
+       return "cart";
+   }
 }

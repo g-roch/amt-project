@@ -37,6 +37,10 @@ public class ArticleService {
         repository.deleteById(id);
     }
 
+    public int findStockByArticleName(String name){
+        return repository.findStockByArticleName(name);
+    }
 
+    public int findIdByArticleName(String name) { return repository.findIdByArticleName(name); }
 
 }

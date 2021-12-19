@@ -77,6 +77,9 @@
     </div>
 
     <div th:if="${not listArticles.empty}">
+        <form method="POST" th:action="@{/cart}">
+            <button type="submit" name="submit" value="value" class="btn btn-lg btn-dark">Vider le panier</button>
+        </form>
         <div class="row mb-4 mr-5 w-75 bg-light articleBox" th:each="article : ${listArticles}">
             <div class="col">
                 <div class="row" th:if="${article.image == 'default.png'}">
@@ -99,6 +102,22 @@
                 <div class="row">
                     <h2 class="font-weight-bold" th:text="'Prix total: ' + ${article.price}*${article.stock} + ' CHF'"></h2>
                 </div>
+            </div>
+            <div class="col">
+                <form method="POST" th:action="@{/cart}">
+                    <div class="form-group">
+                        <label>Quantité: </label>
+                        <input type="text" class="form-control" th:name="quantity"  placeholder="Quantité voulue">
+                        <input type="hidden" th:name="quantityArticleName" th:value="${article.name}">
+                        <input type="hidden" th:name="quantityArticleId" th:value="${article.id}">
+                    </div>
+                    <button type="submit" name="submit" value="value" class="btn btn-lg btn-dark">Modifier la quantite</button>
+                </form>
+                <form method="POST" th:action="@{/cart}">
+                    <input type="hidden" th:name="deleteArticleName" th:value="${article.name}">
+                    <input type="hidden" th:name="deleteArticleId" th:value="${article.id}">
+                    <button type="submit" name="submit" value="value" class="btn btn-lg btn-dark">Supprimer</button>
+                </form>
             </div>
 
         </div>
