@@ -77,6 +77,7 @@ public class CategoryController {
             model.addAttribute("errorDelete", "Une article possède encore cette catégorie.");
         }else{
             categoryService.delete(categoryId);
+            model.addAttribute("sucessfulMessage", "Catégorie supprimée avec succès.");
         }
 
         //Envoyer les différents attributs nécessaires à l'affichage

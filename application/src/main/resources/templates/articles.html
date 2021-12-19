@@ -70,7 +70,7 @@
 <!-- end header -->
 
 <div  class="container" align="center">
-    <h1 class="mb-3">Article List</h1>
+    <h1 class="mb-3">Liste des articles</h1>
     <div class="row mb-3">
         <form th:action="@{/articles}" method="post">
             <select th:name="filter_value">
@@ -84,7 +84,7 @@
     </div>
 
     <div class="mb-5" th:if="${listArticles.empty}">
-        <p>There is no articles</p>
+        <p>il n'y a pas d'articles</p>
     </div>
 
     <div th:if="${not listArticles.empty}">
