@@ -22,6 +22,7 @@ public class Article {
     private int id;
 
     @NaturalId
+    @NotEmpty(message = "Article's name cannot be empty.")
     @Column(nullable = false, unique = true)
     private String name;
 
@@ -49,7 +50,7 @@ public class Article {
     public Article() {
     }
 
-    public Article(String name, float price, String description, String image, int stock) {
+    public Article(String name, Float price, String description, String image, int stock) {
         this.name = name;
         this.price = price;
         this.description = description;
@@ -121,7 +122,7 @@ public class Article {
         this.description = description;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 

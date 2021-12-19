@@ -128,16 +128,6 @@ public class AdminController {
         model.addAttribute("login", login);
         String return_page = "";
 
-        /*
-        // On repart sur la page admin donc on doit passer tous les articles et les catégories.
-        List<Article> listArticles = articleService.listAll();
-        model.addAttribute("listArticles", listArticles);
-        List<Category> listCategories = categoryService.listAll();
-        model.addAttribute("listCategories", listCategories);
-        return_page = "admin";
-        return return_page;
-         */
-
         //Si l'utilisateur n'a pas le rôle administrateur il est redirigé sur une page d'erreur
         if(!login.getRole().equals("admin")){
             model.addAttribute("error_message", "Vous n'avez pas les droits nécessaires pour accéder à cette page");
