@@ -46,7 +46,11 @@ public class ArticleService {
         }
         return listArticles;
     }
+  
+    public int findStockByArticleName(String name){
+        return repository.findStockByArticleName(name);
+    }
 
-
+    public int findIdByArticleName(String name) { return repository.findIdByArticleName(name); }
 
 }
