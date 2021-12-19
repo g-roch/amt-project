@@ -11,9 +11,9 @@ import java.util.Objects;
 @Embeddable
 public class CartId implements Serializable {
 
-    @Column(name = "userId")
+    @Column(name = "userid")
     private int userId;
-    @Column(name = "articleId")
+    @Column(name = "articleid")
     private int articleId;
 
 

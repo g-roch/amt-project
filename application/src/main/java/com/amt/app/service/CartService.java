@@ -20,12 +20,11 @@ public class CartService {
     private CartRepository repository;
 
     public void addCart(Cart cart) {
-         repository.save(cart);
+        repository.save(cart);
     }
 
-
-    public List<Cart> findCartsByUserId(User user){
-        return repository.findCartsByUserCustom(user);
+    public List<Cart> findCartsByUserId(int userId){
+        return repository.findCartsByUserIdCustom(userId);
     }
 
 

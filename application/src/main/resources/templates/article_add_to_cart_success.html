@@ -13,12 +13,12 @@
 </head>
 <body>
 <div align="center">
-    <h2>Creation Succeeded!</h2>
+    <h2>Article ajouté au panier !</h2>
     <span>Name:</span><span th:text="${article.name}"></span><br/>
-    <span>Price:</span><span th:text="${article.price}"></span><br/>
+    <span>Price unitaire:</span><span th:text="${article.price}"></span><br/>
     <span>Description:</span><span th:text="${article.description}"></span><br/>
-    <span>Stock:</span><span th:text="${article.stock}"></span><br/>
-
+    <span>Quantité:</span><span th:text="${article.stock}"></span><br/>
+    <span>Prix total:</span><span th:text="${article.price}*${article.stock} + ' CHF'"></span><br/>
     <div th:if="${article.image != 'default.png'}">
         <img th:src="@{${article.getPhotosImagePath()}}" width="250"/>
     </div>

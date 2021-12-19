@@ -55,7 +55,7 @@ public class CartController {
             //Si c'est un utilisateur authentifié on va chercher les articles dans la db
             List<Cart> carts = new ArrayList<>();
             com.amt.app.entities.User user = new com.amt.app.entities.User(login.getId());
-            carts = cartService.findCartsByUserId(user);
+            carts = cartService.findCartsByUserId(user.getId());
             if(!carts.isEmpty()){
                 for(Cart cart : carts){
                     Article article = cart.getArticle();
