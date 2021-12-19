@@ -48,6 +48,9 @@ public class AdminController {
         model.addAttribute("listArticles", filteredList);
 
         //Envoyer toutes les catégories pour le filtre
+        List<Category> listCategoriesFilter = categoryService.getAllCategoriesLinkedToArticles();
+        model.addAttribute("listCategoriesFilter", listCategoriesFilter);
+
         List<Category> listCategories = categoryService.listAll();
         model.addAttribute("listCategories", listCategories);
 
@@ -106,6 +109,11 @@ public class AdminController {
         // On repart sur la page admin donc on doit passer tous les articles et les catégories.
         List<Article> listArticles = articleService.listAll();
         model.addAttribute("listArticles", listArticles);
+
+        //Envoyer toutes les catégories pour le filtre
+        List<Category> listCategoriesFilter = categoryService.getAllCategoriesLinkedToArticles();
+        model.addAttribute("listCategoriesFilter", listCategoriesFilter);
+
         List<Category> listCategories = categoryService.listAll();
         model.addAttribute("listCategories", listCategories);
 
@@ -139,6 +147,10 @@ public class AdminController {
             // On repart sur la page admin donc on doit passer tous les articles et les catégories.
             List<Article> listArticles = articleService.listAll();
             model.addAttribute("listArticles", listArticles);
+
+            //Envoyer toutes les catégories pour le filtre
+            List<Category> listCategoriesFilter = categoryService.getAllCategoriesLinkedToArticles();
+            model.addAttribute("listCategoriesFilter", listCategoriesFilter);
             List<Category> listCategories = categoryService.listAll();
             model.addAttribute("listCategories", listCategories);
 

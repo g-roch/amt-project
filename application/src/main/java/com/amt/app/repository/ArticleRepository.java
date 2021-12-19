@@ -13,5 +13,6 @@ import java.util.List;
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Integer> {
 
-
+    @Query(value = "SELECT articleId FROM article_category WHERE categoryId = ?1",nativeQuery = true)
+    List<Integer> getArticlesIdByCategoryId(int categoryId);
 }

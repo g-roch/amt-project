@@ -7,6 +7,7 @@ import com.amt.app.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,5 +38,13 @@ public class CategoryService {
         repository.deleteById(id);
     }
 
+    public List<Category> getAllCategoriesLinkedToArticles(){
+        List<Integer> categoriesId = repository.getAllCategoriesLinkedToArticles();
+        List<Category> listCategories = new ArrayList<>();
 
+        for(Integer id: categoriesId){
+            listCategories.add(this.get(id));
+        }
+        return listCategories;
+    }
 }

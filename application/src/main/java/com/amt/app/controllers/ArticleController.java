@@ -44,7 +44,7 @@ public class ArticleController {
         model.addAttribute("listArticles", listArticles);
 
         //Envoyer toutes les catégories pour le filtre
-        List<Category> listCategories = categoryService.listAll();
+        List<Category> listCategories = categoryService.getAllCategoriesLinkedToArticles();
         model.addAttribute("listCategories", listCategories);
 
         return "articles";
@@ -70,7 +70,7 @@ public class ArticleController {
         model.addAttribute("listArticles", filteredList);
 
         //Envoyer toutes les catégories pour le filtre
-        List<Category> listCategories = categoryService.listAll();
+        List<Category> listCategories = categoryService.getAllCategoriesLinkedToArticles();
         model.addAttribute("listCategories", listCategories);
 
         return "articles";

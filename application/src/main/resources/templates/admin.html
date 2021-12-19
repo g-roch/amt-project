@@ -80,7 +80,7 @@
     <div class="row mb-3">
         <form action="?filter" method="post">
             <select th:name="filter_value">
-                <div class="row mb-4 mr-5 w-75 bg-light articleBox" th:each="categorie : ${listCategories}">
+                <div class="row mb-4 mr-5 w-75 bg-light articleBox" th:each="categorie : ${listCategoriesFilter}">
                     <option th:text=${categorie.name}></option>
 
                 </div>
