@@ -161,6 +161,7 @@ public class ArticleController {
     @RequestMapping(value = "/createArticle", method = RequestMethod.POST)
     public String submitFormArticle(@Valid Article article, BindingResult result, Model model ,
                              @RequestParam("file") MultipartFile multipartFile) throws IOException {
+        
 
         //@Valid control les entrées de l'utilisateurs selon les annotation dans l'entité
         if (result.hasErrors()) {
@@ -194,7 +195,7 @@ public class ArticleController {
 
         article.setImage(fileName);
 
-        model.addAttribute("article", article);
+        model.addAttribute("sucessfulMessage", "Catégorie crée avec succès.");
         Article savedArticle = articleService.addArticle(article);
 
         //Upload de l'image uniquement si il a mis une image
@@ -203,6 +204,6 @@ public class ArticleController {
             FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
         }
 
-        return "article_success";
+        return "article_formular";
     }
 }
