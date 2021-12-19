@@ -30,7 +30,9 @@ public class Article {
 
     @NotEmpty(message = "Article's description cannot be empty.")
     private String description;
+
     private String image;
+
     @Min(0)
     private int stock;
 

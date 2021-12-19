@@ -13,18 +13,37 @@
 </head>
 <body>
 <div align="center">
-    <h2>Article ajouté au panier !</h2>
-    <span>Name:</span><span th:text="${article.name}"></span><br/>
-    <span>Price unitaire:</span><span th:text="${article.price}"></span><br/>
-    <span>Description:</span><span th:text="${article.description}"></span><br/>
-    <span>Quantité:</span><span th:text="${article.stock}"></span><br/>
-    <span>Prix total:</span><span th:text="${article.price}*${article.stock} + ' CHF'"></span><br/>
-    <div th:if="${article.image != 'default.png'}">
-        <img th:src="@{${article.getPhotosImagePath()}}" width="250"/>
+    <h2>Article ajoute au panier !</h2>
+    <div class="row mt-5 mb-5">
+        <div class="col ml-5">
+            <div class="row" th:if="${article.image == 'default.png'}">
+                <img th:src="@{${'../images/' + article.image}}" width="250"/>
+            </div>
+            <div class="row" th:if="${article.image != 'default.png'}">
+                <img th:src="@{${article.getPhotosImagePath()}}" width="250"/>
+            </div>
+            <div class="row mt-5">
+                <h2 class="font-weight-bold" th:text="'Description: ' + ${article.description}"></h2>
+            </div>
+        </div>
+        <div class="col">
+            <div class="row">
+                <h2 class="font-weight-bold" th:text="'Nom: ' + ${article.name}"></h2>
+            </div>
+            <div class="row">
+                <h2 class="font-weight-bold" th:text="'Prix unitaire: ' + ${article.price} + ' CHF'"></h2>
+            </div>
+            <div class="row">
+                <h2 class="font-weight-bold" th:text="'Quantite: ' + ${article.stock} + ' pieces'"></h2>
+            </div>
+            <div class="row">
+                <h2 class="font-weight-bold" th:text="'Prix total: ' + ${article.price}*${article.stock} + ' CHF'"></h2>
+            </div>
+        </div>
     </div>
 
     <form action="/articles">
-        <input type="submit" value="Go to articles list" />
+        <input type="submit" value="Retourner aux produits" />
     </form>
 
 </div>

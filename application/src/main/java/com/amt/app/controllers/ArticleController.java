@@ -111,6 +111,8 @@ public class ArticleController {
             cartService.addCart(cart);
         }
 
+        //Est utilisé pour représenter la quantité sélectionnée par l'utilisateur dans la page de succès.
+        article.setStock(quantity);
         return "article_add_to_cart_success";
     }
     // Formulaire pour la création d'article
