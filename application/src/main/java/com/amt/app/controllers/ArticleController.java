@@ -6,7 +6,6 @@ import com.amt.app.auth.User;
 import com.amt.app.entities.Article;
 import com.amt.app.entities.Cart;
 import com.amt.app.entities.Category;
-import com.amt.app.repository.CartRepository;
 import com.amt.app.service.ArticleService;
 import com.amt.app.service.CartService;
 import com.amt.app.service.CategoryService;
@@ -137,13 +136,6 @@ public class ArticleController {
         System.out.println("role: " + login.getRole());
         String return_page = "";
 
-        /*
-        Article article = new Article();
-        model.addAttribute("article", article);
-        return_page = "article_formular";
-        return return_page;
-        */
-
         //Si l'utilisateur n'a pas le rôle administrateur il est redirigé sur une page d'erreur
         if(!login.getRole().equals("admin")){
             model.addAttribute("error_message", "Vous n'avez pas les droits nécessaires pour accéder à cette page");
@@ -161,7 +153,7 @@ public class ArticleController {
     @RequestMapping(value = "/createArticle", method = RequestMethod.POST)
     public String submitFormArticle(@Valid Article article, BindingResult result, Model model ,
                              @RequestParam("file") MultipartFile multipartFile) throws IOException {
-        
+
 
         //@Valid control les entrées de l'utilisateurs selon les annotation dans l'entité
         if (result.hasErrors()) {
