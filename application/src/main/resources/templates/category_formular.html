@@ -70,7 +70,7 @@
 
 <div class="row mb-5 pt-5 border-top">
     <div class="col-md-8 mx-auto pl-5 pr-5">
-        <form action="#" th:action="@{/createCategory}" method="post" th:object="${category}">
+        <form action="?create" method="post" th:object="${category}">
             <h1 align="center">Creation d'une categorie</h1>
 
             <div class="form-group">
@@ -83,14 +83,39 @@
                 <h2 class="text-danger">Une categorie avec ce nom existe deja</h2>
             </div>
 
+            <div class="mb-5">
+                <p class="text-danger" align="center">[[${errorDelete}]]</p>
+            </div>
+
             <div class="text-center">
                 <button type="submit" class="btn btn-primary">Créer la categorie</button>
             </div>
         </form>
     </div>
 </div>
+
 <div class="mb-5">
     <p class="text-success" align="center">[[${sucessfulMessage}]]</p>
 </div>
+
+<h3>Liste des catégories :</h3>
+<div class="mb-5" th:if="${categories.empty}">
+    <p>Il n'y a pas de catégorie</p>
+</div>
+<div th:if="${not categories.empty}">
+    <div class="row mb-4 mr-5 w-75 bg-light articleBox" th:each="category : ${categories}">
+        <div class="col">
+            <div class="row">
+                <p class="font-weight-bold m-0" th:text="${category.name}">Name</p>
+                <form action="?delete" th:object="${category}" method="post">
+                    <input type="hidden" name="categoryId" th:value="${category.id}"/>
+                    <input type="submit" value="Delete"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </body>
 </html>

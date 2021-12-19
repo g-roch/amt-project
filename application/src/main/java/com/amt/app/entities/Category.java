@@ -17,14 +17,14 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotEmpty(message = "Category's name cannot be empty.")
     @Column(name="name", unique = true)
+    @NotEmpty(message = "Catégorie ne peut pas être vide.")
     private String name;
 
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
-    })
+    }, fetch = FetchType.LAZY)
     @JoinTable(name = "article_category",
             joinColumns = @JoinColumn(name = "categoryid"),
             inverseJoinColumns = @JoinColumn(name = "articleid")

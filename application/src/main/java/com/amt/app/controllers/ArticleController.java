@@ -5,9 +5,11 @@ import com.amt.app.auth.Provider;
 import com.amt.app.auth.User;
 import com.amt.app.entities.Article;
 import com.amt.app.entities.Cart;
+import com.amt.app.entities.Category;
 import com.amt.app.repository.CartRepository;
 import com.amt.app.service.ArticleService;
 import com.amt.app.service.CartService;
+import com.amt.app.service.CategoryService;
 import com.amt.app.service.UserService;
 import com.amt.app.utils.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.*;
-/* Model sert à transmettre une variable dans la page html */
 
 @Controller
 public class ArticleController {
@@ -32,7 +33,10 @@ public class ArticleController {
     @Autowired
     private UserService userService;
     @Autowired
+    private CategoryService categoryService;
+    @Autowired
     private CartService cartService;
+
 
     // Affichage de tous les articles disponibles pour la plebes
     @GetMapping("/articles")
@@ -41,30 +45,40 @@ public class ArticleController {
         User login = provider.login(jwt);
         model.addAttribute("login", login);
 
+        //Envoyer tous les articles pour l'affichage
         List<Article> listArticles = articleService.listAll();
         model.addAttribute("listArticles", listArticles);
+
+        //Envoyer toutes les catégories pour le filtre
+        List<Category> listCategories = categoryService.getAllCategoriesLinkedToArticles();
+        model.addAttribute("listCategories", listCategories);
+
         return "articles";
     }
 
+    // Filtre sur les article
     @PostMapping("/articles")
-    public String updateArticles(@RequestParam(value = "filter_value") int filter_value, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
+    public String updateArticles(@RequestParam(value = "filter_value") String filter_value, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
         User login = provider.login(jwt);
         model.addAttribute("login", login);
 
         List<Article> listArticles = articleService.listAll();
-        List<Article> removeList = new ArrayList<Article>();
+        List<Article> filteredList = new ArrayList<Article>();
 
-        if(filter_value != 0){
-            for(Article article: listArticles){
-                if(article.getPrice() == null || article.getPrice() < filter_value){
-                    removeList.add(article);
-                }
+        for(Article article: listArticles){
+            for(Category category : article.getCategories())
+            if(category.getName().equals(filter_value)){
+                filteredList.add(article);
             }
-            listArticles.removeAll(removeList);
         }
 
-        model.addAttribute("listArticles", listArticles);
+        model.addAttribute("listArticles", filteredList);
+
+        //Envoyer toutes les catégories pour le filtre
+        List<Category> listCategories = categoryService.getAllCategoriesLinkedToArticles();
+        model.addAttribute("listCategories", listCategories);
+
         return "articles";
     }
 
@@ -122,6 +136,13 @@ public class ArticleController {
         User login = provider.login(jwt);
         System.out.println("role: " + login.getRole());
         String return_page = "";
+
+        /*
+        Article article = new Article();
+        model.addAttribute("article", article);
+        return_page = "article_formular";
+        return return_page;
+        */
 
         //Si l'utilisateur n'a pas le rôle administrateur il est redirigé sur une page d'erreur
         if(!login.getRole().equals("admin")){
