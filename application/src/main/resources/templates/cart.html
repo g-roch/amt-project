@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <title>Pianorgue</title>
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- style css -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Responsive-->
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- fevicon -->
+    <link rel="icon" href="../images/logo.png" type="image/gif" />
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+
+    <!-- Javascript files-->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/plugin.js"></script>
+    <script src="js/jquery-3.0.0.min.js"></script>
+
+    <!-- sidebar -->
+    <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="js/custom.js"></script>
+</head>
+<!-- body -->
+<body>
+<!-- header -->
+<header id="home">
+    <!-- header inner -->
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
+                    <div class="full">
+                        <div class="center-desk">
+                            <div class="logo"> <a href="/"><img src="../images/logo.png" alt="#"></a> </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
+                    <div class="menu-area">
+                        <div class="limit-box">
+                            <nav class="main-menu">
+                                <div>
+                                    <ul class="menu-area-main">
+                                        <li class="active"><a href="/">Accueil</a></li>
+                                        <li><a href="/articles">Nos produits</a></li>
+                                        <li th:if="${login.getRole().equals('guest')}"><a href="/auth/signup">Register</a></li>
+                                        <li th:if="${login.getRole().equals('guest')}"><a href="/auth/login">Login</a></li>
+                                        <li th:unless="${login.getRole().equals('guest')}"><a href="/auth/logout">Logout</a></li>
+                                        <li><a href="/cart"><i class="fa fa-shopping-basket"></i> Panier</a></li>
+                                        <li th:if="${login.getRole().equals('admin')}"><a href="/admin">Admin</a></li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end header inner -->
+</header>
+
+<!-- content -->
+<div class="container" align="center">
+    <div class="mb-5" th:if="${listArticles.empty}">
+        <p>There is no articles</p>
+    </div>
+
+    <div th:if="${not listArticles.empty}">
+        <form method="POST" th:action="@{/cart}">
+            <button type="submit" name="submit" value="value" class="btn btn-lg btn-dark">Vider le panier</button>
+        </form>
+        <div class="row mb-4 mr-5 w-75 bg-light articleBox" th:each="article : ${listArticles}">
+            <div class="col">
+                <div class="row" th:if="${article.image == 'default.png'}">
+                    <img th:src="@{${'../images/' + article.image}}" width="200"/>
+                </div>
+                <div class="row" th:if="${article.image != 'default.png'}">
+                    <img th:src="@{${article.getPhotosImagePath()}}" width="200"/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row">
+                    <h2 class="font-weight-bold" th:text="'Nom: ' + ${article.name}"></h2>
+                </div>
+                <div class="row">
+                    <h2 class="font-weight-bold" th:text="'Quantite: ' + ${article.stock} + ' pieces'"></h2>
+                </div>
+                <div class="row">
+                    <h2 class="font-weight-bold" th:text="'Prix unitaire: ' + ${article.price} + ' CHF'"></h2>
+                </div>
+                <div class="row">
+                    <h2 class="font-weight-bold" th:text="'Prix total: ' + ${article.price}*${article.stock} + ' CHF'"></h2>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row">
+                    <form method="GET" th:action="@{/cart}">
+                        <div class="form-group">
+                            <label>Quantité: </label>
+                            <input type="text" class="form-control" th:name="quantity"  placeholder="Quantité voulue">
+                            <input type="hidden" th:name="name" th:value="${article.name}">
+                            <input type="hidden" th:name="id" th:value="${article.id}">
+                        </div>
+                        <button type="submit" name="submit" value="value" class="btn btn-lg btn-dark">Modifier la quantite</button>
+                    </form>
+                </div>
+               <div class="row">
+                   <form method="GET" th:action="@{/cart}">
+                       <div class="form-group">
+                           <input type="hidden" th:name="name" th:value="${article.name}">
+                           <input type="hidden" th:name="id" th:value="${article.id}">
+                       </div>
+                       <button type="submit" name="submit" value="value" class="btn btn-lg btn-dark">Supprimer</button>
+                   </form>
+               </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- footer -->
+<footer>
+    <div class="footer layout_padding">
+        <div class="container text_align_center" >
+            <h3>Notre magasin</h3>
+            <h4>Route de Cheseaux 1, CH-1401 Yverdon-les-Bains, Suisse</h4>
+            <br><br>
+            <h4>+41 (0)24 557 63 30</h4>
+            <br><br>
+            <h4>demo@heig-vd.ch</h4>
+        </div>
+    </div>
+    <div class="copyright">
+        <div class="container">
+            <p>Copyright 2019 All Right Reserved By <a href="https://html.design/">Free html Templates</a></p>
+        </div>
+    </div>
+</footer>
+<!-- end footer -->
+</body>
+
+</html>
