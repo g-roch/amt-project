@@ -127,10 +127,11 @@ public class AuthController {
         if (t.getPassword().equals(t.getPassword_confirm())) {
             // process
             try {
-              provider.register(t.getUsername(), t.getPassword());
-              response.sendRedirect("/auth/login");
-              return "login_form";
-            } catch(Exception e) {
+                provider.register(t.getUsername(), t.getPassword());
+                response.sendRedirect("/auth/login");
+                model.addAttribute("login", provider.login(""));
+                return "login_form";
+            } catch (Exception e) {
                 model.addAttribute("error_message", "Echec de l'enregistrement du compte");
                 return "signup_form";
             }
