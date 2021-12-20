@@ -1,30 +1,32 @@
 package com.amt.app.entities;
 
-import net.bytebuddy.implementation.bind.annotation.Empty;
-import org.hibernate.validator.constraints.UniqueElements;
-import org.springframework.lang.Nullable;
-import org.springframework.validation.annotation.Validated;
-
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.NaturalIdCache;
+import org.hibernate.annotations.Cache;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import java.util.*;
 
-@Entity //indique que c'est une identité JPA. Article est map à une table nommée 'Article'
-@Table(name = "article")
-@Validated
+@Entity (name="Article") //indique que c'est une identité JPA. Article est map à une table nommée 'Article'
+@Table(name ="article")
+@NaturalIdCache
+@Cache(
+        usage = CacheConcurrencyStrategy.READ_WRITE
+)
 public class Article {
 
     @Id //identifie le champ comme la clé primaire de l'objet
-    @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY) //On définit qu'on génère les id en fonction de la stratégie mise dans mysql -> auto-increment
     private int id;
 
+    @NaturalId
     @NotEmpty(message = "Article's name cannot be empty.")
-    @Column(name="name", unique = true)
+    @Column(nullable = false, unique = true)
     private String name;
 
-    @Min(0) 
+    @Min(0)
     private Float price;
 
     @NotEmpty(message = "Article's description cannot be empty.")
@@ -35,14 +37,49 @@ public class Article {
     @Min(0)
     private int stock;
 
+    @OneToMany(
+            mappedBy = "article",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Cart> users = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "articles")
+    private List<Category> categories = new ArrayList<>();
+
     public Article() {
     }
+
+    public Article(String name, Float price, String description, String image, int stock) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.image = image;
+        this.stock = stock;
+    }
+
 
     @Transient
     public String getPhotosImagePath() {
         if (image == null) return null;
 
         return "/article-photos/" + id + "/" + image;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    public List<Cart> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<Cart> users) {
+        this.users = users;
     }
 
     public int getId() {
@@ -91,5 +128,19 @@ public class Article {
 
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Article article = (Article) o;
+        return Objects.equals(name, article.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

@@ -49,15 +49,17 @@
                     <div class="menu-area">
                         <div class="limit-box">
                             <nav class="main-menu">
-                                <ul class="menu-area-main">
-                                    <li class="active"><a href="/">Accueil</a></li>
-                                    <li><a href="/articles">Nos produits</a></li>
-                                    <li th:if="${login.getRole().equals('guest')}"><a href="/auth/signup">Register</a></li>
-                                    <li th:if="${login.getRole().equals('guest')}"><a href="/auth/login">Login</a></li>
-                                    <li th:unless="${login.getRole().equals('guest')}"><a href="/auth/logout">Logout</a></li>
-                                    <li><a href="/cart"><i class="fa fa-shopping-basket"></i> Panier</a></li>
-                                    <li th:if="${login.getRole().equals('admin')}"><a href="/admin">Admin</a></li>
-                                </ul>
+                                <div>
+                                    <ul class="menu-area-main">
+                                        <li class="active"><a href="/">Accueil</a></li>
+                                        <li><a href="/articles">Nos produits</a></li>
+                                        <li th:if="${login.getRole().equals('guest')}"><a href="/auth/signup">Register</a></li>
+                                        <li th:if="${login.getRole().equals('guest')}"><a href="/auth/login">Login</a></li>
+                                        <li th:unless="${login.getRole().equals('guest')}"><a href="/auth/logout">Logout</a></li>
+                                        <li><a href="/cart"><i class="fa fa-shopping-basket"></i> Panier</a></li>
+                                        <li th:if="${login.getRole().equals('admin')}"><a href="/admin">Admin</a></li>
+                                    </ul>
+                                </div>
                             </nav>
                         </div>
                     </div>
@@ -67,27 +69,17 @@
     </div>
     <!-- end header inner -->
 </header>
-<!-- end header -->
 
-<div  class="container" align="center">
-    <h1 class="mb-3">Liste des articles</h1>
-    <div class="row mb-3">
-        <form th:action="@{/articles}" method="post">
-            <select th:name="filter_value">
-                <div class="row mb-4 mr-5 w-75 bg-light articleBox" th:each="categorie : ${listCategories}">
-                    <option th:text=${categorie.name}></option>
-
-                </div>
-            </select>
-            <button name="submit" type="submit" class="btn btn-secondary">Filtrer</button>
-        </form>
-    </div>
-
+<!-- content -->
+<div class="container" align="center">
     <div class="mb-5" th:if="${listArticles.empty}">
-        <p>il n'y a pas d'articles</p>
+        <p>There is no articles</p>
     </div>
 
     <div th:if="${not listArticles.empty}">
+        <form method="POST" th:action="@{/cart}">
+            <button type="submit" name="submit" value="value" class="btn btn-lg btn-dark">Vider le panier</button>
+        </form>
         <div class="row mb-4 mr-5 w-75 bg-light articleBox" th:each="article : ${listArticles}">
             <div class="col">
                 <div class="row" th:if="${article.image == 'default.png'}">
@@ -97,30 +89,48 @@
                     <img th:src="@{${article.getPhotosImagePath()}}" width="200"/>
                 </div>
             </div>
-            <div class="col pt-2">
-                <a th:href="@{/article/{id}(id=${article.id})}">
-                    <div class="row">
-                        <h3 class="font-weight-bold m-0" th:text="${article.name}">Name</h3>
-                    </div>
-                    <div class="row mt-3" th:if="${article.stock == 0}">
-                        <button type="button" class="btn btn-sm btn-danger" disabled>Indisponible</button>
-                    </div>
-                    <div class="row" th:if="${article.stock != 0}">
-                        <p th:text="${article.stock} + ' en stock'">Stock</p>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-2 pt-2">
-                <div class="row" th:if="${article.price == null}">
-                    <button type="button" class="btn btn-sm btn-primary" disabled>Bientôt en vente</button>
+            <div class="col">
+                <div class="row">
+                    <h2 class="font-weight-bold" th:text="'Nom: ' + ${article.name}"></h2>
                 </div>
-                <div class="row" th:if="${article.price != null}">
-                    <h2 class="font-weight-bold" th:text="${article.price} + ' CHF'">Price</h2>
+                <div class="row">
+                    <h2 class="font-weight-bold" th:text="'Quantite: ' + ${article.stock} + 'piece(s)'"></h2>
+                </div>
+                <div class="row">
+                    <h2 class="font-weight-bold" th:text="'Prix unitaire: ' + ${article.price} + ' CHF'"></h2>
+                </div>
+                <div class="row">
+                    <h2 class="font-weight-bold" th:text="'Prix total: ' + ${article.price}*${article.stock} + ' CHF'"></h2>
                 </div>
             </div>
+            <div class="col">
+                <div class="row">
+                    <form method="GET" th:action="@{/cart}">
+                        <div class="form-group">
+                            <label>Quantité: </label>
+                            <input type="text" class="form-control" th:name="quantity"  placeholder="Quantité voulue">
+                            <input type="hidden" th:name="name" th:value="${article.name}">
+                            <input type="hidden" th:name="id" th:value="${article.id}">
+                        </div>
+                        <button type="submit" name="submit" value="value" class="btn btn-lg btn-dark">Modifier la quantite</button>
+                    </form>
+                </div>
+               <div class="row">
+                   <form method="GET" th:action="@{/cart}">
+                       <div class="form-group">
+                           <input type="hidden" th:name="name" th:value="${article.name}">
+                           <input type="hidden" th:name="id" th:value="${article.id}">
+                       </div>
+                       <button type="submit" name="submit" value="value" class="btn btn-lg btn-dark">Supprimer</button>
+                   </form>
+               </div>
+
+            </div>
+
         </div>
     </div>
 </div>
+
 
 <!-- footer -->
 <footer>

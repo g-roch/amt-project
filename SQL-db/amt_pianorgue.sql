@@ -3,6 +3,9 @@
 -- Version: 1.0
 -- Roch, Gianinetti, Canton, Zaccaria, Hungerbühler
 
+create schema if not exists `amt_pianorgue`;
+use amt_pianorgue;
+
 -- -----------------------------------------------------
 -- Table `article`
 -- -----------------------------------------------------
@@ -30,13 +33,13 @@ CREATE TABLE IF NOT EXISTS `category` (
 -- Table `article_category`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `article_category` (
-  `articleId` INT UNSIGNED NOT NULL,
-  `categoryId` INT UNSIGNED NOT NULL,
-  CONSTRAINT `article_category_articleId`
-    FOREIGN KEY (`articleId`)
+  `articleid` INT UNSIGNED NOT NULL,
+  `categoryid` INT UNSIGNED NOT NULL,
+  CONSTRAINT `article_category_articleid`
+    FOREIGN KEY (`articleid`)
     REFERENCES `article` (`id`),
-  CONSTRAINT `article_category_categoryId`
-    FOREIGN KEY (`categoryId`)
+  CONSTRAINT `article_category_categoryid`
+    FOREIGN KEY (`categoryid`)
     REFERENCES `category` (`id`)
 ) ENGINE=INNODB;
 
@@ -53,16 +56,16 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Table `cart`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cart` (
-  `userId` INT UNSIGNED NOT NULL,
+  `user_id` INT UNSIGNED NOT NULL,
   `quantity` INT UNSIGNED NOT NULL,
-  `articleId` INT UNSIGNED NOT NULL,
-  CONSTRAINT `cart_articleId`
-    FOREIGN KEY (`articleId`)
+  `article_id` INT UNSIGNED NOT NULL,
+  CONSTRAINT `cart_article_id`
+    FOREIGN KEY (`article_id`)
     REFERENCES `article` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
-  CONSTRAINT `cart_userId`
-    FOREIGN KEY (`userId`)
+  CONSTRAINT `cart_user_id`
+    FOREIGN KEY (`user_id`)
     REFERENCES `user` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT

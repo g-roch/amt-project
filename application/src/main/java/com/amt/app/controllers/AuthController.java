@@ -17,6 +17,8 @@ import java.io.IOException;
 @Controller
 public class AuthController {
 
+    @Autowired
+    private UserService userService;
 //    @Autowired
 //    private Provider authProvider;
 
@@ -29,13 +31,17 @@ public class AuthController {
 
     // Affichage formulaire de login
     @GetMapping("/auth/login")
-    public String login(Model model) {
+    public String login(Model model) throws Exception {
+        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://10.0.1.92:8080/");
+        model.addAttribute("login", provider.login(""));
         return "login_form";
     }
 
     // Affichage formulaire de login
     @GetMapping("/auth")
-    public String login2(Model model) {
+    public String login2(Model model) throws Exception {
+        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://10.0.1.92:8080/");
+        model.addAttribute("login", provider.login(""));
         return "login_form";
     }
 
@@ -50,16 +56,16 @@ public class AuthController {
 
     // Affichage formulaire de login
     @PostMapping("/auth/perform")
-    @ResponseBody
     public String login_perform(@ModelAttribute UserLogin t, HttpServletResponse response, Model model) throws IOException {
         Provider provider;
         User login;
         try {
-            provider = new Provider(service, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+            provider = new Provider(service, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://10.0.1.92:8080/");
+            model.addAttribute("login", provider.login(""));
             login = provider.login(t.getUsername(), t.getPassword());
         } catch (Exception e) {
-            response.sendRedirect("/auth?error=");
-            return "Login error";
+            model.addAttribute("error_message", "Echec de l'authentification");
+            return "login_form";
         }
         Cookie jwt = new Cookie("jwt", login.getJwt());
         jwt.setPath("/");
@@ -67,7 +73,8 @@ public class AuthController {
         jwt.setHttpOnly(true);
         response.addCookie(jwt);
         response.sendRedirect("/");
-        return "login ok";
+        model.addAttribute("login", login);
+        return "index";
     }
 
     // Affichage formulaire de login
@@ -89,7 +96,7 @@ public class AuthController {
     @GetMapping("/auth/role")
     @ResponseBody
     public String check_role(@CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
-        Provider provider = new Provider(service, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+        Provider provider = new Provider(service, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://10.0.1.92:8080/");
         User login = provider.login(jwt);
         return login.getRole();
     }
@@ -116,20 +123,21 @@ public class AuthController {
     // Process du formulaire d'inscription
     @PostMapping("/auth/signup_perform")
     public String signup_perform(@ModelAttribute UserRegister t, HttpServletResponse response, Model model) throws Exception {
-        Provider provider = new Provider(service, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+        Provider provider = new Provider(service, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://10.0.1.92:8080/");
         if (t.getPassword().equals(t.getPassword_confirm())) {
             // process
             try {
-              provider.register(t.getUsername(), t.getPassword());
-              response.sendRedirect("/auth/login");
-              return "login_form";
-            } catch(Exception e) {
+                provider.register(t.getUsername(), t.getPassword());
+                response.sendRedirect("/auth/login");
+                model.addAttribute("login", provider.login(""));
+                return "login_form";
+            } catch (Exception e) {
                 model.addAttribute("error_message", "Echec de l'enregistrement du compte");
-                return "error";
+                return "signup_form";
             }
         } else {
             model.addAttribute("error_message", "Le mot de passe et sa confirmation ne corresponds pas");
-            return "error";
+            return "signup_form";
         }
     }
 

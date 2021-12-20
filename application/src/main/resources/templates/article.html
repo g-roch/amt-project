@@ -72,7 +72,10 @@
     <div class="container" align="center">
         <div class="row mt-5 mb-5">
             <div class="col ml-5">
-                <div class="row mb-3">
+                <div class="row" th:each="categorie : ${article.categories}">
+                    <a th:text="${categorie.name}"></a>
+                </div>
+                <div class="row mb-3 mt-3">
                     <h1 class="font-weight-bold" th:text="${article.name}">Name</h1>
                 </div>
                 <div class="row" th:if="${article.image == 'default.png'}">
@@ -99,12 +102,24 @@
                     <p th:text="${article.stock} + ' en stock'">Stock</p>
                 </div>
                 <div class="row mt-5" th:if="${article.stock != 0}">
-                    <button type="button" class="btn btn-lg btn-dark" th:classappend="${article.price == null} ? 'disabled' : ''">Ajouter au panier</button>
+                    <form method="POST" th:action="@{/article/{id}(id=${article.id})}">
+                        <div class="form-group">
+                            <label>Quantité: </label>
+                            <input type="text" class="form-control" th:name="quantity"  placeholder="Quantité voulue">
+                        </div>
+                        <div th:if="${article.price == null}">
+                            <button type="submit" name="submit" value="calue" class="btn btn-lg btn-dark" disabled>Ajouter au panier</button>
+                        </div>
+                        <div th:if="${article.price != null}">
+                            <button type="submit" name="submit" value="calue" class="btn btn-lg btn-dark">Ajouter au panier</button>
+                        </div>
+                    </form>
                 </div>
                 <div class="row mt-5" th:if="${article.stock == 0}">
                     <p>Cet article n'est pas disponible actuellement</p>
                 </div>
             </div>
+
         </div>
     </div>
 
