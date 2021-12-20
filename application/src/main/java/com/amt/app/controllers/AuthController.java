@@ -32,7 +32,7 @@ public class AuthController {
     // Affichage formulaire de login
     @GetMapping("/auth/login")
     public String login(Model model) throws Exception {
-        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://10.0.1.92:8080/");
         model.addAttribute("login", provider.login(""));
         return "login_form";
     }
@@ -40,7 +40,7 @@ public class AuthController {
     // Affichage formulaire de login
     @GetMapping("/auth")
     public String login2(Model model) throws Exception {
-        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://10.0.1.92:8080/");
         model.addAttribute("login", provider.login(""));
         return "login_form";
     }
@@ -60,7 +60,7 @@ public class AuthController {
         Provider provider;
         User login;
         try {
-            provider = new Provider(service, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+            provider = new Provider(service, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://10.0.1.92:8080/");
             model.addAttribute("login", provider.login(""));
             login = provider.login(t.getUsername(), t.getPassword());
         } catch (Exception e) {
@@ -96,7 +96,7 @@ public class AuthController {
     @GetMapping("/auth/role")
     @ResponseBody
     public String check_role(@CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
-        Provider provider = new Provider(service, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+        Provider provider = new Provider(service, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://10.0.1.92:8080/");
         User login = provider.login(jwt);
         return login.getRole();
     }
@@ -123,7 +123,7 @@ public class AuthController {
     // Process du formulaire d'inscription
     @PostMapping("/auth/signup_perform")
     public String signup_perform(@ModelAttribute UserRegister t, HttpServletResponse response, Model model) throws Exception {
-        Provider provider = new Provider(service, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+        Provider provider = new Provider(service, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://10.0.1.92:8080/");
         if (t.getPassword().equals(t.getPassword_confirm())) {
             // process
             try {

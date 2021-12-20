@@ -19,7 +19,7 @@ public class MainController {
     // Affichage de la home page
     @RequestMapping(method = RequestMethod.GET)
     public String showHome(Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
-        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://10.0.1.92:8080/");
         User login = provider.login(jwt);
         model.addAttribute("login", login);
         return "index";
