@@ -3,6 +3,9 @@
 -- Version: 1.0
 -- Roch, Gianinetti, Canton, Zaccaria, Hungerbühler
 
+create schema if not exists `amt_pianorgue`;
+use amt_pianorgue;
+
 -- -----------------------------------------------------
 -- Table `article`
 -- -----------------------------------------------------
@@ -53,17 +56,26 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Table `cart`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cart` (
-  `userid` INT UNSIGNED NOT NULL,
+  `user_id` INT UNSIGNED NOT NULL,
   `quantity` INT UNSIGNED NOT NULL,
-  `articleid` INT UNSIGNED NOT NULL,
-  CONSTRAINT `cart_articleid`
-    FOREIGN KEY (`articleid`)
+  `article_id` INT UNSIGNED NOT NULL,
+  CONSTRAINT `cart_article_id`
+    FOREIGN KEY (`article_id`)
     REFERENCES `article` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
-  CONSTRAINT `cart_userid`
-    FOREIGN KEY (`userid`)
+  CONSTRAINT `cart_user_id`
+    FOREIGN KEY (`user_id`)
     REFERENCES `user` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT
 ) ENGINE=INNODB;
+
+-- -----------------------------------------------------
+-- Table `hibernate_sequence`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `hibernate_sequence` (
+  `next_val` BIGINT NULL DEFAULT NULL)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;

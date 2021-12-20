@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,7 +38,19 @@ public class ArticleService {
         repository.deleteById(id);
     }
 
+    public List<Article> getArticlesByCategoryId(int categoryId){
+        List<Integer> articlesId = repository.getArticlesIdByCategoryId(categoryId);
+        List<Article> listArticles = new ArrayList<>();
+        for(Integer id : articlesId){
+            listArticles.add(this.get(id));
+        }
+        return listArticles;
+    }
+  
+    public int findStockByArticleName(String name){
+        return repository.findStockByArticleName(name);
+    }
 
-
+    public int findIdByArticleName(String name) { return repository.findIdByArticleName(name); }
 
 }
