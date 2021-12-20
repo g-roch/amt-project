@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- basic -->
     <meta charset="utf-8">
@@ -32,12 +32,102 @@
 </head>
 <!-- body -->
 <body>
+
+<!-- header -->
+<header id="home">
+    <!-- header inner -->
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
+                    <div class="full">
+                        <div class="center-desk">
+                            <div class="logo"> <a href="/"><img src="../images/logo.png" alt="#"></a> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end header inner -->
+</header>
+<!-- end header -->
+<div style="margin-left: 30em">
+
 <h1>Création de compte</h1>
-<form method="post" action="/auth/signup_perform">
-    <input type="text" name="username" placeholder="username" required/> </br>
-    <input type="password" name="password" placeholder="password" required/> </br>
-    <input type="password" name="password_confirm" placeholder="confirmation password" required/> </br>
-    <input type="submit"/>
-</form>
+
+    <div th:if="${error_message != null}">
+        <p class="text-danger" align="center">Une erreur est survenue : [[${error_message}]]</p>
+    </div>
+</div>
+
+<style>
+    .divider-text {
+        position: relative;
+        text-align: center;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+    .divider-text span {
+        padding: 7px;
+        font-size: 12px;
+        position: relative;
+        z-index: 2;
+    }
+    .divider-text:after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        border-bottom: 1px solid #ddd;
+        top: 55%;
+        left: 0;
+        z-index: 1;
+    }
+
+    .btn-facebook {
+        background-color: #405D9D;
+        color: #fff;
+    }
+    .btn-twitter {
+        background-color: #42AEEC;
+        color: #fff;
+    }
+</style>
+
+
+<div class="container">
+    <div class="card bg-light">
+        <article class="card-body mx-auto" style="max-width: 400px;">
+            <h4 class="card-title mt-3 text-center">Create Account</h4>
+            <form method="post" action="/auth/signup_perform">
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                    </div>
+                    <input name="username" class="form-control" placeholder="username" type="text">
+                </div> <!-- form-group// -->
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                    </div>
+                    <input name="password" class="form-control" placeholder="Create password" type="password">
+                </div> <!-- form-group// -->
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                    </div>
+                    <input  name="password_confirm" class="form-control" placeholder="Repeat password" type="password">
+                </div> <!-- form-group// -->
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block"> Create Account  </button>
+                </div> <!-- form-group// -->
+                <p class="text-center">Have an account? <a href="/auth">Log In</a> </p>
+            </form>
+        </article>
+    </div> <!-- card.// -->
+
+</div>
+<!--container end.//-->
+
 </body>
 </html>
