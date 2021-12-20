@@ -187,7 +187,7 @@ public class ArticleController {
 
         article.setImage(fileName);
 
-        model.addAttribute("sucessfulMessage", "Catégorie crée avec succès.");
+        model.addAttribute("sucessfulMessage", "Article crée avec succès.");
         Article savedArticle = articleService.addArticle(article);
 
         //Upload de l'image uniquement si il a mis une image
