@@ -1,24 +1,12 @@
 package com.amt.app;
 
-import com.amt.app.controllers.ArticleController;
 import com.amt.app.entities.Article;
-import com.amt.app.service.ArticleService;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class ArticleTest {
-
-    /*
-    @Test
-    public void contextLoads() throws Exception {
-        assertThat(controller).isNotNull();
-    }
-     */
 
     @Test
     void ArticleName(){
@@ -41,7 +29,7 @@ public class ArticleTest {
     @Test
     void ArticlePrice(){
         Article article = new Article();
-        float price = 100;
+        Float price = 100f;
 
         article.setPrice(price);
         assertEquals(article.getPrice(), price);
@@ -72,6 +60,21 @@ public class ArticleTest {
         Article article = new Article();
         article.setImage(image);
         assertEquals(article.getImage(), image);
+    }
+
+    @Test
+    void ArticleEquals(){
+        Article article1 = new Article();
+        String name1 = "article1";
+        article1.setName(name1);
+
+        Article article2 = new Article();
+        String name2 = "article2";
+        article2.setName(name2);
+
+        assertFalse(article1.equals(article2));
+        article2.setName(name1);
+        assertTrue(article1.equals(article2));
     }
 
 
