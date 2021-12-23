@@ -73,7 +73,6 @@ public class CategoryController {
             model.addAttribute("listArticles", listArticles);
             return "confirm_delete_category";
         }else{
-
             categoryService.delete(categoryId);
             model.addAttribute("sucessfulMessage", "Catégorie supprimée avec succès.");
         }
@@ -134,7 +133,7 @@ public class CategoryController {
         // Vérification si elle existe déjà
         List<Category> categories = categoryService.listAll();
         for(Category c : categories){
-            if(c.getName().equals(category.getName())){
+            if(c.equals(category)){
                 List<Category> listCategories = categoryService.listAll();
                 model.addAttribute("categories", listCategories);
                 model.addAttribute("categoryExists", true);

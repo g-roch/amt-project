@@ -62,21 +62,28 @@ public class ArticleController {
         User login = provider.login(jwt);
         model.addAttribute("login", login);
 
+        // Filtrage. Si defaut on envoie tous les articles sinon on renvoie une liste filtrée
         List<Article> listArticles = articleService.listAll();
-        List<Article> filteredList = new ArrayList<Article>();
-
-        for(Article article: listArticles){
-            for(Category category : article.getCategories())
-            if(category.getName().equals(filter_value)){
-                filteredList.add(article);
+        if(filter_value.equals("all")){
+            model.addAttribute("listArticles", listArticles);
+        }else{
+            List<Article> filteredList = new ArrayList<Article>();
+            for(Article article: listArticles){
+                for(Category category : article.getCategories())
+                    if(category.getName().equals(filter_value)){
+                        filteredList.add(article);
+                    }
             }
+            model.addAttribute("listArticles", filteredList);
         }
 
-        model.addAttribute("listArticles", filteredList);
 
         //Envoyer toutes les catégories pour le filtre
         List<Category> listCategories = categoryService.getAllCategoriesLinkedToArticles();
         model.addAttribute("listCategories", listCategories);
+
+        //Envoyer quel filtre on a utilisé
+        model.addAttribute("filterChoice", filter_value);
 
         return "articles";
     }
@@ -165,7 +172,7 @@ public class ArticleController {
         List<Article> articles = articleService.listAll();
         Article exists = null;
         for(Article a : articles){
-            if(a.getName().equals(article.getName())){
+            if(a.equals(article)){
                 exists = a;
             }
         }
