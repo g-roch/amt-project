@@ -2,8 +2,6 @@
 
 Pianorgue est un site e-commerce de vente d'instruments de musique.
 
-[toc]
-
 ## Prérequis
 
 **Installation de Maven**
@@ -76,7 +74,7 @@ Les ligne à vérifier sont :
 
 
 
-### Accès au service d'authentification
+### Accès au service d'authentification (pour le développement)
 
 Afin d'accéder au service d'authentification, le port `localhost:8081` doit être redirigé vers le service d'authentification (`10.0.1.92:8080`). 
 
@@ -87,7 +85,7 @@ Afin d'accéder au service d'authentification, le port `localhost:8081` doit êt
 Si vous avez des suggestions pour améliorer le projet, veuillez tout d'abord lire toutes les informations qui se trouvent dans le [Wiki](https://github.com/g-roch/amt-project/wiki). Les pull-requests sont les bien venues. Pour les changements majeurs, veuillez ouvrir une [issue](https://github.com/g-roch/amt-project/issues). Veuillez vous assurer de mettre à jour les tests le cas échéant. 
 
 1. Fork le projet
-2. Créer sa branche selon les conventions
+2. Créer sa branche selon les conventions (voir wiki)
 3. Commit vos changements 
 4. Push sur sa branch
 5. Ouvrir une pull request
