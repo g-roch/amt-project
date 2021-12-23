@@ -107,7 +107,12 @@
                             <label>Quantité: </label>
                             <input type="text" class="form-control" th:name="quantity"  placeholder="Quantité voulue">
                         </div>
-                        <button type="submit" name="submit" value="calue" class="btn btn-lg btn-dark" th:classappend="${article.price == null} ? 'disabled' : ''">Ajouter au panier</button>
+                        <div th:if="${article.price == null}">
+                            <button type="submit" name="submit" value="calue" class="btn btn-lg btn-dark" disabled>Ajouter au panier</button>
+                        </div>
+                        <div th:if="${article.price != null}">
+                            <button type="submit" name="submit" value="calue" class="btn btn-lg btn-dark">Ajouter au panier</button>
+                        </div>
                     </form>
                 </div>
                 <div class="row mt-5" th:if="${article.stock == 0}">

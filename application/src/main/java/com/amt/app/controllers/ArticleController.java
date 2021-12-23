@@ -6,7 +6,6 @@ import com.amt.app.auth.User;
 import com.amt.app.entities.Article;
 import com.amt.app.entities.Cart;
 import com.amt.app.entities.Category;
-import com.amt.app.repository.CartRepository;
 import com.amt.app.service.ArticleService;
 import com.amt.app.service.CartService;
 import com.amt.app.service.CategoryService;
@@ -162,6 +161,7 @@ public class ArticleController {
     public String submitFormArticle(@Valid Article article, BindingResult result, Model model ,
                              @RequestParam("file") MultipartFile multipartFile) throws IOException {
 
+
         //@Valid control les entrées de l'utilisateurs selon les annotation dans l'entité
         if (result.hasErrors()) {
             System.out.println(result.getAllErrors());
@@ -194,7 +194,7 @@ public class ArticleController {
 
         article.setImage(fileName);
 
-        model.addAttribute("article", article);
+        model.addAttribute("sucessfulMessage", "Article crée avec succès.");
         Article savedArticle = articleService.addArticle(article);
 
         //Upload de l'image uniquement si il a mis une image
@@ -203,6 +203,6 @@ public class ArticleController {
             FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
         }
 
-        return "article_success";
+        return "article_formular";
     }
 }
