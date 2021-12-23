@@ -80,6 +80,16 @@ Afin d'accéder au service d'authentification, le port `localhost:8081` doit êt
 
 
 
+## Diagrammes
+### UML de la base de donnée
+
+![](./img/DbUML.png)
+
+### Diagrammes des classes et de leurs méthodes
+
+![](./img/DiagrammeClasses.png)
+
+
 ## Contribution
 
 Si vous avez des suggestions pour améliorer le projet, veuillez tout d'abord lire toutes les informations qui se trouvent dans le [Wiki](https://github.com/g-roch/amt-project/wiki). Les pull-requests sont les bien venues. Pour les changements majeurs, veuillez ouvrir une [issue](https://github.com/g-roch/amt-project/issues). Veuillez vous assurer de mettre à jour les tests le cas échéant. 
