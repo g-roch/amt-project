@@ -28,18 +28,18 @@ git clone git@github.com:g-roch/amt-project.git
 
 ### Mise en place
 
-Pour fonctionner en local, l'application nécessite une base de donnée en local. [MySQLWorkbench](https://dev.mysql.com/downloads/workbench/) est utilité dans ce projet, d'autres alternative existent mais nous conseillons d'utiliser cet outil. 
+Pour fonctionner en local, l'application nécessite une base de donnée en local. [MySQLWorkbench](https://dev.mysql.com/downloads/workbench/) est utilisé dans ce projet, d'autres alternatives existent mais nous conseillons d'utiliser cet outil. 
 
-Une fois l'outil installé et le serveur SQL démarré, il est nécessaire exécuter les scripts suivants : 
+Une fois l'outil installé et le serveur SQL démarré, il est nécessaire d'exécuter les scripts suivants : 
 
-* `amt_pianorgue.sql` qui permet la création des table de la DB.
-* `insert_articles.sql` qui permet de peupler les tables en insérant des articles 
+* `amt_pianorgue.sql` qui permet la création des tables de la DB.
+* `insert_articles.sql` qui permet de peupler les tables en insérant des articles.
 
 
 
-Il est à noté qu'il faut s'assurer ensuite de la bonne configuration de la DB dans le code source de l'application, cela se trouve dans le fichier `application/src/main/resources/application.properties`.
+Il est à noter qu'il faut s'assurer ensuite de la bonne configuration de la DB dans le code source de l'application, cela se trouve dans le fichier `application/src/main/resources/application.properties`.
 
-Les ligne à vérifier sont : 
+Les lignes à vérifier sont : 
 
 * spring.datasource.url=jdbc:mysql://`localhost:3306/amt_pianorgue`
 
