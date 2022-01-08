@@ -13,7 +13,7 @@ import org.springframework.ui.Model;
 @Controller
 @RequestMapping("/")
 public class MainController {
-    @Autowired
+    @Autowired //TODO NGY Field injection not recommended
     private UserService userService;
 
     // Affichage de la home page

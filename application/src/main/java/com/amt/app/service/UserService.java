@@ -10,10 +10,10 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 public class UserService {
-    @Autowired
+    @Autowired //TODO NGY Field injection not recommended
     private UserRepository repository;
 
-    @Autowired
+    @Autowired //TODO NGY Field injection not recommended
     public void setUserRepository(UserRepository userRepository){
         this.repository = userRepository;
     }

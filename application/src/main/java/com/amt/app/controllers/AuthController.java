@@ -17,8 +17,9 @@ import java.io.IOException;
 @Controller
 public class AuthController {
 
-    @Autowired
+    @Autowired //TODO NGY Field injection not recommended
     private UserService userService;
+    //TODO NGY please remove commented code before review
 //    @Autowired
 //    private Provider authProvider;
 
@@ -26,7 +27,7 @@ public class AuthController {
 //        this.service = articleService;
 //    }
 
-    @Autowired
+    @Autowired //TODO NGY Field injection not recommended
     private UserService service;
 
     // Affichage formulaire de login

@@ -4,7 +4,7 @@ import com.amt.app.service.UserService;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.Setter;//TODO NGY remove unused import statement
 
 public class User {
 

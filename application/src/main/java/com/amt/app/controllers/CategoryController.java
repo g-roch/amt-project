@@ -12,10 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartFile;//TODO NGY remove unused import statement
 
 import javax.validation.Valid;
-import java.io.IOException;
+import java.io.IOException;//TODO NGY remove unused import statement
 import java.util.List;
 
 @Controller
@@ -23,13 +23,13 @@ import java.util.List;
 public class CategoryController {
 
 
-    @Autowired
+    @Autowired //TODO NGY Field injection not recommended
     private CategoryService categoryService;
 
-    @Autowired
+    @Autowired //TODO NGY Field injection not recommended
     private UserService userService;
 
-    @Autowired
+    @Autowired //TODO NGY Field injection not recommended
     private ArticleService articleService;
 
     // Affichage de base

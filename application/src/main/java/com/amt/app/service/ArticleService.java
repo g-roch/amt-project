@@ -1,7 +1,7 @@
 package com.amt.app.service;
 
 import com.amt.app.entities.Article;
-import com.amt.app.entities.Category;
+import com.amt.app.entities.Category;//TODO NGY remove unused import statement
 import com.amt.app.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import java.util.List;
 @Transactional
 public class ArticleService {
 
-    @Autowired
+    @Autowired //TODO NGY Field injection not recommended
     private ArticleRepository repository;
 
     @Autowired
@@ -34,6 +34,7 @@ public class ArticleService {
         return repository.save(article);
     }
 
+    //TODO NGY Method never used
     public void delete(Integer id){
         repository.deleteById(id);
     }
@@ -51,6 +52,7 @@ public class ArticleService {
         return repository.findStockByArticleName(name);
     }
 
+    //TODO NGY Method never used
     public int findIdByArticleName(String name) { return repository.findIdByArticleName(name); }
 
 }

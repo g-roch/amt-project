@@ -27,13 +27,13 @@ import java.util.*;
 @Controller
 public class ArticleController {
 
-    @Autowired
+    @Autowired //TODO NGY Field injection not recommended
     private ArticleService articleService;
-    @Autowired
+    @Autowired //TODO NGY Field injection not recommended
     private UserService userService;
-    @Autowired
+    @Autowired //TODO NGY Field injection not recommended
     private CategoryService categoryService;
-    @Autowired
+    @Autowired //TODO NGY Field injection not recommended
     private CartService cartService;
 
 

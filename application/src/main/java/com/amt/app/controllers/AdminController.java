@@ -19,13 +19,13 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    @Autowired
+    @Autowired //TODO NGY Field injection not recommended
     private UserService userService;
 
-    @Autowired
+    @Autowired //TODO NGY Field injection not recommended
     private ArticleService articleService;
 
-    @Autowired
+    @Autowired //TODO NGY Field injection not recommended
     private CategoryService categoryService;
 
     // Filtre pour l'admin

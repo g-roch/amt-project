@@ -1,13 +1,13 @@
 package com.amt.app.service;
 
-import com.amt.app.entities.Article;
+import com.amt.app.entities.Article;//TODO NGY remove unused import statement
 import com.amt.app.entities.Cart;
-import com.amt.app.entities.User;
+import com.amt.app.entities.User;//TODO NGY remove unused import statement
 import com.amt.app.repository.ArticleRepository;
 import com.amt.app.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.jpa.repository.Query;//TODO NGY remove unused import statement
+import org.springframework.data.repository.query.Param;//TODO NGY remove unused import statement
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,9 +17,9 @@ import java.util.List;
 @Transactional
 public class CartService {
 
-    @Autowired
+    @Autowired //TODO NGY Field injection not recommended
     private CartRepository cartRepository;
-    @Autowired
+    @Autowired //TODO NGY Field injection not recommended
     private ArticleRepository articleRepository;
 
     public void addCart(Cart cart) {

@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 //Cette classe permet de représenter un id dans la classe Cart qui n'a pas d'id unique
-//@Embeddable doit implémenter Serializable et override les méthodes equals et hashCode
+//@Embeddable doit implémenter Serializable et override les méthodes equals et hashCode //TODO NGY - purpose of this comment ?
 @Embeddable
 public class CartId implements Serializable {
 

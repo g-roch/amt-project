@@ -50,6 +50,7 @@ public class User {
     On pourrait ajouter les mêmes méthodes à la classe Article, mais comme se sont les users qui vont ajouter des articles
     et pas inversement, ce n'est pas nécessaire.
      */
+    //TODO NGY this paragraph may be an issue, please remove it from code before review
     public void addArticle(Article article, int quantity) {
         Cart cart = new Cart(article, this, quantity);
         articles.add(cart);

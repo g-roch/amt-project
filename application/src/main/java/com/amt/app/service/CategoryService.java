@@ -1,8 +1,8 @@
 package com.amt.app.service;
 
-import com.amt.app.entities.Article;
+import com.amt.app.entities.Article;//TODO NGY remove unused import statement
 import com.amt.app.entities.Category;
-import com.amt.app.repository.ArticleRepository;
+import com.amt.app.repository.ArticleRepository;//TODO NGY remove unused import statement
 import com.amt.app.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,10 @@ import java.util.List;
 @Service
 public class CategoryService {
 
-    @Autowired
+    @Autowired //TODO NGY Field injection not recommended
     private CategoryRepository repository;
 
-    @Autowired
+    @Autowired //TODO NGY Field injection not recommended
     public void setArticleRepository(CategoryRepository categoryRepository){
         this.repository = categoryRepository;
     }
