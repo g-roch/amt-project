@@ -1,3 +1,9 @@
+/**
+ * Filename: PianorgueApp.java
+ * Description: Spring boot starter file
+ *
+ * @author Dylan Canton, Lucas Gianinetti, Nicolas Hungerbühler, Gabriel Roch, Christian Zaccaria
+ */
 package com.amt.app;
 
 import org.springframework.boot.SpringApplication;

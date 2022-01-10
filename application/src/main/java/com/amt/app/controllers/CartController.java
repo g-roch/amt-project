@@ -1,3 +1,9 @@
+/**
+ * Manage actions to create, update and delete a cart
+ * @see Cart.java, CartRepository.java, CartService.java
+ * @author Dylan Canton, Lucas Gianinetti, Nicolas Hungerbühler, Gabriel Roch, Christian Zaccaria
+ */
+
 package com.amt.app.controllers;
 
 
@@ -34,10 +40,14 @@ public class CartController {
     @Autowired
     private ArticleService articleService;
 
+    /**
+     * Get articles in the cart of a user
+     * @return list of those articles
+     */
     private List<Article> getArticles(User login, HttpSession session){
         List<Article> listArticles = new ArrayList<Article>();
 
-        //Si l'utilisateur est un guess, on va chercher les articles du panier dans les attributs de la session
+        //If user is a guest we get the articles from session attributes
         if(login.getRole().equals("guest")){
             Enumeration<String> attributes = session.getAttributeNames();
 
@@ -46,7 +56,7 @@ public class CartController {
                 listArticles.add((Article)session.getAttribute(attribute));
             }
         }else{
-            //Si c'est un utilisateur authentifié on va chercher les articles dans la db
+            //If user is authenticated we get articles in the db
             List<Cart> carts = new ArrayList<>();
             com.amt.app.entities.User user = new com.amt.app.entities.User(login.getId());
             carts = cartService.findCartsByUserId(user.getId());
@@ -61,6 +71,10 @@ public class CartController {
         return listArticles;
     }
 
+    /**
+     * Display cart
+     * @return page to display
+     */
     @GetMapping("/cart")
     public String showArticles(Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt, HttpSession session) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
@@ -73,6 +87,13 @@ public class CartController {
         return "cart";
     }
 
+    /**
+     * Update quantity of an article
+     * @param quantity quantity to update
+     * @param name name of article
+     * @param id id of article
+     * @return page to display
+     */
    @GetMapping(value = "/cart", params = {"quantity", "name", "id"})
     public String updateQuantity(@RequestParam(value = "quantity") int quantity, @RequestParam(value = "name") String name, @RequestParam(value = "id") int id, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt, HttpSession session) throws Exception {
        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
@@ -103,14 +124,18 @@ public class CartController {
        return "cart";
    }
 
-
+    /**
+     * Delete an article from cart
+     * @param name name of article
+     * @param id id of article
+     * @return page to display
+     */
     @GetMapping(value = "/cart", params = {"name", "id"})
     public String deleteCart(@RequestParam(value = "name") String name, @RequestParam(value = "id") int id, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt, HttpSession session) throws Exception {
        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
        User login = provider.login(jwt);
        model.addAttribute("login", login);
 
-       System.out.println("testttttttttttttttttt");
        if(login.getRole().equals("guest")){
             session.removeAttribute(name);
        }else{
@@ -123,6 +148,10 @@ public class CartController {
        return "cart";
    }
 
+    /**
+     * Empty the entire cart
+     * @return page to display
+     */
    @PostMapping("/cart")
    public String emptyCart(Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt, HttpSession session) throws Exception {
        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");

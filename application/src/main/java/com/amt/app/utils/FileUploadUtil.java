@@ -1,3 +1,8 @@
+/**
+ * Manage the upload of files in order to upload an image of an article
+ *
+ * @author Dylan Canton, Lucas Gianinetti, Nicolas Hungerbühler, Gabriel Roch, Christian Zaccaria
+ */
 package com.amt.app.utils;
 
 import java.io.*;
@@ -8,6 +13,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class FileUploadUtil {
 
+    /**
+     * Save a file
+     * @param uploadDir directory in which the file is saved
+     * @param fileName filename of the file to be saved
+     * @param multipartFile inputstream
+     */
     public static void saveFile(String uploadDir, String fileName,
                                 MultipartFile multipartFile) throws IOException {
         Path uploadPath = Paths.get(uploadDir);

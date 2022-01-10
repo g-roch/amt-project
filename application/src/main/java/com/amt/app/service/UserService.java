@@ -1,3 +1,9 @@
+/**
+ * Link the User entity and its custom requests to the database
+ * @see User.java, UserRepository.java
+ * @author Dylan Canton, Lucas Gianinetti, Nicolas Hungerbühler, Gabriel Roch, Christian Zaccaria
+ */
+
 package com.amt.app.service;
 
 import com.amt.app.entities.User;

@@ -1,3 +1,8 @@
+/**
+ * Link the Cart entity and its custom requests to the database
+ * @see CartController.java, Cart.java, CartRepository.java
+ * @author Dylan Canton, Lucas Gianinetti, Nicolas Hungerbühler, Gabriel Roch, Christian Zaccaria
+ */
 package com.amt.app.service;
 
 import com.amt.app.entities.Article;

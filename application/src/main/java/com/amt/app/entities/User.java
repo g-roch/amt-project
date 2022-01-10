@@ -1,3 +1,8 @@
+/**
+ * Entity that represents an User
+ * @see UserRepository.java, UserService.java
+ * @author Dylan Canton, Lucas Gianinetti, Nicolas Hungerbühler, Gabriel Roch, Christian Zaccaria
+ */
 package com.amt.app.entities;
 
 import lombok.Getter;
@@ -44,12 +49,6 @@ public class User {
         this.id = id;
     }
 
-
-    /*
-    addArticle et removeArticle sont nécessaires car cela permet la synchronisation entre les deux cotés de l'association bidirectionnelle représentée par Cart
-    On pourrait ajouter les mêmes méthodes à la classe Article, mais comme se sont les users qui vont ajouter des articles
-    et pas inversement, ce n'est pas nécessaire.
-     */
     public void addArticle(Article article, int quantity) {
         Cart cart = new Cart(article, this, quantity);
         articles.add(cart);

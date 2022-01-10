@@ -1,3 +1,12 @@
+/**
+ * Description de la classe
+ * Explication supplémentaire si nécessaire
+ *
+ * @version <numéro de version>
+ *
+ * @see UneAutreClasse
+ * @author nom du(des) collaborateur(s)
+ */`
 package com.amt.app.auth;
 
 import com.amt.app.service.UserService;

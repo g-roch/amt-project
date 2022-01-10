@@ -1,3 +1,9 @@
+/**
+ * Manage actions to create and delete a category
+ * @see Category.java, CategoryRepository.java, CategoryService.java
+ * @author Dylan Canton, Lucas Gianinetti, Nicolas Hungerbühler, Gabriel Roch, Christian Zaccaria
+ */
+
 package com.amt.app.controllers;
 
 import com.amt.app.auth.Provider;
@@ -32,7 +38,10 @@ public class CategoryController {
     @Autowired
     private ArticleService articleService;
 
-    // Affichage de base
+    /**
+     * Display create category forumlar
+     * @return page to display
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String showCreateCategory(Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
@@ -56,7 +65,11 @@ public class CategoryController {
         return return_page;
     }
 
-    //Delete une catégorie
+    /**
+     * Delete a category
+     * @param categoryId id of category to delete
+     * @return page to display
+     */
     @RequestMapping(method = RequestMethod.POST, params = "delete")
     public String deleteCategory(@RequestParam("categoryId") int categoryId, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
@@ -65,7 +78,7 @@ public class CategoryController {
 
         Category deletingCategory = categoryService.get(categoryId);
 
-        //Check si la categorie a un article
+        //If category contains an article
         if(!deletingCategory.getArticles().isEmpty()){
             Category category = categoryService.get(categoryId);
             model.addAttribute("category", category);
@@ -77,7 +90,7 @@ public class CategoryController {
             model.addAttribute("sucessfulMessage", "Catégorie supprimée avec succès.");
         }
 
-        //Envoyer les différents attributs nécessaires à l'affichage
+        //Add attributes needed to display page
         Category category = new Category();
         model.addAttribute("category", category);
         List<Category> categories = categoryService.listAll();
@@ -86,6 +99,11 @@ public class CategoryController {
         return "category_formular";
     }
 
+    /**
+     * Confirm deletion of a category
+     * @param categoryId id of category to delete
+     * @return page to display
+     */
     @RequestMapping(method = RequestMethod.POST, params = "confirmDelete")
     public String confirmDeleteCategory(@RequestParam("categoryId") int categoryId, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
@@ -102,6 +120,11 @@ public class CategoryController {
         return "category_formular";
     }
 
+    /**
+     * Cancel deletion of a category
+     * @param categoryId id of category
+     * @return page to display
+     */
     @RequestMapping(method = RequestMethod.POST, params = "cancelDelete")
     public String cancelDeleteCategory(@RequestParam("categoryId") int categoryId, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
@@ -116,7 +139,11 @@ public class CategoryController {
         return "category_formular";
     }
 
-    // Créer une catégorie
+    /**
+     * Create a category
+     * @param category category to create
+     * @return page to display
+     */
     @RequestMapping(method = RequestMethod.POST, params = "create")
     public String submitFormCategory(@Valid Category category, BindingResult result, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
@@ -130,7 +157,7 @@ public class CategoryController {
             return "category_formular";
         }
 
-        // Vérification si elle existe déjà
+        //Check if category already exists
         List<Category> categories = categoryService.listAll();
         for(Category c : categories){
             if(c.equals(category)){
@@ -143,7 +170,7 @@ public class CategoryController {
 
         categoryService.addCategory(category);
 
-        //Envoyer les différents attributs nécessaires à l'affichage
+        //Add attributes needed to display page
         model.addAttribute("sucessfulMessage", "Catégorie crée avec succès.");
         List<Category> listCategories = categoryService.listAll();
         model.addAttribute("categories", listCategories);

@@ -1,3 +1,8 @@
+/**
+ * Entity that represents an Article
+ * @see ArticleController.java, ArticleRepository.java, ArticleService.java
+ * @author Dylan Canton, Lucas Gianinetti, Nicolas Hungerbühler, Gabriel Roch, Christian Zaccaria
+ */
 package com.amt.app.entities;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -9,7 +14,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import java.util.*;
 
-@Entity (name="Article") //indique que c'est une identité JPA. Article est map à une table nommée 'Article'
+@Entity (name="Article")
 @Table(name ="article")
 @NaturalIdCache
 @Cache(
@@ -17,8 +22,8 @@ import java.util.*;
 )
 public class Article {
 
-    @Id //identifie le champ comme la clé primaire de l'objet
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //On définit qu'on génère les id en fonction de la stratégie mise dans mysql -> auto-increment
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NaturalId

@@ -1,3 +1,9 @@
+/**
+ * Link the Category entity and its custom requests to the database
+ * @see CategoryController.java, Category.java, CategoryRepository.java
+ * @author Dylan Canton, Lucas Gianinetti, Nicolas Hungerbühler, Gabriel Roch, Christian Zaccaria
+ */
+
 package com.amt.app.service;
 
 import com.amt.app.entities.Article;
@@ -38,6 +44,10 @@ public class CategoryService {
         repository.deleteById(id);
     }
 
+    /**
+     * Get all categories linked to articles
+     * @return List of categories
+     */
     public List<Category> getAllCategoriesLinkedToArticles(){
         List<Integer> categoriesId = repository.getAllCategoriesLinkedToArticles();
         List<Category> listCategories = new ArrayList<>();

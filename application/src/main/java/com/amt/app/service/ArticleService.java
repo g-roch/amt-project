@@ -1,3 +1,9 @@
+/**
+ * Link the Article entity and its custom requests to the database
+ * @see ArticleController.java, Article.java, ArticleRepository.java
+ * @author Dylan Canton, Lucas Gianinetti, Nicolas Hungerbühler, Gabriel Roch, Christian Zaccaria
+ */
+
 package com.amt.app.service;
 
 import com.amt.app.entities.Article;
@@ -38,6 +44,11 @@ public class ArticleService {
         repository.deleteById(id);
     }
 
+    /**
+     * Get all articles belonging to a category
+     * @param categoryId id of category
+     * @return list of articles
+     */
     public List<Article> getArticlesByCategoryId(int categoryId){
         List<Integer> articlesId = repository.getArticlesIdByCategoryId(categoryId);
         List<Article> listArticles = new ArrayList<>();
