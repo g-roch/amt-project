@@ -63,7 +63,6 @@ public class Article {
         this.stock = stock;
     }
 
-
     @Transient
     public String getPhotosImagePath() {
         if (image == null) return null;
@@ -134,7 +133,6 @@ public class Article {
     public void setStock(int stock) {
         this.stock = stock;
     }
-
 
     @Override
     public boolean equals(Object o) {

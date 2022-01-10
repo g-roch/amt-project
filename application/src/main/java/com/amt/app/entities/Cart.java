@@ -6,7 +6,6 @@
 package com.amt.app.entities;
 
 import org.springframework.data.annotation.Id;
-
 import javax.persistence.*;
 import java.util.Objects;
 

@@ -35,7 +35,4 @@ public class MainController {
         model.addAttribute("login", login);
         return "index";
     }
-
-
-
 }

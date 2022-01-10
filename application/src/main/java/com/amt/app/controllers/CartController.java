@@ -31,11 +31,8 @@ import java.util.*;
 @Controller
 public class CartController {
 
-
     private CartService cartService;
-
     private UserService userService;
-
     private ArticleService articleService;
 
     public CartController(CartService cartService, UserService userService, ArticleService articleService) {

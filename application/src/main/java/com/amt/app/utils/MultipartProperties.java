@@ -150,5 +150,4 @@ public class MultipartProperties {
         }
         return factory.createMultipartConfig();
     }
-
 }

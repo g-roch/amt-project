@@ -24,9 +24,7 @@ import java.util.List;
 public class AdminController {
 
     private UserService userService;
-
     private ArticleService articleService;
-
     private CategoryService categoryService;
 
     public AdminController(UserService userService, ArticleService articleService, CategoryService categoryService){

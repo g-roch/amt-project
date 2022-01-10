@@ -27,14 +27,8 @@ import java.util.List;
 @RequestMapping("/createCategory")
 public class CategoryController {
 
-
-
     private CategoryService categoryService;
-
-
     private UserService userService;
-
-
     private ArticleService articleService;
 
     public CategoryController(CategoryService categoryService, UserService userService, ArticleService articleService) {

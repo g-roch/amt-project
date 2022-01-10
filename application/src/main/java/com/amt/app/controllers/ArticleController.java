@@ -24,6 +24,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.*;
 
@@ -31,11 +32,8 @@ import java.util.*;
 public class ArticleController {
 
     private ArticleService articleService;
-
     private UserService userService;
-
     private CategoryService categoryService;
-
     private CartService cartService;
 
     public ArticleController(ArticleService articleService, UserService userService, CategoryService categoryService, CartService cartService) {
@@ -251,7 +249,7 @@ public class ArticleController {
         System.out.println("role: " + login.getRole());
         String return_page = "";
 
-        //Si l'utilisateur n'a pas le rôle administrateur il est redirigé sur une page d'erreur
+        //If user doesnt have admin rights an error occurs
         if(!login.getRole().equals("admin")){
             model.addAttribute("error_message", "Vous n'avez pas les droits nécessaires pour accéder à cette page");
             return_page = "error";
@@ -271,8 +269,7 @@ public class ArticleController {
      */
     @RequestMapping(value = "/createArticle", method = RequestMethod.POST)
     public String submitFormArticle(@Valid Article article, BindingResult result, Model model ,
-                             @RequestParam("file") MultipartFile multipartFile) throws IOException {
-
+                                    @RequestParam("file") MultipartFile multipartFile) throws IOException {
 
         //@Valid control user inputs according to entity annotations
         if (result.hasErrors()) {

@@ -14,7 +14,6 @@ import lombok.Setter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -22,9 +21,7 @@ import java.io.IOException;
 @Controller
 public class AuthController {
 
-
     private UserService userService;
-
     private UserService service;
 
     public AuthController(UserService userService, UserService service) {
@@ -160,5 +157,4 @@ public class AuthController {
             return "signup_form";
         }
     }
-
 }
