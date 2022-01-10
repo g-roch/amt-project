@@ -76,8 +76,4 @@ public class ArticleTest {
         article2.setName(name1);
         assertTrue(article1.equals(article2));
     }
-
-
-
-
 }
