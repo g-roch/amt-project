@@ -55,6 +55,59 @@ public class ArticleController {
         return "articles";
     }
 
+    @GetMapping(value = "/articles", params = {"id"})
+    public String addArticleToCart(@RequestParam(value = "id") int id, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt, HttpSession session) throws Exception {
+        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+        User login = provider.login(jwt);
+        model.addAttribute("login", login);
+
+        Article article =  articleService.get(id);
+        int stock = articleService.findStockByArticleName(article.getName());
+
+        model.addAttribute("article", article);
+        int quantity = 1;
+        //Ajoute en attribut de la session l'article avec comme stock la quantité sélectionnée par l'utilisateur
+        if(login.getRole().equals("guest")){
+            //Si l'article n'est pas dans le panier
+            if(session.getAttribute(article.getName()) == null){
+                article.setStock(quantity);
+            }else{
+                Article existingArticle = (Article) session.getAttribute(article.getName());
+                quantity += existingArticle.getStock();
+                if(stock < quantity){
+                    model.addAttribute("error_message", "Quantité d'articles voulue plus grande que le nombre disponible en stock!");
+                    return "error";
+                }
+                article.setStock(quantity);
+                session.removeAttribute(article.getName());
+            }
+            session.setAttribute(article.getName(),article);
+        }else{
+            //Ajoute dans la db le cart liée à un utilisateur et un article
+            com.amt.app.entities.User user = new com.amt.app.entities.User(login.getId());
+
+            //Si l'article n'est pas dans le panier
+            if(cartService.findCartByUserIdAndArticleId(user.getId(),article.getId()) == null){
+                Cart cart = new Cart(article,user,quantity);
+                cartService.addCart(cart);
+            }else{
+                Cart existingCart = cartService.findCartByUserIdAndArticleId(user.getId(),article.getId());
+                quantity += existingCart.getQuantity();
+
+                if(stock < quantity){
+                    model.addAttribute("error_message", "Quantité d'articles voulue plus grande que le nombre disponible en stock!");
+                    return "error";
+                }
+
+                cartService.updateCart(quantity,user.getId(),article.getId());
+            }
+
+        }
+
+        //Est utilisé pour représenter la quantité sélectionnée par l'utilisateur dans la page de succès.
+        article.setStock(quantity);
+        return "article_add_to_cart_success";
+    }
     // Filtre sur les article
     @PostMapping("/articles")
     public String updateArticles(@RequestParam(value = "filter_value") String filter_value, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
@@ -116,19 +169,45 @@ public class ArticleController {
             model.addAttribute("error_message", "Vous ne pouvez pas ajouter 0 article à votre panier!");
             return "error";
         }else if(stock < quantity){
-            model.addAttribute("error_message", "Quantité d'articles entrée plus grande que le nombre disponible en stock!");
+            model.addAttribute("error_message", "Quantité d'articles voulue plus grande que le nombre disponible en stock!");
             return "error";
         }
 
         //Ajoute en attribut de la session l'article avec comme stock la quantité sélectionnée par l'utilisateur
         if(login.getRole().equals("guest")){
-            article.setStock(quantity);
+            //Si l'article n'est pas dans le panier
+            if(session.getAttribute(article.getName()) == null){
+                article.setStock(quantity);
+            }else{
+                Article existingArticle = (Article) session.getAttribute(article.getName());
+                quantity += existingArticle.getStock();
+                if(stock < quantity){
+                    model.addAttribute("error_message", "Quantité d'articles voulue plus grande que le nombre disponible en stock!");
+                    return "error";
+                }
+                article.setStock(quantity);
+                session.removeAttribute(article.getName());
+            }
             session.setAttribute(article.getName(),article);
         }else{
             //Ajoute dans la db le cart liée à un utilisateur et un article
             com.amt.app.entities.User user = new com.amt.app.entities.User(login.getId());
-            Cart cart = new Cart(article,user,quantity);
-            cartService.addCart(cart);
+
+            //Si l'article n'est pas dans le panier
+            if(cartService.findCartByUserIdAndArticleId(user.getId(),article.getId()) == null){
+                Cart cart = new Cart(article,user,quantity);
+                cartService.addCart(cart);
+            }else{
+                Cart existingCart = cartService.findCartByUserIdAndArticleId(user.getId(),article.getId());
+                quantity += existingCart.getQuantity();
+
+                if(stock < quantity){
+                    model.addAttribute("error_message", "Quantité d'articles voulue plus grande que le nombre disponible en stock!");
+                    return "error";
+                }
+
+                cartService.updateCart(quantity,user.getId(),article.getId());
+            }
         }
 
         //Est utilisé pour représenter la quantité sélectionnée par l'utilisateur dans la page de succès.

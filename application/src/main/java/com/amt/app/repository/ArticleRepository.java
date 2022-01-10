@@ -22,5 +22,4 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 
     @Query(value = "SELECT id FROM article a WHERE a.name = ?1", nativeQuery = true)
     int findIdByArticleName(String name);
-
 }
