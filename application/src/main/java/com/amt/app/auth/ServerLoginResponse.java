@@ -15,7 +15,6 @@ public class ServerLoginResponse {
 
         @Getter
         String role;
-
     }
 
     @Getter
@@ -28,5 +27,4 @@ public class ServerLoginResponse {
         Gson gson = new Gson();
         return gson.fromJson(payload, ServerLoginResponse.class);
     }
-
 }

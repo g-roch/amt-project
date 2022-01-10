@@ -1,3 +1,9 @@
+/**
+ * Manage actions to authenticate a user
+ *
+ * @author Dylan Canton, Lucas Gianinetti, Nicolas Hungerbühler, Gabriel Roch, Christian Zaccaria
+ */
+
 package com.amt.app.controllers;
 
 import com.amt.app.auth.Provider;
@@ -5,11 +11,9 @@ import com.amt.app.auth.User;
 import com.amt.app.service.UserService;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -17,19 +21,18 @@ import java.io.IOException;
 @Controller
 public class AuthController {
 
-    @Autowired
-    private UserService userService;
-//    @Autowired
-//    private Provider authProvider;
+    private final UserService userService;
+    private final UserService service;
 
-//    public void setArticleService(ArticleService articleService){
-//        this.service = articleService;
-//    }
+    public AuthController(UserService userService, UserService service) {
+        this.userService = userService;
+        this.service = service;
+    }
 
-    @Autowired
-    private UserService service;
-
-    // Affichage formulaire de login
+    /**
+     * Display login formular
+     * @return page to display
+     */
     @GetMapping("/auth/login")
     public String login(Model model) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
@@ -37,7 +40,10 @@ public class AuthController {
         return "login_form";
     }
 
-    // Affichage formulaire de login
+    /**
+     * Display login formular
+     * @return page to display
+     */
     @GetMapping("/auth")
     public String login2(Model model) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
@@ -54,7 +60,10 @@ public class AuthController {
         String password;
     }
 
-    // Affichage formulaire de login
+    /**
+     * Display login formular
+     * @return page to display
+     */
     @PostMapping("/auth/perform")
     public String login_perform(@ModelAttribute UserLogin t, HttpServletResponse response, Model model) throws IOException {
         Provider provider;
@@ -77,8 +86,10 @@ public class AuthController {
         return "index";
     }
 
-    // Affichage formulaire de login
-    @GetMapping("/auth/logout")
+    /**
+     * Display login formular
+     * @return page to display
+     */    @GetMapping("/auth/logout")
     @ResponseBody
     public String logout_perform(HttpServletResponse response, Model model) throws IOException {
         Provider provider;
@@ -92,8 +103,10 @@ public class AuthController {
         return "logout ok";
     }
 
-    // Affichage formulaire de login
-    @GetMapping("/auth/role")
+    /**
+     * Display login formular
+     * @return page to display
+     */    @GetMapping("/auth/role")
     @ResponseBody
     public String check_role(@CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
         Provider provider = new Provider(service, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
@@ -101,8 +114,10 @@ public class AuthController {
         return login.getRole();
     }
 
-    // Affichage formulaire d'inscription
-    @GetMapping("/auth/signup")
+    /**
+     * Display register formular
+     * @return page to display
+     */    @GetMapping("/auth/signup")
     public String sign_up(Model model) {
         return "signup_form";
     }
@@ -120,8 +135,10 @@ public class AuthController {
         String password_confirm;
     }
 
-    // Process du formulaire d'inscription
-    @PostMapping("/auth/signup_perform")
+    /**
+     * Process to register a user
+     * @return page to display
+     */    @PostMapping("/auth/signup_perform")
     public String signup_perform(@ModelAttribute UserRegister t, HttpServletResponse response, Model model) throws Exception {
         Provider provider = new Provider(service, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
         if (t.getPassword().equals(t.getPassword_confirm())) {
@@ -140,5 +157,4 @@ public class AuthController {
             return "signup_form";
         }
     }
-
 }

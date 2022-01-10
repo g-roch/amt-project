@@ -1,3 +1,9 @@
+/**
+ * Entity that represents a Category
+ * @see CategoryController.java, CategoryRepository.java, CategoryService.java
+ * @author Dylan Canton, Lucas Gianinetti, Nicolas Hungerbühler, Gabriel Roch, Christian Zaccaria
+ */
+
 package com.amt.app.entities;
 
 import org.springframework.validation.annotation.Validated;

@@ -1,5 +1,10 @@
-package com.amt.app.controllers;
+/**
+ * Manage actions on an article (display, create, add to cart)
+ * @see Article.java, ArticleRepository.java, ArticleService.java
+ * @author Dylan Canton, Lucas Gianinetti, Nicolas Hungerbühler, Gabriel Roch, Christian Zaccaria
+ */
 
+package com.amt.app.controllers;
 
 import com.amt.app.auth.Provider;
 import com.amt.app.auth.User;
@@ -11,14 +16,12 @@ import com.amt.app.service.CartService;
 import com.amt.app.service.CategoryService;
 import com.amt.app.service.UserService;
 import com.amt.app.utils.FileUploadUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -27,34 +30,44 @@ import java.util.*;
 @Controller
 public class ArticleController {
 
-    @Autowired
-    private ArticleService articleService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private CategoryService categoryService;
-    @Autowired
-    private CartService cartService;
+    private final ArticleService articleService;
+    private final UserService userService;
+    private final CategoryService categoryService;
+    private final CartService cartService;
 
+    public ArticleController(ArticleService articleService, UserService userService, CategoryService categoryService, CartService cartService) {
+        this.articleService = articleService;
+        this.userService = userService;
+        this.categoryService = categoryService;
+        this.cartService = cartService;
+    }
 
-    // Affichage de tous les articles disponibles pour la plebes
+    /**
+     * Filter Display articles page
+     * @return page to display
+     */
     @GetMapping("/articles")
     public String showArticles(Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
         User login = provider.login(jwt);
         model.addAttribute("login", login);
 
-        //Envoyer tous les articles pour l'affichage
+        //Add every article to display
         List<Article> listArticles = articleService.listAll();
         model.addAttribute("listArticles", listArticles);
 
-        //Envoyer toutes les catégories pour le filtre
+        //Add every category to filter
         List<Category> listCategories = categoryService.getAllCategoriesLinkedToArticles();
         model.addAttribute("listCategories", listCategories);
 
         return "articles";
     }
 
+    /**
+     * Add one article to cart
+     * @return page to display
+     * @param id of article
+     */
     @GetMapping(value = "/articles", params = {"id"})
     public String addArticleToCart(@RequestParam(value = "id") int id, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt, HttpSession session) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
@@ -66,9 +79,9 @@ public class ArticleController {
 
         model.addAttribute("article", article);
         int quantity = 1;
-        //Ajoute en attribut de la session l'article avec comme stock la quantité sélectionnée par l'utilisateur
+        //Add article as session attribute with stock set to quantity selected by user
         if(login.getRole().equals("guest")){
-            //Si l'article n'est pas dans le panier
+            //if article is not already in cart
             if(session.getAttribute(article.getName()) == null){
                 article.setStock(quantity);
             }else{
@@ -83,10 +96,10 @@ public class ArticleController {
             }
             session.setAttribute(article.getName(),article);
         }else{
-            //Ajoute dans la db le cart liée à un utilisateur et un article
+            //Add cart into the db
             com.amt.app.entities.User user = new com.amt.app.entities.User(login.getId());
 
-            //Si l'article n'est pas dans le panier
+            //if article is not already in cart
             if(cartService.findCartByUserIdAndArticleId(user.getId(),article.getId()) == null){
                 Cart cart = new Cart(article,user,quantity);
                 cartService.addCart(cart);
@@ -98,24 +111,26 @@ public class ArticleController {
                     model.addAttribute("error_message", "Quantité d'articles voulue plus grande que le nombre disponible en stock!");
                     return "error";
                 }
-
                 cartService.updateCart(quantity,user.getId(),article.getId());
             }
-
         }
-
-        //Est utilisé pour représenter la quantité sélectionnée par l'utilisateur dans la page de succès.
+        //Used to display the quantity of selected article in cart on the success page
         article.setStock(quantity);
         return "article_add_to_cart_success";
     }
-    // Filtre sur les article
+
+    /**
+     * Filter articles displayed
+     * @return page to display
+     * @param filter_value selected filter value
+     */
     @PostMapping("/articles")
     public String updateArticles(@RequestParam(value = "filter_value") String filter_value, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
         User login = provider.login(jwt);
         model.addAttribute("login", login);
 
-        // Filtrage. Si defaut on envoie tous les articles sinon on renvoie une liste filtrée
+        //By default filter display every articles otherwise display filtered list
         List<Article> listArticles = articleService.listAll();
         if(filter_value.equals("all")){
             model.addAttribute("listArticles", listArticles);
@@ -130,18 +145,21 @@ public class ArticleController {
             model.addAttribute("listArticles", filteredList);
         }
 
-
-        //Envoyer toutes les catégories pour le filtre
+        //Add every category, used to add categories to articles
         List<Category> listCategories = categoryService.getAllCategoriesLinkedToArticles();
         model.addAttribute("listCategories", listCategories);
 
-        //Envoyer quel filtre on a utilisé
+        //Add selected filter value
         model.addAttribute("filterChoice", filter_value);
 
         return "articles";
     }
 
-    // Affichage d'un article selon son ID
+    /**
+     * Display informations about an article
+     * @return page to display
+     * @param id selected article id
+     */
     @GetMapping("/article/{id}")
     public String showArticleById(@PathVariable int id, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
@@ -154,7 +172,12 @@ public class ArticleController {
         return "article";
     }
 
-
+    /**
+     * Add an article to cart
+     * @return page to display
+     * @param quantity quantity of article to add
+     * @param id id of article to add
+     */
     @PostMapping(value="/article/{id}")
     public String addArticleToCart(@RequestParam(value = "quantity") int quantity,@PathVariable int id,Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt, HttpSession session) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
@@ -173,9 +196,9 @@ public class ArticleController {
             return "error";
         }
 
-        //Ajoute en attribut de la session l'article avec comme stock la quantité sélectionnée par l'utilisateur
+        //Add article as session attribute with stock set to quantity selected by user
         if(login.getRole().equals("guest")){
-            //Si l'article n'est pas dans le panier
+            //if article is not already in cart
             if(session.getAttribute(article.getName()) == null){
                 article.setStock(quantity);
             }else{
@@ -190,10 +213,10 @@ public class ArticleController {
             }
             session.setAttribute(article.getName(),article);
         }else{
-            //Ajoute dans la db le cart liée à un utilisateur et un article
+            //Add cart into the db
             com.amt.app.entities.User user = new com.amt.app.entities.User(login.getId());
 
-            //Si l'article n'est pas dans le panier
+            //if article is not already in cart
             if(cartService.findCartByUserIdAndArticleId(user.getId(),article.getId()) == null){
                 Cart cart = new Cart(article,user,quantity);
                 cartService.addCart(cart);
@@ -210,11 +233,14 @@ public class ArticleController {
             }
         }
 
-        //Est utilisé pour représenter la quantité sélectionnée par l'utilisateur dans la page de succès.
+        //Used to display the quantity of selected article in cart on the success page
         article.setStock(quantity);
         return "article_add_to_cart_success";
     }
-    // Formulaire pour la création d'article
+    /**
+     * Display formular to create article
+     * @return page to display
+     */
     @GetMapping("/createArticle")
     public String showCreateArticle(Model model,@CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
@@ -222,7 +248,7 @@ public class ArticleController {
         System.out.println("role: " + login.getRole());
         String return_page = "";
 
-        //Si l'utilisateur n'a pas le rôle administrateur il est redirigé sur une page d'erreur
+        //If user doesnt have admin rights an error occurs
         if(!login.getRole().equals("admin")){
             model.addAttribute("error_message", "Vous n'avez pas les droits nécessaires pour accéder à cette page");
             return_page = "error";
@@ -235,19 +261,22 @@ public class ArticleController {
         return return_page;
     }
 
-    // Success page quand l'article à été crée
+    /**
+     * Create a new article
+     * @return page to display
+     * @param article created article
+     */
     @RequestMapping(value = "/createArticle", method = RequestMethod.POST)
     public String submitFormArticle(@Valid Article article, BindingResult result, Model model ,
-                             @RequestParam("file") MultipartFile multipartFile) throws IOException {
+                                    @RequestParam("file") MultipartFile multipartFile) throws IOException {
 
-
-        //@Valid control les entrées de l'utilisateurs selon les annotation dans l'entité
+        //@Valid control user inputs according to entity annotations
         if (result.hasErrors()) {
             System.out.println(result.getAllErrors());
             return "article_formular";
         }
 
-        // Vérification si le nom de l'article existe déjà, si c'est le cas on l'affiche.
+        // Check if an article already exists with the same name
         List<Article> articles = articleService.listAll();
         Article exists = null;
         for(Article a : articles){
@@ -258,8 +287,7 @@ public class ArticleController {
         model.addAttribute("articleExistant", exists);
         if (exists != null) return "article_formular";
 
-        // Tuto pour l'upload de fichier mais ça ne fonctionne pas...
-        // now it does ==> spring.servlet.multipart.enabled=true dans application properties
+        // Tuto to upload a file
         // https://www.codejava.net/frameworks/spring-boot/spring-boot-file-upload-tutorial
         String fileName;
         boolean isDefaultImage;
@@ -276,7 +304,7 @@ public class ArticleController {
         model.addAttribute("sucessfulMessage", "Article crée avec succès.");
         Article savedArticle = articleService.addArticle(article);
 
-        //Upload de l'image uniquement si il a mis une image
+        //Upload image in the case of an image is provided
         if(!isDefaultImage){
             String uploadDir = "article-photos/" + savedArticle.getId();
             FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
