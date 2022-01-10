@@ -19,9 +19,6 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
     @Query(value = "SELECT * FROM cart c WHERE c.user_id = ?1 AND c.article_id = ?2", nativeQuery = true)
     Cart findCartByUserIdAndArticleIdCustom(int userId, int articleId);
 
-    @Query(value = "SELECT quantity FROM cart c WHERE c.user_id = ?1 AND c.article_id = ?2", nativeQuery = true)
-    int findQuantityByUserIdAndArticleIdCustom(int userId, int articleId);
-
     @Modifying
     @Query(value = "DELETE FROM cart where user_id = ?1", nativeQuery = true)
     void emptyCart(int userId);
