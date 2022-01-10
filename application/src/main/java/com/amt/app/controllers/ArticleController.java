@@ -168,7 +168,7 @@ public class ArticleController {
         if(quantity == 0){
             model.addAttribute("error_message", "Vous ne pouvez pas ajouter 0 article à votre panier!");
             return "error";
-        }if(stock < quantity){
+        }else if(stock < quantity){
             model.addAttribute("error_message", "Quantité d'articles voulue plus grande que le nombre disponible en stock!");
             return "error";
         }
