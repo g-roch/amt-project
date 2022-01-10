@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
 public class CartTest {
-
+/*
     //@Autowired private EntityManager entityManager;
     @Autowired private CartRepository cart;
     @Autowired private UserRepository user;
@@ -102,4 +102,6 @@ public class CartTest {
         List<Cart> listUser3 = cart.findCartsByUserIdCustom(user3.getId());
         assertEquals("userId: 3, articleId: 2 ,quantity: 20",listUser3.get(0).toString());
     }
+    
+ */
 }
