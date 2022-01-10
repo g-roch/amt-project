@@ -16,7 +16,7 @@ import java.util.List;
 @Transactional
 public class CartService {
 
-    private CartRepository cartRepository;
+    private final CartRepository cartRepository;
 
     public CartService(CartRepository cartRepository) {
         this.cartRepository = cartRepository;

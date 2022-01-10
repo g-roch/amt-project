@@ -17,19 +17,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
 
 @Controller
 @RequestMapping("/createCategory")
 public class CategoryController {
 
-    private CategoryService categoryService;
-    private UserService userService;
-    private ArticleService articleService;
+    private final CategoryService categoryService;
+    private final UserService userService;
+    private final ArticleService articleService;
 
     public CategoryController(CategoryService categoryService, UserService userService, ArticleService articleService) {
         this.categoryService = categoryService;

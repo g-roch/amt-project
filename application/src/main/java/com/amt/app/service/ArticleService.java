@@ -17,7 +17,7 @@ import java.util.List;
 @Transactional
 public class ArticleService {
 
-    private ArticleRepository repository;
+    private final ArticleRepository repository;
 
     public ArticleService(ArticleRepository repository) {
         this.repository = repository;
@@ -33,10 +33,6 @@ public class ArticleService {
 
     public Article addArticle(Article article) {
         return repository.save(article);
-    }
-
-    public void delete(Integer id){
-        repository.deleteById(id);
     }
 
     /**
@@ -56,6 +52,4 @@ public class ArticleService {
     public int findStockByArticleName(String name){
         return repository.findStockByArticleName(name);
     }
-
-    public int findIdByArticleName(String name) { return repository.findIdByArticleName(name); }
 }

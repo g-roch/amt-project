@@ -21,8 +21,8 @@ import java.io.IOException;
 @Controller
 public class AuthController {
 
-    private UserService userService;
-    private UserService service;
+    private final UserService userService;
+    private final UserService service;
 
     public AuthController(UserService userService, UserService service) {
         this.userService = userService;

@@ -15,7 +15,7 @@ import javax.transaction.Transactional;
 @Transactional
 public class UserService {
 
-    private UserRepository repository;
+    private final UserRepository repository;
 
     public UserService(UserRepository repository) {
         this.repository = repository;
