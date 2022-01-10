@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 public class AuthTest {
 
+    /*
     @Autowired
     private UserService userService;
 
@@ -44,4 +45,5 @@ public class AuthTest {
         assertEquals("IICT", user.getIssuer());
         assertEquals(1, user.getId());
     }
+     */
 }
