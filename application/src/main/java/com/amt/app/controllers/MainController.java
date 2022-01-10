@@ -8,9 +8,7 @@ package com.amt.app.controllers;
 
 import com.amt.app.auth.Provider;
 import com.amt.app.auth.User;
-
 import com.amt.app.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
@@ -19,8 +17,12 @@ import org.springframework.ui.Model;
 @Controller
 @RequestMapping("/")
 public class MainController {
-    @Autowired
+
     private UserService userService;
+
+    public MainController(UserService userService) {
+        this.userService = userService;
+    }
 
     /**
      * Display home page

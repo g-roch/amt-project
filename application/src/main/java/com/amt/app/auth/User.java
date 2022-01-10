@@ -31,7 +31,6 @@ public class User {
         user.jwt = jwt;
         com.amt.app.entities.User dbUser = service.getByUsername(user.username);
         if(dbUser == null) {
-            // Création de l'utilisateur dans la DB s'il n'existe pas
             dbUser = new com.amt.app.entities.User();
             dbUser.setUsername(user.username);
             dbUser = service.addUser(dbUser);

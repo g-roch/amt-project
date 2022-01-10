@@ -11,7 +11,6 @@ import com.amt.app.auth.User;
 import com.amt.app.service.UserService;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +22,15 @@ import java.io.IOException;
 @Controller
 public class AuthController {
 
-    @Autowired
+
     private UserService userService;
-    @Autowired
+
     private UserService service;
+
+    public AuthController(UserService userService, UserService service) {
+        this.userService = userService;
+        this.service = service;
+    }
 
     /**
      * Display login formular

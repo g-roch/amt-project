@@ -20,12 +20,10 @@ import java.util.List;
 @Transactional
 public class ArticleService {
 
-    @Autowired
     private ArticleRepository repository;
 
-    @Autowired
-    public void setArticleRepository(ArticleRepository articleRepository){
-        this.repository = articleRepository;
+    public ArticleService(ArticleRepository repository) {
+        this.repository = repository;
     }
 
     public List<Article> listAll(){

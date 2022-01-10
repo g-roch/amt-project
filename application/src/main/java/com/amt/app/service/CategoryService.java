@@ -20,12 +20,10 @@ import java.util.List;
 @Service
 public class CategoryService {
 
-    @Autowired
     private CategoryRepository repository;
 
-    @Autowired
-    public void setArticleRepository(CategoryRepository categoryRepository){
-        this.repository = categoryRepository;
+    public CategoryService(CategoryRepository repository) {
+        this.repository = repository;
     }
 
     public List<Category> listAll(){

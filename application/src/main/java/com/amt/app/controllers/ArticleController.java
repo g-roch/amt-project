@@ -17,31 +17,33 @@ import com.amt.app.service.CartService;
 import com.amt.app.service.CategoryService;
 import com.amt.app.service.UserService;
 import com.amt.app.utils.FileUploadUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import java.io.IOException;
 import java.util.*;
 
 @Controller
 public class ArticleController {
 
-    @Autowired
     private ArticleService articleService;
-    @Autowired
+
     private UserService userService;
-    @Autowired
+
     private CategoryService categoryService;
-    @Autowired
+
     private CartService cartService;
 
+    public ArticleController(ArticleService articleService, UserService userService, CategoryService categoryService, CartService cartService) {
+        this.articleService = articleService;
+        this.userService = userService;
+        this.categoryService = categoryService;
+        this.cartService = cartService;
+    }
 
     /**
      * Filter Display articles page
@@ -146,7 +148,6 @@ public class ArticleController {
             model.addAttribute("listArticles", filteredList);
         }
 
-
         //Add every category, used to add categories to articles
         List<Category> listCategories = categoryService.getAllCategoriesLinkedToArticles();
         model.addAttribute("listCategories", listCategories);
@@ -177,7 +178,8 @@ public class ArticleController {
     /**
      * Add an article to cart
      * @return page to display
-     * @param filter_value selected filter value
+     * @param quantity quantity of article to add
+     * @param id id of article to add
      */
     @PostMapping(value="/article/{id}")
     public String addArticleToCart(@RequestParam(value = "quantity") int quantity,@PathVariable int id,Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt, HttpSession session) throws Exception {
@@ -238,7 +240,10 @@ public class ArticleController {
         article.setStock(quantity);
         return "article_add_to_cart_success";
     }
-    // Formulaire pour la création d'article
+    /**
+     * Display formular to create article
+     * @return page to display
+     */
     @GetMapping("/createArticle")
     public String showCreateArticle(Model model,@CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");

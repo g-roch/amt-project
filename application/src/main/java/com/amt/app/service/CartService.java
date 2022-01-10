@@ -22,10 +22,11 @@ import java.util.List;
 @Transactional
 public class CartService {
 
-    @Autowired
     private CartRepository cartRepository;
-    @Autowired
-    private ArticleRepository articleRepository;
+
+    public CartService(CartRepository cartRepository) {
+        this.cartRepository = cartRepository;
+    }
 
     public void addCart(Cart cart) {
         cartRepository.save(cart);

@@ -15,7 +15,6 @@ import com.amt.app.service.ArticleService;
 import com.amt.app.service.CartService;
 import com.amt.app.service.UserService;
 import com.amt.app.utils.FileUploadUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -28,17 +27,22 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.*;
 
-/* Model sert à transmettre une variable dans la page html */
 
 @Controller
 public class CartController {
 
-    @Autowired
+
     private CartService cartService;
-    @Autowired
+
     private UserService userService;
-    @Autowired
+
     private ArticleService articleService;
+
+    public CartController(CartService cartService, UserService userService, ArticleService articleService) {
+        this.cartService = cartService;
+        this.userService = userService;
+        this.articleService = articleService;
+    }
 
     /**
      * Get articles in the cart of a user
