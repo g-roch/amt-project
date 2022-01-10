@@ -28,14 +28,21 @@ git clone git@github.com:g-roch/amt-project.git
 
 ### Mise en place
 
-Pour fonctionner en local, l'application nécessite une base de donnée en local. [MySQLWorkbench](https://dev.mysql.com/downloads/workbench/) est utilisé dans ce projet, d'autres alternatives existent mais nous conseillons d'utiliser cet outil. 
+Pour fonctionner en local, l'application nécessite une base de donnée en local. L'outil de gestion de base de données MySQL [MySQLWorkbench](https://dev.mysql.com/downloads/workbench/) est utilisé dans ce projet, d'autres alternatives existent mais nous conseillons d'utiliser cet outil. Nous utilisons la version 5.7.36-0ubuntu0.18.04.1 de MySQL
 
-Une fois l'outil installé et le serveur SQL démarré, il est nécessaire d'exécuter les scripts suivants : 
+Il est nécessaire de créer un utilisateur mysql avec les droits suivants :
+
+```sql
+CREATE USER 'userAmt'@'localhost' IDENTIFIED BY 'RooT@@123';
+GRANT USAGE ON *.* TO 'userAmt'@'localhost';
+GRANT UPDATE, INSERT, SELECT, EXECUTE, CREATE, DELETE  ON `amt\_pianorgue`.* TO 'userAmt'@'localhost';
+FLUSH PRIVILEGES;
+```
+
+Une fois le serveur SQL démarré, il est nécessaire d'exécuter les scripts suivants : 
 
 * `amt_pianorgue.sql` qui permet la création des tables de la DB.
 * `insert_articles.sql` qui permet de peupler les tables en insérant des articles.
-
-
 
 Il est à noter qu'il faut s'assurer ensuite de la bonne configuration de la DB dans le code source de l'application, cela se trouve dans le fichier `application/src/main/resources/application.properties`.
 
@@ -79,16 +86,25 @@ Les lignes à vérifier sont :
 Afin d'accéder au service d'authentification, le port `localhost:8081` doit être redirigé vers le service d'authentification (`10.0.1.92:8080`). 
 
 
+### Développement avec l'IDE Intellij ultimate
 
-## Diagrammes
-### UML de la base de donnée
+#### Ouverture du projet
 
-![](./img/DbUML.png)
+Afin d'ouvrir le projet en tant que projet maven, il faut suivre les étapes suivantes :
 
-### Diagrammes des classes et de leurs méthodes
+Soit directement depuis l'IDE:
+* Cliquer sur `File` > `Open...`.
+* Sélectionner le fichier`application/pom.xml`.
+* Dans la fenêtre qui s'ouvre cliquer sur `Open as project`.
 
-![](./img/DiagrammeClasses.png)
+Soit depuis la fenêtre de bienvenue de l'IDE
+* Cliquer sur `Open`.
+* Sélectionner le fichier`application/pom.xml`.
+* Dans la fenêtre qui s'ouvre cliquer sur `Open as project`.
 
+#### Aide au développement
+
+Bien que pas utilisé par lors du développement, le plugin `JPA Budy` peut être installé afin de faciliter la gestion des données JPA.
 
 ## Contribution
 

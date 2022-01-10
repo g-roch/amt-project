@@ -23,16 +23,15 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private UserService userService;
-    private ArticleService articleService;
-    private CategoryService categoryService;
+    private final UserService userService;
+    private final ArticleService articleService;
+    private final CategoryService categoryService;
 
     public AdminController(UserService userService, ArticleService articleService, CategoryService categoryService){
         this.articleService = articleService;
         this.userService = userService;
         this.categoryService = categoryService;
     }
-
 
     /**
      * Filter articles on administrator page
@@ -110,7 +109,7 @@ public class AdminController {
         }
 
         //Update categories of an article
-        // Update articles contained in a category
+        //Update articles contained in a category
         if(isValid){
             article.setCategories(categories);
             articleService.addArticle(article);

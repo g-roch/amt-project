@@ -6,7 +6,6 @@
 
 package com.amt.app.controllers;
 
-
 import com.amt.app.auth.Provider;
 import com.amt.app.auth.User;
 import com.amt.app.entities.Article;
@@ -31,10 +30,10 @@ import java.util.*;
 @Controller
 public class ArticleController {
 
-    private ArticleService articleService;
-    private UserService userService;
-    private CategoryService categoryService;
-    private CartService cartService;
+    private final ArticleService articleService;
+    private final UserService userService;
+    private final CategoryService categoryService;
+    private final CartService cartService;
 
     public ArticleController(ArticleService articleService, UserService userService, CategoryService categoryService, CartService cartService) {
         this.articleService = articleService;

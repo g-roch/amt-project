@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class CategoryService {
 
-    private CategoryRepository repository;
+    private final CategoryRepository repository;
 
     public CategoryService(CategoryRepository repository) {
         this.repository = repository;
@@ -29,8 +29,8 @@ public class CategoryService {
         return repository.findById(id).get();
     }
 
-    public Category addCategory(Category article) {
-        return repository.save(article);
+    public void addCategory(Category article) {
+        repository.save(article);
     }
 
     public void delete(int id){

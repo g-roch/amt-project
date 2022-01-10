@@ -48,24 +48,6 @@ public class User {
         this.id = id;
     }
 
-    public void addArticle(Article article, int quantity) {
-        Cart cart = new Cart(article, this, quantity);
-        articles.add(cart);
-        article.getUsers().add(cart);
-    }
-
-    public void removeArticle(Article article) {
-        for (Iterator<Cart> iterator = articles.iterator(); iterator.hasNext(); ) {
-            Cart cart = iterator.next();
-            if (cart.getUser().equals(this) && cart.getArticle().equals(article)) {
-                iterator.remove();
-                cart.getArticle().getUsers().remove(cart);
-                cart.setArticle(null);
-                cart.setUser(null);
-            }
-        }
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
