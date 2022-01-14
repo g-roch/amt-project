@@ -77,9 +77,11 @@
     </div>
 
     <div th:if="${not listArticles.empty}">
-        <form method="POST" th:action="@{/cart}">
-            <button type="submit" name="submit" value="value" class="btn btn-lg btn-dark">Vider le panier</button>
-        </form>
+        <div class="mb-3">
+            <form method="POST" th:action="@{/cart}">
+                <button type="submit" name="submit" value="value" class="btn btn-lg btn-dark">Vider le panier</button>
+            </form>
+        </div>
         <div class="row mb-4 mr-5 w-75 bg-light articleBox" th:each="article : ${listArticles}">
             <div class="col">
                 <div class="row" th:if="${article.image == 'default.png'}">

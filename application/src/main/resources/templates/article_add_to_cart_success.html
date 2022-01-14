@@ -1,32 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="ISO-8859-1">
     <title>Registration Success</title>
-    <style type="text/css">
-        span {
-            display: inline-block;
-            width: 200px;
-            text-align: left;
-        }
-    </style>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <title>Article formular</title>
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <!-- style css -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Responsive-->
+    <link rel="stylesheet" href="../css/responsive.css">
+    <!-- fevicon -->
+    <link rel="icon" href="../images/logo.png" type="image/gif" />
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="../css/jquery.mCustomScrollbar.min.css">
+
+    <!-- Javascript files-->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/plugin.js"></script>
+    <script src="../js/jquery-3.0.0.min.js"></script>
+
+    <!-- sidebar -->
+    <script src="../js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="../js/custom.js"></script>
 </head>
 <body>
-<div align="center">
+<div class="mt-5 mb-5" align="center">
     <h2>Article ajoute au panier !</h2>
-    <div class="row mt-5 mb-5">
-        <div class="col ml-5">
+
+    <div class="row mb-4 mr-5 w-75 bg-light">
+        <div class="col">
             <div class="row" th:if="${article.image == 'default.png'}">
                 <img th:src="@{${'../images/' + article.image}}" width="250"/>
             </div>
             <div class="row" th:if="${article.image != 'default.png'}">
                 <img th:src="@{${article.getPhotosImagePath()}}" width="250"/>
             </div>
-            <div class="row mt-5">
+        </div>
+        <div class="col pt-4">
+            <div class="row">
                 <h2 class="font-weight-bold" th:text="'Description: ' + ${article.description}"></h2>
             </div>
-        </div>
-        <div class="col">
             <div class="row">
                 <h2 class="font-weight-bold" th:text="'Nom: ' + ${article.name}"></h2>
             </div>
@@ -43,7 +64,7 @@
     </div>
 
     <form action="/articles">
-        <input type="submit" value="Retourner aux produits" />
+        <button type="submit" class="btn btn-secondary">Retourner aux produits</button>
     </form>
 
 </div>
