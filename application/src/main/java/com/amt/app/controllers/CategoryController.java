@@ -13,30 +13,27 @@ import com.amt.app.entities.Category;
 import com.amt.app.service.ArticleService;
 import com.amt.app.service.CategoryService;
 import com.amt.app.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
 
 @Controller
 @RequestMapping("/createCategory")
 public class CategoryController {
 
+    private final CategoryService categoryService;
+    private final UserService userService;
+    private final ArticleService articleService;
 
-    @Autowired
-    private CategoryService categoryService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private ArticleService articleService;
+    public CategoryController(CategoryService categoryService, UserService userService, ArticleService articleService) {
+        this.categoryService = categoryService;
+        this.userService = userService;
+        this.articleService = articleService;
+    }
 
     /**
      * Display create category forumlar

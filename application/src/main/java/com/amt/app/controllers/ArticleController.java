@@ -6,7 +6,6 @@
 
 package com.amt.app.controllers;
 
-
 import com.amt.app.auth.Provider;
 import com.amt.app.auth.User;
 import com.amt.app.entities.Article;
@@ -17,14 +16,12 @@ import com.amt.app.service.CartService;
 import com.amt.app.service.CategoryService;
 import com.amt.app.service.UserService;
 import com.amt.app.utils.FileUploadUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -33,15 +30,17 @@ import java.util.*;
 @Controller
 public class ArticleController {
 
-    @Autowired
-    private ArticleService articleService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private CategoryService categoryService;
-    @Autowired
-    private CartService cartService;
+    private final ArticleService articleService;
+    private final UserService userService;
+    private final CategoryService categoryService;
+    private final CartService cartService;
 
+    public ArticleController(ArticleService articleService, UserService userService, CategoryService categoryService, CartService cartService) {
+        this.articleService = articleService;
+        this.userService = userService;
+        this.categoryService = categoryService;
+        this.cartService = cartService;
+    }
 
     /**
      * Filter Display articles page
@@ -146,7 +145,6 @@ public class ArticleController {
             model.addAttribute("listArticles", filteredList);
         }
 
-
         //Add every category, used to add categories to articles
         List<Category> listCategories = categoryService.getAllCategoriesLinkedToArticles();
         model.addAttribute("listCategories", listCategories);
@@ -177,7 +175,8 @@ public class ArticleController {
     /**
      * Add an article to cart
      * @return page to display
-     * @param filter_value selected filter value
+     * @param quantity quantity of article to add
+     * @param id id of article to add
      */
     @PostMapping(value="/article/{id}")
     public String addArticleToCart(@RequestParam(value = "quantity") int quantity,@PathVariable int id,Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt, HttpSession session) throws Exception {
@@ -238,7 +237,10 @@ public class ArticleController {
         article.setStock(quantity);
         return "article_add_to_cart_success";
     }
-    // Formulaire pour la création d'article
+    /**
+     * Display formular to create article
+     * @return page to display
+     */
     @GetMapping("/createArticle")
     public String showCreateArticle(Model model,@CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
@@ -246,7 +248,7 @@ public class ArticleController {
         System.out.println("role: " + login.getRole());
         String return_page = "";
 
-        //Si l'utilisateur n'a pas le rôle administrateur il est redirigé sur une page d'erreur
+        //If user doesnt have admin rights an error occurs
         if(!login.getRole().equals("admin")){
             model.addAttribute("error_message", "Vous n'avez pas les droits nécessaires pour accéder à cette page");
             return_page = "error";
@@ -266,8 +268,7 @@ public class ArticleController {
      */
     @RequestMapping(value = "/createArticle", method = RequestMethod.POST)
     public String submitFormArticle(@Valid Article article, BindingResult result, Model model ,
-                             @RequestParam("file") MultipartFile multipartFile) throws IOException {
-
+                                    @RequestParam("file") MultipartFile multipartFile) throws IOException {
 
         //@Valid control user inputs according to entity annotations
         if (result.hasErrors()) {

@@ -12,7 +12,6 @@ import com.amt.app.entities.Category;
 import com.amt.app.service.ArticleService;
 import com.amt.app.service.CategoryService;
 import com.amt.app.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
@@ -23,15 +22,16 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    @Autowired
-    private UserService userService;
 
-    @Autowired
-    private ArticleService articleService;
+    private final UserService userService;
+    private final ArticleService articleService;
+    private final CategoryService categoryService;
 
-    @Autowired
-    private CategoryService categoryService;
-
+    public AdminController(UserService userService, ArticleService articleService, CategoryService categoryService){
+        this.articleService = articleService;
+        this.userService = userService;
+        this.categoryService = categoryService;
+    }
 
     /**
      * Filter articles on administrator page
@@ -109,7 +109,7 @@ public class AdminController {
         }
 
         //Update categories of an article
-        // Update articles contained in a category
+        //Update articles contained in a category
         if(isValid){
             article.setCategories(categories);
             articleService.addArticle(article);

@@ -11,11 +11,9 @@ import com.amt.app.auth.User;
 import com.amt.app.service.UserService;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -23,10 +21,13 @@ import java.io.IOException;
 @Controller
 public class AuthController {
 
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private UserService service;
+    private final UserService userService;
+    private final UserService service;
+
+    public AuthController(UserService userService, UserService service) {
+        this.userService = userService;
+        this.service = service;
+    }
 
     /**
      * Display login formular
@@ -156,5 +157,4 @@ public class AuthController {
             return "signup_form";
         }
     }
-
 }

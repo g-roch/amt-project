@@ -6,26 +6,19 @@
 
 package com.amt.app.service;
 
-import com.amt.app.entities.Article;
 import com.amt.app.entities.Category;
-import com.amt.app.repository.ArticleRepository;
 import com.amt.app.repository.CategoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Service
 public class CategoryService {
 
-    @Autowired
-    private CategoryRepository repository;
+    private final CategoryRepository repository;
 
-    @Autowired
-    public void setArticleRepository(CategoryRepository categoryRepository){
-        this.repository = categoryRepository;
+    public CategoryService(CategoryRepository repository) {
+        this.repository = repository;
     }
 
     public List<Category> listAll(){
@@ -36,8 +29,8 @@ public class CategoryService {
         return repository.findById(id).get();
     }
 
-    public Category addCategory(Category article) {
-        return repository.save(article);
+    public void addCategory(Category article) {
+        repository.save(article);
     }
 
     public void delete(int id){

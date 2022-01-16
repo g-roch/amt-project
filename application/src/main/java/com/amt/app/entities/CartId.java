@@ -7,7 +7,6 @@
 package com.amt.app.entities;
 
 import javax.persistence.Column;
-import javax.persistence.Table;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
@@ -19,7 +18,6 @@ public class CartId implements Serializable {
     private int userId;
     @Column(name = "articleid")
     private int articleId;
-
 
     public CartId(){
     }
@@ -41,10 +39,6 @@ public class CartId implements Serializable {
         return articleId;
     }
 
-    public void setArticleId(int articleId) {
-        this.articleId = articleId;
-    }
-
     @Override
     public boolean equals(Object o) {
         if(this == o){
@@ -62,5 +56,4 @@ public class CartId implements Serializable {
     public int hashCode() {
         return Objects.hash(userId, articleId);
     }
-
 }

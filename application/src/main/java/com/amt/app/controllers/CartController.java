@@ -6,7 +6,6 @@
 
 package com.amt.app.controllers;
 
-
 import com.amt.app.auth.Provider;
 import com.amt.app.auth.User;
 import com.amt.app.entities.Article;
@@ -14,31 +13,25 @@ import com.amt.app.entities.Cart;
 import com.amt.app.service.ArticleService;
 import com.amt.app.service.CartService;
 import com.amt.app.service.UserService;
-import com.amt.app.utils.FileUploadUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-import java.io.IOException;
 import java.util.*;
-
-/* Model sert à transmettre une variable dans la page html */
 
 @Controller
 public class CartController {
 
-    @Autowired
-    private CartService cartService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private ArticleService articleService;
+    private final CartService cartService;
+    private final UserService userService;
+    private final ArticleService articleService;
+
+    public CartController(CartService cartService, UserService userService, ArticleService articleService) {
+        this.cartService = cartService;
+        this.userService = userService;
+        this.articleService = articleService;
+    }
 
     /**
      * Get articles in the cart of a user

@@ -4,19 +4,17 @@
  * @author Dylan Canton, Lucas Gianinetti, Nicolas Hungerbühler, Gabriel Roch, Christian Zaccaria
  */
 
-
 package com.amt.app.repository;
 
-import com.amt.app.entities.Article;
 import com.amt.app.entities.Cart;
-import com.amt.app.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
+@Repository
 public interface CartRepository extends JpaRepository<Cart, Integer> {
     /**
      * Get carts of a user

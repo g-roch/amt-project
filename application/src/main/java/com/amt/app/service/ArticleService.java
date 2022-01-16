@@ -7,11 +7,8 @@
 package com.amt.app.service;
 
 import com.amt.app.entities.Article;
-import com.amt.app.entities.Category;
 import com.amt.app.repository.ArticleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +17,10 @@ import java.util.List;
 @Transactional
 public class ArticleService {
 
-    @Autowired
-    private ArticleRepository repository;
+    private final ArticleRepository repository;
 
-    @Autowired
-    public void setArticleRepository(ArticleRepository articleRepository){
-        this.repository = articleRepository;
+    public ArticleService(ArticleRepository repository) {
+        this.repository = repository;
     }
 
     public List<Article> listAll(){
@@ -38,10 +33,6 @@ public class ArticleService {
 
     public Article addArticle(Article article) {
         return repository.save(article);
-    }
-
-    public void delete(Integer id){
-        repository.deleteById(id);
     }
 
     /**
@@ -61,7 +52,4 @@ public class ArticleService {
     public int findStockByArticleName(String name){
         return repository.findStockByArticleName(name);
     }
-
-    public int findIdByArticleName(String name) { return repository.findIdByArticleName(name); }
-
 }
