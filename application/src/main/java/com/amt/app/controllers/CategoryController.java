@@ -41,7 +41,7 @@ public class CategoryController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public String showCreateCategory(Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
-        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8089/");
         User login = provider.login(jwt);
         model.addAttribute("login", login);
         String return_page = "";
@@ -69,7 +69,7 @@ public class CategoryController {
      */
     @RequestMapping(method = RequestMethod.POST, params = "delete")
     public String deleteCategory(@RequestParam("categoryId") int categoryId, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
-        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8089/");
         User login = provider.login(jwt);
         model.addAttribute("login", login);
 
@@ -103,7 +103,7 @@ public class CategoryController {
      */
     @RequestMapping(method = RequestMethod.POST, params = "confirmDelete")
     public String confirmDeleteCategory(@RequestParam("categoryId") int categoryId, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
-        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8089/");
         User login = provider.login(jwt);
         model.addAttribute("login", login);
 
@@ -124,7 +124,7 @@ public class CategoryController {
      */
     @RequestMapping(method = RequestMethod.POST, params = "cancelDelete")
     public String cancelDeleteCategory(@RequestParam("categoryId") int categoryId, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
-        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8089/");
         User login = provider.login(jwt);
         model.addAttribute("login", login);
 
@@ -143,7 +143,7 @@ public class CategoryController {
      */
     @RequestMapping(method = RequestMethod.POST, params = "create")
     public String submitFormCategory(@Valid Category category, BindingResult result, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
-        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
+        Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8089/");
         User login = provider.login(jwt);
         model.addAttribute("login", login);
 
