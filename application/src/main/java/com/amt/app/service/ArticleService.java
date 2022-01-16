@@ -1,11 +1,14 @@
+/**
+ * Link the Article entity and its custom requests to the database
+ * @see ArticleController.java, Article.java, ArticleRepository.java
+ * @author Dylan Canton, Lucas Gianinetti, Nicolas Hungerbühler, Gabriel Roch, Christian Zaccaria
+ */
+
 package com.amt.app.service;
 
 import com.amt.app.entities.Article;
-import com.amt.app.entities.Category;
 import com.amt.app.repository.ArticleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +17,10 @@ import java.util.List;
 @Transactional
 public class ArticleService {
 
-    @Autowired
-    private ArticleRepository repository;
+    private final ArticleRepository repository;
 
-    @Autowired
-    public void setArticleRepository(ArticleRepository articleRepository){
-        this.repository = articleRepository;
+    public ArticleService(ArticleRepository repository) {
+        this.repository = repository;
     }
 
     public List<Article> listAll(){
@@ -34,10 +35,11 @@ public class ArticleService {
         return repository.save(article);
     }
 
-    public void delete(Integer id){
-        repository.deleteById(id);
-    }
-
+    /**
+     * Get all articles belonging to a category
+     * @param categoryId id of category
+     * @return list of articles
+     */
     public List<Article> getArticlesByCategoryId(int categoryId){
         List<Integer> articlesId = repository.getArticlesIdByCategoryId(categoryId);
         List<Article> listArticles = new ArrayList<>();
@@ -50,7 +52,4 @@ public class ArticleService {
     public int findStockByArticleName(String name){
         return repository.findStockByArticleName(name);
     }
-
-    public int findIdByArticleName(String name) { return repository.findIdByArticleName(name); }
-
 }

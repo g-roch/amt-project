@@ -1,3 +1,8 @@
+/**
+ * Manage actions done by an administrator (update articles & categories)
+ * @author Dylan Canton, Lucas Gianinetti, Nicolas Hungerbühler, Gabriel Roch, Christian Zaccaria
+ */
+
 package com.amt.app.controllers;
 
 import com.amt.app.auth.Provider;
@@ -7,11 +12,9 @@ import com.amt.app.entities.Category;
 import com.amt.app.service.ArticleService;
 import com.amt.app.service.CategoryService;
 import com.amt.app.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,23 +22,29 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    @Autowired
-    private UserService userService;
 
-    @Autowired
-    private ArticleService articleService;
+    private final UserService userService;
+    private final ArticleService articleService;
+    private final CategoryService categoryService;
 
-    @Autowired
-    private CategoryService categoryService;
+    public AdminController(UserService userService, ArticleService articleService, CategoryService categoryService){
+        this.articleService = articleService;
+        this.userService = userService;
+        this.categoryService = categoryService;
+    }
 
-    // Filtre pour l'admin
+    /**
+     * Filter articles on administrator page
+     * @return page to display
+     * @param filter_value selected filter value
+     */
     @RequestMapping(method = RequestMethod.POST, params = "filter")
     public String updateArticles(@RequestParam(value = "filter_value") String filter_value, Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
         User login = provider.login(jwt);
         model.addAttribute("login", login);
 
-        // Filtrage. Si defaut on envoie tous les articles sinon on renvoie une liste filtrée
+        //By default filter display every articles otherwise display filtered list
         List<Article> listArticles = articleService.listAll();
         if(filter_value.equals("all")){
             model.addAttribute("listArticles", listArticles);
@@ -50,38 +59,41 @@ public class AdminController {
             model.addAttribute("listArticles", filteredList);
         }
 
-        //Envoyer toutes les catégories pour le filtre
+        //Add every category linked to an article, used to show available categories to filter
         List<Category> listCategoriesFilter = categoryService.getAllCategoriesLinkedToArticles();
         model.addAttribute("listCategoriesFilter", listCategoriesFilter);
 
-        //Envoyer les catégorie pour pouvoir les ajouter
+        //Add every category, used to add categories to articles
         List<Category> listCategories = categoryService.listAll();
         model.addAttribute("listCategories", listCategories);
 
-        //Envoyer quel filtre on a utilisé
+        //Add selected filter value
         model.addAttribute("filterChoice", filter_value);
 
         return "admin";
     }
 
-    // Changement de categorie sur un article
+    /**
+     * Update categories of an article
+     * @return page to display
+     * @param articleId id of article
+     * @param categories list of categories to update
+     */
     @RequestMapping(method = RequestMethod.POST, params = "updateCat")
     public String updateArticleCategorie(@RequestParam(value = "articleId") int articleId,
                                          @RequestParam(value = "categorie" , required = false) List<Category> categories,
                                          Model model) throws IOException {
 
         boolean isValid = true;
-        //check si aucune coche a été checkée
+        //check if at least one category is checked
         if(categories == null){
             model.addAttribute("errorMessage", "Il faut au moins une catégorie.");
             isValid = false;
         }
 
-        // Récupérer l'article en question
         Article article = articleService.get(articleId);
 
-        // Vérifier s'il possède déjà au moins une des catégories entrées. Une seule suffit pour envoyer le message
-        // d'erreur.
+        //Check if article already has one of the categories selected. If it has, an error occurs.
         if(isValid){
             for (Category category : categories) {
                 for (int j = 0; j < article.getCategories().size(); j++) {
@@ -96,13 +108,12 @@ public class AdminController {
             }
         }
 
-        // 1. Mettre à jour l'attribut "categories" de articles
-        // 2. Mettre à jour l'attribut "articles" dans chaque catégorie
+        //Update categories of an article
+        //Update articles contained in a category
         if(isValid){
             article.setCategories(categories);
             articleService.addArticle(article);
 
-            // Obliger de le faire en deux loops sinon j'avais une ConcurrentModificationException.
             List<Category> tmpCategories = new ArrayList<>();
             for(Category category : categories){
                 category.addOneArticle(article);
@@ -113,21 +124,25 @@ public class AdminController {
             }
         }
 
-        // On repart sur la page admin donc on doit passer tous les articles et les catégories.
+        //Add every article, needed by returned page
         List<Article> listArticles = articleService.listAll();
         model.addAttribute("listArticles", listArticles);
 
-        //Envoyer toutes les catégories pour le filtre
+        //Add every category linked to an article, used to show available categories to filter
         List<Category> listCategoriesFilter = categoryService.getAllCategoriesLinkedToArticles();
         model.addAttribute("listCategoriesFilter", listCategoriesFilter);
 
+        //Add every category, used to add categories to articles
         List<Category> listCategories = categoryService.listAll();
         model.addAttribute("listCategories", listCategories);
 
         return "admin";
     }
 
-    // Affichage de tous les articles disponibles pour les admins
+    /**
+     * Display administrator page
+     * @return page to display
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String showAdmin(Model model, @CookieValue(name = "jwt", defaultValue = "") String jwt) throws Exception {
         Provider provider = new Provider(userService, "HS256", "czvFbg2kmvqbcu(7Ux+c", "IICT", "http://127.0.0.1:8081/");
@@ -135,17 +150,15 @@ public class AdminController {
         model.addAttribute("login", login);
         String return_page = "";
 
-        //Si l'utilisateur n'a pas le rôle administrateur il est redirigé sur une page d'erreur
+        //If user is not an admin an error occurs
         if(!login.getRole().equals("admin")){
             model.addAttribute("error_message", "Vous n'avez pas les droits nécessaires pour accéder à cette page");
             return_page = "error";
         }else{
 
-            // On repart sur la page admin donc on doit passer tous les articles et les catégories.
             List<Article> listArticles = articleService.listAll();
             model.addAttribute("listArticles", listArticles);
 
-            //Envoyer toutes les catégories pour le filtre
             List<Category> listCategoriesFilter = categoryService.getAllCategoriesLinkedToArticles();
             model.addAttribute("listCategoriesFilter", listCategoriesFilter);
             List<Category> listCategories = categoryService.listAll();

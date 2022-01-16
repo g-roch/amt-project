@@ -1,3 +1,12 @@
+/**
+ * Description de la classe
+ * Explication supplémentaire si nécessaire
+ *
+ * @version <numéro de version>
+ *
+ * @see UneAutreClasse
+ * @author nom du(des) collaborateur(s)
+ */
 package com.amt.app.auth;
 
 import com.amt.app.service.UserService;
@@ -10,7 +19,6 @@ import com.google.gson.Gson;
 import org.apache.http.client.fluent.Content;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.ContentType;
-
 import java.io.IOException;
 import java.util.Base64;
 import java.util.HashMap;
@@ -65,7 +73,7 @@ public class Provider {
         JWTVerifier verifier = JWT.require(algorithm)
                 .withIssuer(issuer)
                 .withSubject(reponseObject.getAccount().username)
-                .build(); //Reusable verifier instance
+                .build();
         verifier.verify(reponseObject.getToken());
 
         User user = login(reponseObject.getToken());
@@ -75,7 +83,6 @@ public class Provider {
         }
 
         return user;
-
     }
 
     private String payload(String username, String password) {
@@ -92,5 +99,4 @@ public class Provider {
                 .execute()
                 .returnContent();
     }
-
 }

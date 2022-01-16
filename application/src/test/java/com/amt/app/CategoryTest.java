@@ -4,15 +4,12 @@ import com.amt.app.entities.Article;
 import com.amt.app.entities.Category;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class CategoryTest {
-
 
     @Test
     void CategoryName(){
@@ -61,10 +58,4 @@ public class CategoryTest {
 
         assertEquals(category.getArticles().size(), 2);
     }
-
-
-
-
-
-
 }
