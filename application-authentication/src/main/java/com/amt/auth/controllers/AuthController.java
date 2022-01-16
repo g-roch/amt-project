@@ -1,17 +1,17 @@
+/**
+ *
+ * @author Dylan Canton, Lucas Gianinetti, Nicolas Hungerbühler, Gaby Roch, Christian Zaccaria
+ */
 package com.amt.auth.controllers;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.mysql.cj.protocol.x.StatementExecuteOk;
 import javafx.util.Pair;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
