@@ -1,3 +1,7 @@
+/**
+ * A class used for decode auth server response
+ * @author Dylan Canton, Lucas Gianinetti, Nicolas Hungerbühler, Gaby Roch, Christian Zaccaria
+ */
 package com.amt.app.auth;
 
 import com.google.gson.Gson;
