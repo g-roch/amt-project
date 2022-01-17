@@ -19,6 +19,9 @@ jobs:
       - name: MVN build
         working-directory: ./application/
         run: mvn --batch-mode --update-snapshots clean package
+      - name: MVN build Authentication
+        working-directory: ./application-authentication/
+        run: mvn --batch-mode --update-snapshots clean package
       - name: Deploy script
         env: # Or as an environment variable
           AMT_DMZ_PIANORGUE_PEM: ${{ secrets.AMT_DMZ_PIANORGUE_PEM }} 

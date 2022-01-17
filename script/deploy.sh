@@ -40,13 +40,18 @@ ls -la application/target/
 # Synchronise avec le serveur
 #rsync --delete -Cav application/target/AMT-Test-*.jar "$HOST":pianorgue
 scp application/target/AMT-Test-*.jar "$HOST":pianorgue
+scp application-authentication/target/AMT-Authentication-*.jar "$HOST":pianorgue
 scp application/src/main/resources/application.properties "$HOST":
 
 ssh "$HOST" sudo systemctl stop pianorgue.service
+ssh "$HOST" sudo systemctl stop pianorgue-authentication.service
 ssh "$HOST" sudo mysql pianorgue < SQL-db/amt_pianorgue.sql
+ssh "$HOST" sudo systemctl start pianorgue-authentication.service
 ssh "$HOST" sudo systemctl start pianorgue.service
 
 # Clean
-rm -vfr ~/.ssh
+if [ ! -z "$1" -a "$1" = "github" ]; then 
+  rm -vfr ~/.ssh
+fi
 
 
