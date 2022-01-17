@@ -1,14 +1,8 @@
-package com.amt.app;
+package com.amt.auth;
 
-import com.amt.app.auth.Provider;
-import com.amt.app.auth.User;
-import com.auth0.jwt.exceptions.InvalidClaimException;
-import com.auth0.jwt.exceptions.TokenExpiredException;
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class AuthTest {

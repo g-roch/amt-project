@@ -1,6 +1,9 @@
+/**
+ * Entity that represents a Cart
+ * @see CartController.java, CartRepository.java, CartService.java
+ * @author Dylan Canton, Lucas Gianinetti, Nicolas Hungerbühler, Gabriel Roch, Christian Zaccaria
+ */
 package com.amt.app.entities;
-
-import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -59,10 +62,6 @@ public class Cart {
 
     public int getQuantity() {
         return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     @Override

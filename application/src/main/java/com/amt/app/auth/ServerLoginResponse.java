@@ -1,3 +1,7 @@
+/**
+ * A class used for decode auth server response
+ * @author Dylan Canton, Lucas Gianinetti, Nicolas Hungerbühler, Gaby Roch, Christian Zaccaria
+ */
 package com.amt.app.auth;
 
 import com.google.gson.Gson;
@@ -15,7 +19,6 @@ public class ServerLoginResponse {
 
         @Getter
         String role;
-
     }
 
     @Getter
@@ -28,5 +31,4 @@ public class ServerLoginResponse {
         Gson gson = new Gson();
         return gson.fromJson(payload, ServerLoginResponse.class);
     }
-
 }
