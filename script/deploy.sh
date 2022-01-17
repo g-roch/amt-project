@@ -40,7 +40,7 @@ ls -la application/target/
 # Synchronise avec le serveur
 #rsync --delete -Cav application/target/AMT-Test-*.jar "$HOST":pianorgue
 scp application/target/AMT-Test-*.jar "$HOST":pianorgue
-scp application-authentication/target/AMT-Authentication-*.jar "$HOST":pianorgue
+scp application-authentication/target/AMT-Authentication-*.jar "$HOST":pianorgue-authentication
 scp application/src/main/resources/application.properties "$HOST":
 
 ssh "$HOST" sudo systemctl stop pianorgue.service
